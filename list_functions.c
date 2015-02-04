@@ -20,45 +20,6 @@ Oliver Scholz
 DHBW Mosbach
 Kurs INF14B
 ------------------------------ */
-/*
-int main()
-{
-    int main_menu;
-
-    do
-    {
-        printf("W%chlen Sie eine der folgenden Funktionen:\n", ae);
-        printf("(1) Eintrag hinzuf%cgen\n", ue);
-        printf("(2) Eintrag %cndern\n", ae);
-        printf("(3) Eintrag l%cschen\n", oe);
-        printf("(4) Liste ausgeben\n");
-        printf("(5) Route berechnen\n");
-        printf("(6) Beenden\n\n");
-
-        printf("Ihre Auswahl: ");
-        scanf("%d", &main_menu);
-        printf("\n\n");
-
-    }while(main_menu > 5 && main_menu < 1);
-
-    switch (main_menu)
-    {
-    case 1:
-        func_add();
-        break;
-
-    case 3:
-        func_delete();
-        break;
-
-    case 6:
-        return EXIT_SUCCESS;
-
-    }
-}
-
-
-*/
 
 
 /* ----------------------------------------
