@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "list_functions.c"
+#include "list_sort.c"
 
 int main()
 {
@@ -22,7 +23,7 @@ int main()
     }
     if(testvar == 2)
     {
-        return 0;
+        sort_list();
     }
     return 0;
 }
