@@ -9,14 +9,12 @@ int main()
     bool runloop = 1; //Variable zum Beenden der Menü-Schleife
     char userentry[2]; //Variable zur Benutzereingabe
 
-<<<<<<< HEAD
+
     // Begrüßungstext
     printf("Willkommen bei Ihrem Autobahnnavigator!\n");
-=======
     //Begrüßungstext und Erläuterung der Optionen
     printf("Willkommen bei Ihrem Autobahnnavigator!\nDies sind Ihre Eingabeoptionen:\n\n");
     printf("R = Routenberechnung\nA = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\nX = Beenden\n\n");
->>>>>>> origin/master
 
     do
     {
