@@ -7,12 +7,67 @@
 int main()
 {
     bool runloop = 1; //Variable zum Beenden der Menü-Schleife
-    char userentry; //Variable zur Benutzereingabe
+    char userentry[2]; //Variable zur Benutzereingabe
 
-    //Begrüßungstext und Erläuterung der Optionen
-    printf("Willkommen bei Ihrem Autobahnnavigator!\nDies sind Ihre Eingabeoptionen:\n\n");
-    printf("R = Routenberechnung\nA = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\nQ = Beenden\n\n");
+    // Begrüßungstext
+    printf("Willkommen bei Ihrem Autobahnnavigator!\n");
 
+    do
+    {
+        /*
+        *   Geändert zur besseren Lesbarkeit
+        */
+        //Erläuterung der Optionen
+        printf("Dies sind Ihre Eingabeoptionen:\n\n");
+        printf("R = Routenberechnung\n");
+        printf("A = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\n");
+        printf("Q = Beenden\n\n");
+
+        /* Eingabe der Auswahl */
+        printf("Ihre Auswahl: ");
+        scanf("%s", &userentry);
+        printf("\n\n");
+
+        /* Umwandlung in Kleinbuchstabe */
+        for(int i = 0; i < userentry[i]; i++)
+        {
+            userentry[i] = tolower(userentry[i]);
+        }
+
+        /* Aufruf der entsprechenden Funktion */
+        if(strstr(userentry, "r"))
+        {
+            printf("Noch nicht implementiert!\n");
+            break;
+        }
+        else if(strstr(userentry, "a"))
+        {
+            func_add();
+            break;
+        }
+        else if(strstr(userentry, "q"))
+        {
+            printf("Programm beendet!\n");
+            return EXIT_SUCCESS;
+        }
+        else
+        {
+            printf("Falsche Eingabe!\n\n\n");
+        }
+
+    }while(userentry != 'r' && userentry != 'a' && userentry != 'q');
+
+    return 0;
+
+}
+
+
+
+
+
+
+
+/*
     //Menü-Schleife
     do
     {
@@ -20,21 +75,36 @@ int main()
         scanf("%c", &userentry);
         switch(userentry)
         {
-        case 'R': case 'r': printf("Tempor%cre Wartungsarbeiten. Wir bitten um Geduld.\n", ae); break; //Funktionsaufruf: Listenbearbeitung
-        case 'A': case 'a':
+        case 'R':
+        case 'r':
+            printf("Tempor%cre Wartungsarbeiten. Wir bitten um Geduld.\n", ae);
+            break; //Funktionsaufruf: Listenbearbeitung
+        case 'A':
+        case 'a':
             printf("\nL = Liste ausgeben\nB = Liste bearbeiten\n");
             scanf("%c",&userentry);
-                if ((userentry=='L')||(userentry=='l'))
-                    {printf("ist in Arbeit"); break;} //TODO
-                else if ((userentry =='B')||(userentry=='b'))
-                    {func_add(); break;}   //Testen
-        case 'Q': case 'q': runloop=0;
-        break;
+            if ((userentry=='L')||(userentry=='l'))
+            {
+                printf("ist in Arbeit");    //TODO
+                break;
+            }
+            else if ((userentry =='B')||(userentry=='b'))
+            {
+                func_add();    //Testen
+                break;
+            }
+        case 'Q':
+        case 'q':
+            runloop=0;
+            break;
         default:
-        printf("Unbekannte Eingabe.\nFolgende Befehle sind zul%cssig:\n", ae);
-        printf("R = Routenberechnung\nA = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\nQ = Beenden\n\n");
+            printf("Unbekannte Eingabe.\nFolgende Befehle sind zul%cssig:\n", ae);
+            printf("R = Routenberechnung\nA = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\nQ = Beenden\n\n");
         }
-    } while (runloop);
+    }
+    while (runloop);
 
     return 0;
 }
+
+*/
