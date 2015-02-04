@@ -1,15 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
 char** fileInList;
 char** kreuzeUAusfahrten;
 char** cities;
 char** waynrs;
 char** dists;
+char** temp;
 
-void quicksort(char** list,int first,int last);
+void quicksort(int first,int last);
 
 void sort_list()
 {
@@ -33,6 +32,7 @@ void sort_list()
     cities = (char**)malloc(200*sizeof(char*));
     waynrs = (char**)malloc(200*sizeof(char*));
     dists = (char**)malloc(200*sizeof(char*));
+    temp = (char**)malloc(200*sizeof(char*));
 
 
     //für jedes Element dieses Arrays (char*) eine Zeichenkette allozieren
@@ -43,6 +43,7 @@ void sort_list()
         cities[i] = (char*)malloc(50*sizeof(char));
         waynrs[i] = (char*)malloc(5*sizeof(char));
         dists[i] = (char*)malloc(5*sizeof(char));
+        temp[i] = (char*)malloc(200*sizeof(char));
     }
 
     //Inhalte aus autobahn.txt werden in das Array kopiert
@@ -57,7 +58,7 @@ void sort_list()
     }
 
 
-    //Überträgt die Daten aus fileInList in einzelne Arrays
+    //Überträgt die Daten aus fileInList in einzelne Arrays (Stadt, Autobahnnummer und Autobahnkilometer werden in je einem Array aus Strings gespeichert)
     for (int i = 0,k = 0; k < linecount/5; k++)
     {
         strcpy(kreuzeUAusfahrten[k], fileInList[i]);
@@ -66,14 +67,18 @@ void sort_list()
         strcpy(dists[k], fileInList[i+3]);
         i=i+5;
     }
-
+    //Ausgabe unsortierte Liste
     for(int i=0;i<linecount/5;i++)
     {
         printf("%s", cities[i]);
     }
+    printf("\n");
 
-    quicksort(cities, 0, linecount/5);
+    //Liste sortieren
+    quicksort(0, linecount/5-1);
 
+
+    //Ausgabe sortierte Liste
     for(int i=0;i<linecount/5;i++)
     {
         printf("%s", cities[i]);
@@ -81,10 +86,8 @@ void sort_list()
 
 }
 
-void quicksort(char** list,int first,int last){
+void quicksort(int first,int last){
     int pivot,j,i = 0;
-    char** temp = (char**)malloc(200*sizeof(char*));
-
 
     if(first<last){
         pivot=first;
@@ -92,22 +95,48 @@ void quicksort(char** list,int first,int last){
         j=last;
 
         while(i<j){
-            while(strcmp(list[i],list[pivot])<=0&&i<last)
+            while(strcmp(cities[i],cities[pivot])<=0&&i<last)
                 i++;
-            while(strcmp(list[j],list[pivot])>0)
+            while(strcmp(cities[j],cities[pivot])>0)
                 j--;
-            temp[i]=(char*)malloc(50*sizeof(char));
             if(i<j){
-                strcpy(temp[i],list[i]);
-                strcpy(list[i],list[j]);
-                strcpy(list[j],temp[i]);
+                strcpy(temp[i],cities[i]);
+                strcpy(cities[i],cities[j]);
+                strcpy(cities[j],temp[i]);
+
+                strcpy(temp[i],kreuzeUAusfahrten[i]);
+                strcpy(kreuzeUAusfahrten[i],kreuzeUAusfahrten[j]);
+                strcpy(kreuzeUAusfahrten[j],temp[i]);
+
+                strcpy(temp[i],waynrs[i]);
+                strcpy(waynrs[i],waynrs[j]);
+                strcpy(waynrs[j],temp[i]);
+
+                strcpy(temp[i],dists[i]);
+                strcpy(dists[i],dists[j]);
+                strcpy(dists[j],temp[i]);
             }
         }
-        temp[i]=(char*)malloc(50*sizeof(char));
-        strcpy(temp[i],list[pivot]);
-        strcpy(list[pivot],list[j]);
-        strcpy(list[j],temp[i]);
-        quicksort(list,first,j-1);
-        quicksort(list,j+1,last);
+
+
+        strcpy(temp[i],cities[pivot]);
+        strcpy(cities[pivot],cities[j]);
+        strcpy(cities[j],temp[i]);
+
+        strcpy(temp[i],kreuzeUAusfahrten[pivot]);
+        strcpy(kreuzeUAusfahrten[pivot],kreuzeUAusfahrten[j]);
+        strcpy(kreuzeUAusfahrten[j],temp[i]);
+
+        strcpy(temp[i],waynrs[pivot]);
+        strcpy(waynrs[pivot],waynrs[j]);
+        strcpy(waynrs[j],temp[i]);
+
+        strcpy(temp[i],dists[pivot]);
+        strcpy(dists[pivot],dists[j]);
+        strcpy(dists[j],temp[i]);
+
+
+        quicksort(first,j-1);
+        quicksort(j+1,last);
     }
 }
