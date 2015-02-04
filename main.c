@@ -16,7 +16,6 @@ int main()
     //Menü-Schleife
     do
     {
-        userentry = 'Q';
         scanf("%c", &userentry);
         switch(userentry)
         {
