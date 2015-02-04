@@ -20,7 +20,7 @@ int main()
         scanf("%c", &userentry);
         switch(userentry)
         {
-        case 'R': case 'r': //printf("Tempor%cre Wartungsarbeiten. Wir bitten um Geduld.\n", ae); break; //Funktionsaufruf: Listenbearbeitung
+        case 'R': case 'r': printf("Tempor%cre Wartungsarbeiten. Wir bitten um Geduld.\n", ae); break; //Funktionsaufruf: Listenbearbeitung
         case 'A': case 'a':
             printf("\nL = Liste ausgeben\nB = Liste bearbeiten\n");
             scanf("%c",&userentry);

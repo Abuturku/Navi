@@ -110,7 +110,7 @@ void func_add()
 
     printf("\n\n");
 
-    main();
+    main();         //TODO: vlt. extern main?
 }
 
 
