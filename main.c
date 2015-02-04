@@ -12,9 +12,6 @@ int main()
 
     // Begrüßungstext
     printf("Willkommen bei Ihrem Autobahnnavigator!\n");
-    //Begrüßungstext und Erläuterung der Optionen
-    printf("Willkommen bei Ihrem Autobahnnavigator!\nDies sind Ihre Eingabeoptionen:\n\n");
-    printf("R = Routenberechnung\nA = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\nX = Beenden\n\n");
 
     do
     {
