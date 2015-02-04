@@ -65,6 +65,10 @@ int main()
     FUNKTION EINTRAG HINZUFÜGEN
 ---------------------------------------- */
 
+//Funktionsdeklarationen, sonst später Problem
+void func_add_interchange();
+void func_add_exit();
+
 void func_add()
 {
     /* Variablendeklaration
@@ -117,7 +121,7 @@ void func_add()
     FUNKTION AUTOBAHNKREUZ HINZUFÜGEM
 ---------------------------------------- */
 
-void func_add_interchange()
+void func_add_interchange()         //TODO: Exit-Option
 {
     printf("\n\n");
 
@@ -140,7 +144,7 @@ void func_add_interchange()
     if(table == NULL)
     {
         printf("FEHLER");
-        return 1;
+        return 1;                   //TODO: Void funktion -> return 1?!
     }
 
 
