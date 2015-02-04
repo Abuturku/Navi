@@ -3,13 +3,3 @@ heilbronn
 6
 732
 
-AUSFAHRT
-stuttgart
-81
-312
-
-AUSFAHRT
-mannheim
-6
-567
-
