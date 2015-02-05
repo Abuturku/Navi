@@ -20,54 +20,42 @@ Oliver Scholz
 DHBW Mosbach
 Kurs INF14B
 ------------------------------ */
-/*
-int main()
+
+
+
+
+/* Funktionsdeklarationen, sonst später Problem */
+void func_add_interchange();
+void func_add_exit();
+void func_cancel();
+void func_delete();
+void func_change();
+
+
+
+
+
+/* ----------------------------------------
+    FUNKTION ABBRUCH
+---------------------------------------- */
+
+void func_cancel(char cancel_string[100])
 {
-    int main_menu;
-
-    do
+    if(strstr(cancel_string, "cancel"))
     {
-        printf("W%chlen Sie eine der folgenden Funktionen:\n", ae);
-        printf("(1) Eintrag hinzuf%cgen\n", ue);
-        printf("(2) Eintrag %cndern\n", ae);
-        printf("(3) Eintrag l%cschen\n", oe);
-        printf("(4) Liste ausgeben\n");
-        printf("(5) Route berechnen\n");
-        printf("(6) Beenden\n\n");
-
-        printf("Ihre Auswahl: ");
-        scanf("%d", &main_menu);
-        printf("\n\n");
-
-    }while(main_menu > 5 && main_menu < 1);
-
-    switch (main_menu)
-    {
-    case 1:
-        func_add();
-        break;
-
-    case 3:
-        func_delete();
-        break;
-
-    case 6:
-        return EXIT_SUCCESS;
-
+        printf("Vom Nutzer abgerochen!\n");
+        main();
+        exit(0);
     }
 }
 
 
-*/
+
 
 
 /* ----------------------------------------
     FUNKTION EINTRAG HINZUFÜGEN
 ---------------------------------------- */
-
-//Funktionsdeklarationen, sonst später Problem
-void func_add_interchange();
-void func_add_exit();
 
 void func_add()
 {
@@ -83,7 +71,8 @@ void func_add()
         printf("Was m%cchten Sie hinzuf%cgen?\n", oe, ue);
         printf("(1) Autobahnkreuz hinzuf%cgen\n", ue);
         printf("(2) Autobahnausfahrt hinzuf%cgen\n", ue);
-        printf("(3) Abbruch\n\n");
+        printf("(3) Eintrag l%cschen\n", oe);
+        printf("(4) Abbruch\n\n");
 
         printf("Ihre Auswahl: ");
         scanf("%d", &interchange);
@@ -104,6 +93,11 @@ void func_add()
         break;
 
     case 3:
+        /* Aufruf der Funktion func_delete da der User einen Eintrag löschen möchte */
+        func_delete();
+        break;
+
+    case 4:
         /* Abbruch und Rückkehr in Hauptmenü */
         break;
     }
@@ -126,15 +120,19 @@ void func_add_interchange()         //TODO: Exit-Option
     printf("\n\n");
 
     /* Variablendeklaration
-    int     interchange_nr_one      Erste Autobahn des Kreuzes
-    int     interchange_nr_two      Zweite Autobahn des Kreuzes
-    int     interchange_nr_one_km   Autobahnkilometer der ersten Autobahn
-    int     interchange_nr_two_km   Autobahnkilometer der zweiten Autobahn
+    char    interchange_nr_one      Erste Autobahn des Kreuzes
+    char    interchange_nr_two      Zweite Autobahn des Kreuzes
+    char    interchange_nr_one_km   Autobahnkilometer der ersten Autobahn
+    char    interchange_nr_two_km   Autobahnkilometer der zweiten Autobahn
     char    interchange_name        Name des Autobahnkreuzes
     char    compare                 Vergleichsstring aus Datei
     */
-    int interchange_nr_one, interchange_nr_two, interchange_nr_one_km, interchange_nr_two_km;
-    char interchange_name[100], compare[100];
+    char    interchange_nr_one[100],
+            interchange_nr_two[100],
+            interchange_nr_one_km[100],
+            interchange_nr_two_km[100],
+            interchange_name[100],
+            compare[100];
 
     /* Öffnen der Datei mit Modus "a+" (APPEND+READ) = Neue Einträge werden an der Dateiende angehängt */
     FILE *table;
@@ -147,6 +145,8 @@ void func_add_interchange()         //TODO: Exit-Option
         return 1;                   //TODO: Void funktion -> return 1?!
     }
 
+    /* Hinweis auf Möglichkeit zum Abbruch */
+    printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n\n", ue, ue, oe);
 
     /* Name des Autobahnkreuzes */
     printf("Bitte geben Sie den Namen des Autobahnkreuzes ein: ");
@@ -158,6 +158,9 @@ void func_add_interchange()         //TODO: Exit-Option
     {
         interchange_name[i] = tolower(interchange_name[i]);
     }
+
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(interchange_name);
 
     /* Jede Zeile der autobahn.txt auslesen und den Inhalt in compare zwischenspeichern */
     while(fgets(compare, 100, table))
@@ -175,6 +178,8 @@ void func_add_interchange()         //TODO: Exit-Option
             {
                 interchange_name[i] = tolower(interchange_name[i]);
             }
+            /* Aufruf der Abbruchbedingung */
+            func_cancel(interchange_name);
 
             /* Gehe zu Anfang der Datei autobahn.txt */
             rewind(table);
@@ -183,21 +188,27 @@ void func_add_interchange()         //TODO: Exit-Option
 
     /* Nummer der ersten Autobahn des Kreuzes */
     printf("Bitte geben Sie die Nummer der ersten Autobahn des Kreuzes ein: ");
-    scanf("%d", &interchange_nr_one);
+    scanf("%s", &interchange_nr_one);
     printf("\n");
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(interchange_nr_one);
 
     /* Kilometer des Kreuzes auf erster Autobahn */
-    printf("Bitte geben Sie den Autobahnkilometer der A%d ein, an dem sich das Kreuz befindet: ", interchange_nr_one);
-    scanf("%d", &interchange_nr_one_km);
+    printf("Bitte geben Sie den Autobahnkilometer der A%s ein, an dem sich das Kreuz befindet: ", interchange_nr_one);
+    scanf("%s", &interchange_nr_one_km);
     printf("\n");
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(interchange_nr_one_km);
 
     /* Überprüfung ob erste Autobahn gleich zweiter Autobahn */
     do
     {
         /* Nummer der zweiten Autobahn des Kreuzes */
         printf("Bitte geben Sie die Nummer der zweiten Autobahn des Kreuzes ein: ");
-        scanf("%d", &interchange_nr_two);
+        scanf("%s", &interchange_nr_two);
         printf("\n");
+        /* Aufruf der Abbruchbedingung */
+        func_cancel(interchange_nr_two);
 
         /* Fehlerausgabe bei Eingabe gleicher Autobahnnummer */
         if(interchange_nr_one == interchange_nr_two)
@@ -208,8 +219,10 @@ void func_add_interchange()         //TODO: Exit-Option
     }while (interchange_nr_two == interchange_nr_one);
 
     /* Kilometer des Kreuzes auf zweiter Autobahn */
-    printf("Bitte geben Sie den Autobahnkilometer der A%d ein, an dem sich das Kreuz befindet: ", interchange_nr_two);
-    scanf("%d", &interchange_nr_two_km);
+    printf("Bitte geben Sie den Autobahnkilometer der A%s ein, an dem sich das Kreuz befindet: ", interchange_nr_two);
+    scanf("%s", &interchange_nr_two_km);
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(interchange_nr_two_km);
 
 
     /* Schreiben der neuen Werte in die Textdatei
@@ -225,13 +238,13 @@ void func_add_interchange()         //TODO: Exit-Option
     */
     fprintf(table, "KREUZ\n"     );
     fprintf(table, "%s\n",       interchange_name);
-    fprintf(table, "%d\n",       interchange_nr_one);
-    fprintf(table, "%d\n\n",     interchange_nr_one_km);
+    fprintf(table, "%s\n",       interchange_nr_one);
+    fprintf(table, "%s\n\n",     interchange_nr_one_km);
 
     fprintf(table, "KREUZ\n"     );
     fprintf(table, "%s\n",       interchange_name);
-    fprintf(table, "%d\n",       interchange_nr_two);
-    fprintf(table, "%d\n\n",     interchange_nr_two_km);
+    fprintf(table, "%s\n",       interchange_nr_two);
+    fprintf(table, "%s\n\n",     interchange_nr_two_km);
 
     fclose(table);
 
@@ -250,13 +263,15 @@ void func_add_exit()
     printf("\n\n");
 
     /* Variablendeklaration
-    int     waynr   Autobahnnummer
-    int     dist    Autobahnkilometer
     char    city    Stadtname
     char    compare Vergleichsstring aus Datei
+    char    waynr   Autobahnnummer
+    char    dist    Autobahnkilometer
     */
-    int waynr, dist;
-    char city[100], compare[100];
+    char    city[100],
+            compare[100],
+            waynr[10],
+            dist[100];
 
 
     /* Öffnen der Datei mit Modus "a" (APPEND+READ) = Neue Einträge werden an der Dateiende angehängt */
@@ -280,6 +295,8 @@ void func_add_exit()
     {
         city[i] = tolower(city[i]);
     }
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(city);
 
     /* Jede Zeile der autobahn.txt auslesen und den Inhalt in compare zwischenspeichern */
     while(fgets(compare, 100, table))
@@ -297,6 +314,8 @@ void func_add_exit()
             {
                 city[i] = tolower(city[i]);
             }
+            /* Aufruf der Abbruchbedingung */
+            func_cancel(city);
 
             /* Gehe zu Anfang der Datei autobahn.txt */
             rewind(table);
@@ -305,12 +324,28 @@ void func_add_exit()
 
     /* Autobahnnummer */
     printf("Bitte geben Sie die Autobahnnummer ein: ");
-    scanf("%d", &waynr);
+    scanf("%s", &waynr);
     printf("\n");
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(waynr);
+
+    while(strstr(waynr, "0"))
+    {
+        /* Autobahnnummer */
+        printf("Autobahnnummer 0 nicht zul%cssig!\n", ae);
+        printf("Bitte geben Sie die Autobahnnummer ein: ");
+        scanf("%s", &waynr);
+        printf("\n");
+        /* Aufruf der Abbruchbedingung */
+        func_cancel(waynr);
+    }
+
 
     /* Autobahnkilometer */
     printf("Bitte geben Sie den Autobahnkilometer ein: ");
-    scanf("%d", &dist);
+    scanf("%s", &dist);
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(dist);
 
     /* Schreiben der neuen Werte in die Textdatei
         Kennung "Autobahnausfahrt"
@@ -320,8 +355,8 @@ void func_add_exit()
     */
     fprintf(table, "AUSFAHRT\n"     );
     fprintf(table, "%s\n",          city);
-    fprintf(table, "%d\n",          waynr);
-    fprintf(table, "%d\n\n",        dist);
+    fprintf(table, "%s\n",          waynr);
+    fprintf(table, "%s\n\n",        dist);
 
     fclose(table);
 
@@ -365,24 +400,51 @@ void func_delete()
     char    temp            Zwischenspeicher für Einträge
     char    city_delete     Usereingabe des zu löschenden Eintrags
     char    all_entries     Alle Einträge der Datei
+    char    stop            Stop wenn Eintrag zum löschen in Datei gefunden wurde
     */
-    char temp[length], city_delete[length], all_entries[length];
+    char    temp[length],
+            city_delete[length],
+            all_entries[length],
+            stop[length];
+
+    if( fgetc(table) == EOF )
+    {
+        printf("\n\n");
+        printf("Keie Eintr%cge gefunden!\n", ae);
+        printf("\n\n");
+        main();
+        exit(0);
+    }
+
+    rewind(table);
 
     /* Erstellen der Liste aller Einträge */
-    while(( fgetc(table) != EOF ))
+    while(fgets(temp, length, table))
     {
         n = n+1;
 
-        fgets(temp, length, table);
         fgets(all_entries, length, table);
 
-        for(int i = 0; i < 3; i++)
+        /* Überspringen des zweiten Eintrag eines Autobahnkreuzes */
+        if(strstr(temp, "KREUZ"))
         {
-            fgets(temp, length, table);
+            line_count = 1;
+            for(int i = 0; i < 8; i++)
+            {
+                fgets(temp, length, table);
+
+            }
+        }
+        else
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                fgets(temp, length, table);
+                line_count = line_count + 5;
+            }
         }
         printf("(%d) %s", n, all_entries);
 
-        line_count = line_count + 5;
     }
 
     /* Usereingabe des zu löschenden Eintrags */
@@ -390,17 +452,8 @@ void func_delete()
     printf("Welchen Eintrag m%cchten Sie l%cschen?\n", oe, oe);
     scanf("%s", &city_delete);
     printf("\n");
-
-    rewind(table);
-
-    /* Überprüfung ob der Eintrag vorhanden ist */
-    /*--------------------------------------------------------------
-    ----------------------------------------------------------------
-    ----------------------------------------------------------------
-    ----------------------------------------------------------------
-    ----------------------------------------------------------------
-    ----------------------------------------------------------------
-    --------------------------------------------------------------*/
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(city_delete);
 
     /* Umwandeln der Usereingabe in String aus Kleinbuchstaben */
     for(int i = 0; city_delete[i]; i++)
@@ -411,69 +464,111 @@ void func_delete()
     /* Gehe zu Anfang der Datei autobahn.txt */
     rewind(table);
 
-    /* Vergleichen der Einträge und herausfinden der Zeile des zu löschenden Eintrags */
-    while(fgets(all_entries, length, table))
+    /* Überprüfung ob der Eintrag vorhanden ist */
+    while((fgetc(table) != EOF))
     {
-        if(strstr(all_entries, city_delete))
-        {
-            break;
-        }
-        delete_line = delete_line + 1;
-    }
+        /* Lesen nur der Namens-Werte der Einträge */
+        fgets(temp, length, table);
+        fgets(stop, length, table);
 
-    /* Gehe zu Anfang der Datei autobahn.txt */
-    rewind(table);
-
-
-
-    /* Lesen der Einträge bis zu dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
-    for(int i = 1; i < delete_line - 1; i++)
-    {
-        fgets(all_entries, length, table);
-        fprintf(tempdat, "%s", all_entries);
-    }
-
-    /* Unterscheidung ob zu löschender Eintrag ein KREUZ oder eine AUSFAHRT ist */
-    fgets(temp, length, table);
-    if(strstr(temp, "KREUZ"))
-    {
-        /* Überspringen des zu löschenden Eintrags */
-        for(int j = delete_line; j < (delete_line + 9); j++)
+        for(int i = 0; i < 3; i++)
         {
             fgets(temp, length, table);
         }
-        /* Lesen der Einträge ab dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
-        for(int k = (delete_line + 10); k <= (line_count - 1); k++)
-        {
-            fgets(all_entries, length, table);
-            fprintf(tempdat, "%s", all_entries);
-        }
 
-        printf("Eintrag gel%cscht!\n\n", oe);
-    }
-    else
-    {
-        /* Überspringen des zu löschenden Eintrags */
-        for(int l = delete_line; l < (delete_line + 4); l++)
+        /* Vergleichen des Namens mit der Usereingabe */
+        /* Wenn Übereinstimmung gefunden, lösche Eintrag */
+        if(strstr(stop, city_delete) != NULL)
         {
+            rewind(table);
+            /* Vergleichen der Einträge und herausfinden der Zeile des zu löschenden Eintrags */
+            while(fgets(all_entries, length, table))
+            {
+                if(strstr(all_entries, city_delete))
+                {
+                    break;
+                }
+                delete_line = delete_line + 1;
+            }
+
+            /* Gehe zu Anfang der Datei autobahn.txt */
+            rewind(table);
+
+            /* Lesen der Einträge bis zu dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
+            for(int i = 1; i < delete_line - 1; i++)
+            {
+                fgets(all_entries, length, table);
+                fprintf(tempdat, "%s", all_entries);
+            }
+
+            /* Unterscheidung ob zu löschender Eintrag ein KREUZ oder eine AUSFAHRT ist */
             fgets(temp, length, table);
+
+            if(strstr(temp, "KREUZ"))
+            {
+                /* Überspringen des zu löschenden Eintrags */
+                for(int j = delete_line; j < (delete_line + 9); j++)
+                {
+                    fgets(temp, length, table);
+                }
+
+                /* Lesen der Einträge ab dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
+                for(int k = (delete_line + 10); k <= (line_count - 1); k++)
+                {
+                    fgets(all_entries, length, table);
+                    fprintf(tempdat, "%s", all_entries);
+                }
+
+                printf("Eintrag gel%cscht!\n\n", oe);
+            }
+            else
+            {
+                /* Überspringen des zu löschenden Eintrags */
+                for(int l = delete_line; l < (delete_line + 4); l++)
+                {
+                    fgets(temp, length, table);
+                }
+                /* Lesen der Einträge ab dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
+                for(int m = (delete_line + 5); m <= (line_count - 1); m++)
+                {
+                    fgets(all_entries, length, table);
+                    fprintf(tempdat, "%s", all_entries);
+                }
+
+                printf("Eintrag gel%cscht!\n\n", oe);
+            }
+
+            fclose(tempdat);
+            fclose(table);
+
+            /* Löschen der Datei autobahn.txt und umbenennen der Datei temp.txt in autobahn.txt */
+            remove("autobahn.txt");
+            rename("temp.txt", "autobahn.txt");
         }
-        /* Lesen der Einträge ab dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
-        for(int m = (delete_line + 5); m <= (line_count - 1); m++)
+        /* Wenn keine Übereinstimmung gefunden, gebe Fehler aus */
+        else
         {
-            fgets(all_entries, length, table);
-            fprintf(tempdat, "%s", all_entries);
+            /* Nur wenn Dateiende erreicht ist */
+            if(fgetc(table) == EOF)
+            {
+                printf("Eintrag nicht gefunden!\n");
+                fclose(tempdat);
+                fclose(table);
+                remove("temp.txt");
+            }
         }
-
-        printf("Eintrag gel%cscht!\n\n", oe);
     }
+}
 
-    fclose(tempdat);
-    fclose(table);
 
-    /* Löschen der Datei autobahn.txt und umbenennen der Datei temp.txt in autobahn.txt */
-    remove("autobahn.txt");
-    rename("temp.txt", "autobahn.txt");
 
-    main();
+
+
+/* ----------------------------------------
+    FUNKTION EINTRAG ÄNDERN
+---------------------------------------- */
+
+void func_change()
+{
+
 }
