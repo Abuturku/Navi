@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+
+
+
 char** fileInList;
 char** kreuzeUAusfahrten;
 char** cities;

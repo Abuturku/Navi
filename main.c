@@ -1,22 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <windows.h>
+
 #include "list_functions.c"
 #include "list_sort.c"
 
 
 
+
+
 /*
 *
-*
-*       EIGENER BRANCH
-*
+*   v0_1_5
 *
 */
 
 
+
+
+
+/* ------------------------------
+Hinzufügen neuer Einträge in Datei
+---------------------------------
+Oliver Scholz
+DHBW Mosbach
+Kurs INF14B
+------------------------------ */
+
+
+
+
+
 int main()
 {
+    /* Konsolenname festlegen */
+    SetConsoleTitle("Autobahnnavigator 2015");
+
     /*
     char    userentry   Benutzereingabe
     */
@@ -38,7 +58,6 @@ int main()
         /* Eingabe der Auswahl */
         printf("Ihre Auswahl: ");
         scanf("%s", &userentry);
-        printf("\n\n");
 
         /* Umwandlung in Kleinbuchstabe */
         for(int i = 0; i < userentry[i]; i++)
@@ -49,7 +68,7 @@ int main()
         /* Aufruf der entsprechenden Funktion */
         if(strstr(userentry, "r"))
         {
-            printf("Noch nicht implementiert!\n");
+            printf("Also Else!\n");
             break;
         }
         else if(strstr(userentry, "a"))
@@ -57,15 +76,15 @@ int main()
             func_add();
             break;
         }
-        else if(strstr(userentry, "q"))
-        {
-            printf("Programm beendet!\n");
-            return EXIT_SUCCESS;
-        }
         else if(strstr(userentry, "l"))
         {
             sort_list();
             break;
+        }
+        else if(strstr(userentry, "q"))
+        {
+            printf("Programm beendet!\n");
+            return EXIT_SUCCESS;
         }
         else
         {

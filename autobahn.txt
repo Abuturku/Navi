@@ -1,40 +1,45 @@
 KREUZ
 hockenheim
-6
-61
+1
+2
 
 KREUZ
 hockenheim
+3
+4
+
+KREUZ
+ravensburg
+2
+3
+
+KREUZ
+ravensburg
+4
+5
+
+KREUZ
+frankfurt
 7
-61
+6
+
+KREUZ
+frankfurt
+6
+6
 
 AUSFAHRT
 neunkirchen
-1
-1
-
-KREUZ
-sinsheim
+a
 2
-1
 
 KREUZ
-sinsheim
-3
-1
-
-AUSFAHRT
-frankfurt
-61
-1
-
-KREUZ
-hallo
+saarbruecken
 1
 2
 
 KREUZ
-hallo
+saarbruecken
 3
 4
 
