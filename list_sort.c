@@ -106,37 +106,45 @@ void quicksort(int first,int last){
             while(strcmp(cities[j],cities[pivot])>0)
                 j--;
             if(i<j){
+                //Städte tauschen
                 strcpy(temp[i],cities[i]);
                 strcpy(cities[i],cities[j]);
                 strcpy(cities[j],temp[i]);
 
+                //Kreuze/Ausfahrten tauschen
                 strcpy(temp[i],kreuzeUAusfahrten[i]);
                 strcpy(kreuzeUAusfahrten[i],kreuzeUAusfahrten[j]);
                 strcpy(kreuzeUAusfahrten[j],temp[i]);
 
+                //Autobahnnummern tauschen
                 strcpy(temp[i],waynrs[i]);
                 strcpy(waynrs[i],waynrs[j]);
                 strcpy(waynrs[j],temp[i]);
 
+                //Autobahnkilometer tauschen
                 strcpy(temp[i],dists[i]);
                 strcpy(dists[i],dists[j]);
                 strcpy(dists[j],temp[i]);
             }
         }
 
-
+        //Städte tauschen
         strcpy(temp[i],cities[pivot]);
         strcpy(cities[pivot],cities[j]);
         strcpy(cities[j],temp[i]);
 
+        //Kreuz/Ausfahrt tauschen
         strcpy(temp[i],kreuzeUAusfahrten[pivot]);
         strcpy(kreuzeUAusfahrten[pivot],kreuzeUAusfahrten[j]);
         strcpy(kreuzeUAusfahrten[j],temp[i]);
 
+        //Autobahnnummern tauschen
         strcpy(temp[i],waynrs[pivot]);
         strcpy(waynrs[pivot],waynrs[j]);
         strcpy(waynrs[j],temp[i]);
 
+
+        //Autobahnkilometer tauschen
         strcpy(temp[i],dists[pivot]);
         strcpy(dists[pivot],dists[j]);
         strcpy(dists[j],temp[i]);
