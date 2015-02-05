@@ -17,18 +17,18 @@
 
 int main()
 {
-    char userentry[2]; //Variable zur Benutzereingabe
+    /*
+    char    userentry   Benutzereingabe
+    */
+    char userentry[2];
 
 
-    // Begrüßungstext
+    /* Begrüßungstext */
     printf("Willkommen bei Ihrem Autobahnnavigator!\n");
 
     do
     {
-        /*
-        *   Geändert zur besseren Lesbarkeit
-        */
-        //Erläuterung der Optionen
+        /* Erläuterung der Optionen */
         printf("Dies sind Ihre Eingabeoptionen:\n\n");
         printf("R = Routenberechnung\n");
         printf("A = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\n");
@@ -65,13 +65,14 @@ int main()
         else if(strstr(userentry, "l"))
         {
             sort_list();
+            break;
         }
         else
         {
             printf("Falsche Eingabe!\n\n\n");
         }
 
-    }while(userentry != 'r' && userentry != 'a' && userentry != 'q');
+    }while(userentry != 'r' && userentry != 'a' && userentry != 'q' && userentry != 'l');
 
     return 0;
 

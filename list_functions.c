@@ -44,6 +44,7 @@ void func_cancel(char cancel_string[100])
     if(strstr(cancel_string, "cancel"))
     {
         printf("Vom Nutzer abgerochen!\n");
+        printf("\n\n");
         main();
         exit(0);
     }
@@ -77,7 +78,7 @@ void func_add()
         printf("Ihre Auswahl: ");
         scanf("%d", &interchange);
 
-    }while(interchange != 1 && interchange != 2 && interchange != 3);
+    }while(interchange != 1 && interchange != 2 && interchange != 3 && interchange != 4);
 
     /* Aufruf der entsprechende Funktion basierend auf Usereingabe */
     switch (interchange)
@@ -119,6 +120,19 @@ void func_add_interchange()         //TODO: Exit-Option
 {
     printf("\n\n");
 
+    /* Öffnen der Datei mit Modus "a+" (APPEND+READ) = Neue Einträge werden an der Dateiende angehängt */
+    FILE *table;
+    table = fopen("autobahn.txt", "a+");
+
+    fseek(table, 0, SEEK_END);
+
+    /*
+    int         length      Bytegröße der Datei
+    */
+    int length;
+
+    length = ftell(table);
+
     /* Variablendeklaration
     char    interchange_nr_one      Erste Autobahn des Kreuzes
     char    interchange_nr_two      Zweite Autobahn des Kreuzes
@@ -127,16 +141,12 @@ void func_add_interchange()         //TODO: Exit-Option
     char    interchange_name        Name des Autobahnkreuzes
     char    compare                 Vergleichsstring aus Datei
     */
-    char    interchange_nr_one[100],
-            interchange_nr_two[100],
-            interchange_nr_one_km[100],
-            interchange_nr_two_km[100],
-            interchange_name[100],
-            compare[100];
-
-    /* Öffnen der Datei mit Modus "a+" (APPEND+READ) = Neue Einträge werden an der Dateiende angehängt */
-    FILE *table;
-    table = fopen("autobahn.txt", "a+");
+    char    interchange_nr_one[length],
+            interchange_nr_two[length],
+            interchange_nr_one_km[length],
+            interchange_nr_two_km[length],
+            interchange_name[length],
+            compare[length];
 
     /* Überprüfen ob Öffnen der Datei erfolgreich war */
     if(table == NULL)
@@ -163,7 +173,7 @@ void func_add_interchange()         //TODO: Exit-Option
     func_cancel(interchange_name);
 
     /* Jede Zeile der autobahn.txt auslesen und den Inhalt in compare zwischenspeichern */
-    while(fgets(compare, 100, table))
+    while(fgets(compare, length, table))
     {
         /* Sollte der Stadtname bereits vorhanden sein, wird der Inhalt der folgenden Schleife ausgeführt */
         if(strstr(compare,interchange_name))
@@ -262,21 +272,29 @@ void func_add_exit()
 {
     printf("\n\n");
 
+    /* Öffnen der Datei mit Modus "a+" (APPEND+READ) = Neue Einträge werden an der Dateiende angehängt */
+    FILE *table;
+    table = fopen("autobahn.txt", "a+");
+
+    fseek(table, 0, SEEK_END);
+
+    /*
+    int         length      Bytegröße der Datei
+    */
+    int length;
+
+    length = ftell(table);
+
     /* Variablendeklaration
     char    city    Stadtname
     char    compare Vergleichsstring aus Datei
     char    waynr   Autobahnnummer
     char    dist    Autobahnkilometer
     */
-    char    city[100],
-            compare[100],
-            waynr[10],
-            dist[100];
-
-
-    /* Öffnen der Datei mit Modus "a" (APPEND+READ) = Neue Einträge werden an der Dateiende angehängt */
-    FILE *table;
-    table = fopen("autobahn.txt", "a+");
+    char    city[length],
+            compare[length],
+            waynr[length],
+            dist[length];
 
     /* Überprüfen ob Öffnen der Datei erfolgreich war */
     if(table == NULL)
@@ -284,6 +302,9 @@ void func_add_exit()
         printf("FEHLER");
         return 1;
     }
+
+    /* Hinweis auf Möglichkeit zum Abbruch */
+    printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n\n", ue, ue, oe);
 
     /* Stadt/Name der Autobahnausfahrt */
     printf("Bitte geben Sie einen neuen Ort ein: ");
@@ -299,7 +320,7 @@ void func_add_exit()
     func_cancel(city);
 
     /* Jede Zeile der autobahn.txt auslesen und den Inhalt in compare zwischenspeichern */
-    while(fgets(compare, 100, table))
+    while(fgets(compare, length, table))
     {
         /* Sollte der Stadtname bereits vorhanden sein, wird der Inhalt der folgenden Schleife ausgeführt */
         if(strstr(compare,city))
@@ -406,6 +427,9 @@ void func_delete()
             city_delete[length],
             all_entries[length],
             stop[length];
+
+    /* Hinweis auf Möglichkeit zum Abbruch */
+    printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n\n", ue, ue, oe);
 
     if( fgetc(table) == EOF )
     {
@@ -570,5 +594,6 @@ void func_delete()
 
 void func_change()
 {
-
+    /* Hinweis auf Möglichkeit zum Abbruch */
+    printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n\n", ue, ue, oe);
 }
