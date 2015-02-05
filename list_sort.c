@@ -78,12 +78,16 @@ void sort_list()
     quicksort(0, linecount/5-1);
 
 
+    FILE *sorted_list;
+    sorted_list = fopen("sorted_list.txt", "w+");
+
     //Ausgabe sortierte Liste
     for(int i=0;i<linecount/5;i++)
     {
         printf("%s", cities[i]);
+        fprintf(sorted_list, "%s\n", cities[i]);
     }
-
+    fclose(sorted_list);
 }
 
 void quicksort(int first,int last){

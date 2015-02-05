@@ -22,6 +22,7 @@ int main()
         printf("Dies sind Ihre Eingabeoptionen:\n\n");
         printf("R = Routenberechnung\n");
         printf("A = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\n");
+        printf("L = Sortieren\n");
         printf("Q = Beenden\n\n");
 
         /* Eingabe der Auswahl */
@@ -46,6 +47,11 @@ int main()
             func_add();
             break;
         }
+        else if(strstr(userentry, "l"))
+        {
+            sort_list();
+            break;
+        }
         else if(strstr(userentry, "q"))
         {
             printf("Programm beendet!\n");
@@ -56,7 +62,7 @@ int main()
             printf("Falsche Eingabe!\n\n\n");
         }
 
-    }while(userentry != 'r' && userentry != 'a' && userentry != 'q');
+    }while(userentry != 'r' && userentry != 'a' && userentry != 'q' && userentry != 'l');
 
     return 0;
 
