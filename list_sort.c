@@ -9,7 +9,7 @@ char** waynrs;
 char** dists;
 char** temp;
 
-void quicksort(int first,int last);
+void quicksort(int first, int last);
 
 void sort_list()
 {
