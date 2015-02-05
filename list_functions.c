@@ -374,8 +374,18 @@ void func_delete()
     char    temp            Zwischenspeicher für Einträge
     char    city_delete     Usereingabe des zu löschenden Eintrags
     char    all_entries     Alle Einträge der Datei
+    char    stop            Stop wenn Eintrag zum löschen in Datei gefunden wurde
     */
-    char temp[length], city_delete[length], all_entries[length];
+    char temp[length], city_delete[length], all_entries[length], stop[100];
+
+    if( fgetc(table) == EOF )
+    {
+        printf("\n\n");
+        printf("Keie Eintr%cge gefunden!\n", ae);
+        printf("\n\n");
+        main();
+        exit(0);
+    }
 
     /* Erstellen der Liste aller Einträge */
     while(( fgetc(table) != EOF ))
@@ -400,17 +410,6 @@ void func_delete()
     scanf("%s", &city_delete);
     printf("\n");
 
-    rewind(table);
-
-    /* Überprüfung ob der Eintrag vorhanden ist */
-    /*--------------------------------------------------------------
-    ----------------------------------------------------------------
-    ----------------------------------------------------------------
-    ----------------------------------------------------------------
-    ----------------------------------------------------------------
-    ----------------------------------------------------------------
-    --------------------------------------------------------------*/
-
     /* Umwandeln der Usereingabe in String aus Kleinbuchstaben */
     for(int i = 0; city_delete[i]; i++)
     {
@@ -420,68 +419,96 @@ void func_delete()
     /* Gehe zu Anfang der Datei autobahn.txt */
     rewind(table);
 
-    /* Vergleichen der Einträge und herausfinden der Zeile des zu löschenden Eintrags */
-    while(fgets(all_entries, length, table))
+    /* Überprüfung ob der Eintrag vorhanden ist */
+    while((fgetc(table) != EOF))
     {
-        if(strstr(all_entries, city_delete))
-        {
-            break;
-        }
-        delete_line = delete_line + 1;
-    }
+        /* Lesen nur der Namens-Werte der Einträge */
+        fgets(temp, length, table);
+        fgets(stop, length, table);
 
-    /* Gehe zu Anfang der Datei autobahn.txt */
-    rewind(table);
-
-
-
-    /* Lesen der Einträge bis zu dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
-    for(int i = 1; i < delete_line - 1; i++)
-    {
-        fgets(all_entries, length, table);
-        fprintf(tempdat, "%s", all_entries);
-    }
-
-    /* Unterscheidung ob zu löschender Eintrag ein KREUZ oder eine AUSFAHRT ist */
-    fgets(temp, length, table);
-    if(strstr(temp, "KREUZ"))
-    {
-        /* Überspringen des zu löschenden Eintrags */
-        for(int j = delete_line; j < (delete_line + 9); j++)
+        for(int i = 0; i < 3; i++)
         {
             fgets(temp, length, table);
         }
-        /* Lesen der Einträge ab dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
-        for(int k = (delete_line + 10); k <= (line_count - 1); k++)
-        {
-            fgets(all_entries, length, table);
-            fprintf(tempdat, "%s", all_entries);
-        }
 
-        printf("Eintrag gel%cscht!\n\n", oe);
-    }
-    else
-    {
-        /* Überspringen des zu löschenden Eintrags */
-        for(int l = delete_line; l < (delete_line + 4); l++)
+        /* Vergleichen des Namens mit der Usereingabe */
+        /* Wenn Übereinstimmung gefunden, lösche Eintrag */
+        if(strstr(stop, city_delete) != NULL)
         {
+            rewind(table);
+            /* Vergleichen der Einträge und herausfinden der Zeile des zu löschenden Eintrags */
+            while(fgets(all_entries, length, table))
+            {
+                if(strstr(all_entries, city_delete))
+                {
+                    break;
+                }
+                delete_line = delete_line + 1;
+            }
+
+            /* Gehe zu Anfang der Datei autobahn.txt */
+            rewind(table);
+
+            /* Lesen der Einträge bis zu dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
+            for(int i = 1; i < delete_line - 1; i++)
+            {
+                fgets(all_entries, length, table);
+                fprintf(tempdat, "%s", all_entries);
+            }
+
+            /* Unterscheidung ob zu löschender Eintrag ein KREUZ oder eine AUSFAHRT ist */
             fgets(temp, length, table);
+            if(strstr(temp, "KREUZ"))
+            {
+                /* Überspringen des zu löschenden Eintrags */
+                for(int j = delete_line; j < (delete_line + 9); j++)
+                {
+                    fgets(temp, length, table);
+                }
+                /* Lesen der Einträge ab dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
+                for(int k = (delete_line + 10); k <= (line_count - 1); k++)
+                {
+                    fgets(all_entries, length, table);
+                    fprintf(tempdat, "%s", all_entries);
+                }
+
+                printf("Eintrag gel%cscht!\n\n", oe);
+            }
+            else
+            {
+                /* Überspringen des zu löschenden Eintrags */
+                for(int l = delete_line; l < (delete_line + 4); l++)
+                {
+                    fgets(temp, length, table);
+                }
+                /* Lesen der Einträge ab dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
+                for(int m = (delete_line + 5); m <= (line_count - 1); m++)
+                {
+                    fgets(all_entries, length, table);
+                    fprintf(tempdat, "%s", all_entries);
+                }
+
+                printf("Eintrag gel%cscht!\n\n", oe);
+            }
+
+            fclose(tempdat);
+            fclose(table);
+
+            /* Löschen der Datei autobahn.txt und umbenennen der Datei temp.txt in autobahn.txt */
+            remove("autobahn.txt");
+            rename("temp.txt", "autobahn.txt");
         }
-        /* Lesen der Einträge ab dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
-        for(int m = (delete_line + 5); m <= (line_count - 1); m++)
+        /* Wenn keine Übereinstimmung gefunden, gebe Fehler aus */
+        else
         {
-            fgets(all_entries, length, table);
-            fprintf(tempdat, "%s", all_entries);
+            /* Nur wenn Dateiende erreicht ist */
+            if(fgetc(table) == EOF)
+            {
+                printf("Eintrag nicht gefunden!\n");
+                fclose(tempdat);
+                fclose(table);
+                remove("temp.txt");
+            }
         }
-
-        printf("Eintrag gel%cscht!\n\n", oe);
     }
-
-    fclose(tempdat);
-    fclose(table);
-
-    /* Löschen der Datei autobahn.txt und umbenennen der Datei temp.txt in autobahn.txt */
-    remove("autobahn.txt");
-    rename("temp.txt", "autobahn.txt");
-
 }

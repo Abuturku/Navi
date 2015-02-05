@@ -1,10 +1,12 @@
 # depslib dependency file v1.0
-1423063002 source:c:\users\olli\desktop\navi\main.c
+1423095425 source:c:\users\olli\desktop\navi\main.c
 	<stdio.h>
 	<stdlib.h>
+	<stdbool.h>
 	"list_functions.c"
+	"list_sort.c"
 
-1423062989 c:\users\olli\desktop\navi\list_functions.c
+1423100850 c:\users\olli\desktop\navi\list_functions.c
 	<stdio.h>
 	<stdlib.h>
 
@@ -72,18 +74,22 @@
 	<stdio.h>
 	<stdlib.h>
 
-1423093598 source:c:\users\olli\documents\github\navi\main.c
+1423095425 source:c:\users\olli\documents\github\navi\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	"list_functions.c"
 	"list_sort.c"
 
-1423095299 c:\users\olli\documents\github\navi\list_functions.c
+1423099646 c:\users\olli\documents\github\navi\list_functions.c
 	<stdio.h>
 	<stdlib.h>
 
 1423092588 c:\users\olli\documents\github\navi\list_sort.c
+	<stdio.h>
+	<stdlib.h>
+
+1423092588 c:\users\olli\desktop\navi\list_sort.c
 	<stdio.h>
 	<stdlib.h>
 
