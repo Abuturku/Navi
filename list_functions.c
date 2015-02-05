@@ -402,7 +402,10 @@ void func_delete()
     char    all_entries     Alle Einträge der Datei
     char    stop            Stop wenn Eintrag zum löschen in Datei gefunden wurde
     */
-    char temp[length], city_delete[length], all_entries[length], stop[100];
+    char    temp[length],
+            city_delete[length],
+            all_entries[length],
+            stop[length];
 
     if( fgetc(table) == EOF )
     {
@@ -413,21 +416,35 @@ void func_delete()
         exit(0);
     }
 
+    rewind(table);
+
     /* Erstellen der Liste aller Einträge */
-    while(( fgetc(table) != EOF ))
+    while(fgets(temp, length, table))
     {
         n = n+1;
 
-        fgets(temp, length, table);
         fgets(all_entries, length, table);
 
-        for(int i = 0; i < 3; i++)
+        /* Überspringen des zweiten Eintrag eines Autobahnkreuzes */
+        if(strstr(temp, "KREUZ"))
         {
-            fgets(temp, length, table);
+            line_count = 1;
+            for(int i = 0; i < 8; i++)
+            {
+                fgets(temp, length, table);
+
+            }
+        }
+        else
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                fgets(temp, length, table);
+                line_count = line_count + 5;
+            }
         }
         printf("(%d) %s", n, all_entries);
 
-        line_count = line_count + 5;
     }
 
     /* Usereingabe des zu löschenden Eintrags */
@@ -486,6 +503,7 @@ void func_delete()
 
             /* Unterscheidung ob zu löschender Eintrag ein KREUZ oder eine AUSFAHRT ist */
             fgets(temp, length, table);
+
             if(strstr(temp, "KREUZ"))
             {
                 /* Überspringen des zu löschenden Eintrags */
@@ -493,6 +511,7 @@ void func_delete()
                 {
                     fgets(temp, length, table);
                 }
+
                 /* Lesen der Einträge ab dem zu löschenden Eintrag aus autobahn.txt und Schreiben dieser Einträge in temp.txt */
                 for(int k = (delete_line + 10); k <= (line_count - 1); k++)
                 {
