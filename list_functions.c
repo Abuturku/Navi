@@ -264,8 +264,8 @@ void func_add_exit()
     char    city    Stadtname
     char    compare Vergleichsstring aus Datei
     */
-    int waynr, dist;
-    char city[100], compare[100];
+    int dist;
+    char city[100], compare[100], waynr[10];
 
 
     /* Öffnen der Datei mit Modus "a" (APPEND+READ) = Neue Einträge werden an der Dateiende angehängt */
@@ -314,8 +314,18 @@ void func_add_exit()
 
     /* Autobahnnummer */
     printf("Bitte geben Sie die Autobahnnummer ein: ");
-    scanf("%d", &waynr);
+    scanf("%s", &waynr);
     printf("\n");
+
+    while(strstr(waynr, "0"))
+    {
+        /* Autobahnnummer */
+        printf("Autobahnnummer 0 nicht zul%cssig!\n", ae);
+        printf("Bitte geben Sie die Autobahnnummer ein: ");
+        scanf("%s", &waynr);
+        printf("\n");
+    }
+
 
     /* Autobahnkilometer */
     printf("Bitte geben Sie den Autobahnkilometer ein: ");
