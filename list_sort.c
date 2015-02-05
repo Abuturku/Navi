@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 char** fileInList;
 char** kreuzeUAusfahrten;
@@ -82,6 +83,7 @@ void sort_list()
     sorted_list = fopen("sorted_list.txt", "w+");
 
     //Ausgabe sortierte Liste
+
     for(int i=0;i<linecount/5;i++)
     {
         printf("%s", cities[i]);

@@ -72,3 +72,19 @@
 	<stdio.h>
 	<stdlib.h>
 
+1423125839 source:c:\users\aschick\documents\codeblocks\navi\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"list_functions.c"
+	"list_sort.c"
+
+1423125812 c:\users\aschick\documents\codeblocks\navi\list_functions.c
+	<stdio.h>
+	<stdlib.h>
+
+1423130366 c:\users\aschick\documents\codeblocks\navi\list_sort.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
