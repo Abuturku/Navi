@@ -4,6 +4,17 @@
 #include "list_functions.c"
 #include "list_sort.c"
 
+
+
+/*
+*
+*
+*       EIGENER BRANCH
+*
+*
+*/
+
+
 int main()
 {
     char userentry[2]; //Variable zur Benutzereingabe
@@ -21,6 +32,7 @@ int main()
         printf("Dies sind Ihre Eingabeoptionen:\n\n");
         printf("R = Routenberechnung\n");
         printf("A = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\n");
+        printf("L = sortlist\n");
         printf("Q = Beenden\n\n");
 
         /* Eingabe der Auswahl */
@@ -49,6 +61,10 @@ int main()
         {
             printf("Programm beendet!\n");
             return EXIT_SUCCESS;
+        }
+        else if(strstr(userentry, "l"))
+        {
+            sort_list();
         }
         else
         {

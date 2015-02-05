@@ -22,13 +22,39 @@ Kurs INF14B
 ------------------------------ */
 
 
+
+
+/* Funktionsdeklarationen, sonst später Problem */
+void func_add_interchange();
+void func_add_exit();
+void func_cancel();
+void func_delet();
+
+
+
+
+
+/* ----------------------------------------
+    FUNKTION ABBRUCH
+---------------------------------------- */
+
+void func_cancel(char cancel_string[100])
+{
+    if(strstr(cancel_string, "cancel"))
+    {
+        printf("Vom Nutzer abgerochen!\n");
+        main();
+        exit(0);
+    }
+}
+
+
+
+
+
 /* ----------------------------------------
     FUNKTION EINTRAG HINZUFÜGEN
 ---------------------------------------- */
-
-//Funktionsdeklarationen, sonst später Problem
-void func_add_interchange();
-void func_add_exit();
 
 void func_add()
 {
@@ -44,7 +70,8 @@ void func_add()
         printf("Was m%cchten Sie hinzuf%cgen?\n", oe, ue);
         printf("(1) Autobahnkreuz hinzuf%cgen\n", ue);
         printf("(2) Autobahnausfahrt hinzuf%cgen\n", ue);
-        printf("(3) Abbruch\n\n");
+        printf("(3) Eintrag l%cschen\n", oe);
+        printf("(4) Abbruch\n\n");
 
         printf("Ihre Auswahl: ");
         scanf("%d", &interchange);
@@ -65,6 +92,11 @@ void func_add()
         break;
 
     case 3:
+        /* Aufruf der Funktion func_delete da der User einen Eintrag löschen möchte */
+        func_delete();
+        break;
+
+    case 4:
         /* Abbruch und Rückkehr in Hauptmenü */
         break;
     }
@@ -87,15 +119,19 @@ void func_add_interchange()         //TODO: Exit-Option
     printf("\n\n");
 
     /* Variablendeklaration
-    int     interchange_nr_one      Erste Autobahn des Kreuzes
-    int     interchange_nr_two      Zweite Autobahn des Kreuzes
-    int     interchange_nr_one_km   Autobahnkilometer der ersten Autobahn
-    int     interchange_nr_two_km   Autobahnkilometer der zweiten Autobahn
+    char    interchange_nr_one      Erste Autobahn des Kreuzes
+    char    interchange_nr_two      Zweite Autobahn des Kreuzes
+    char    interchange_nr_one_km   Autobahnkilometer der ersten Autobahn
+    char    interchange_nr_two_km   Autobahnkilometer der zweiten Autobahn
     char    interchange_name        Name des Autobahnkreuzes
     char    compare                 Vergleichsstring aus Datei
     */
-    int interchange_nr_one, interchange_nr_two, interchange_nr_one_km, interchange_nr_two_km;
-    char interchange_name[100], compare[100];
+    char    interchange_nr_one[100],
+            interchange_nr_two[100],
+            interchange_nr_one_km[100],
+            interchange_nr_two_km[100],
+            interchange_name[100],
+            compare[100];
 
     /* Öffnen der Datei mit Modus "a+" (APPEND+READ) = Neue Einträge werden an der Dateiende angehängt */
     FILE *table;
@@ -108,11 +144,15 @@ void func_add_interchange()         //TODO: Exit-Option
         return 1;                   //TODO: Void funktion -> return 1?!
     }
 
+    /* Hinweis auf Möglichkeit zum Abbruch */
+    printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n\n", ue, ue, oe);
 
     /* Name des Autobahnkreuzes */
     printf("Bitte geben Sie den Namen des Autobahnkreuzes ein: ");
     scanf("%s", &interchange_name);
     printf("\n");
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(interchange_name);
 
     /* Umwandlung des Autobahnkreuz-Namens in einen String bestehend aus Kleinbuchstaben */
     for(int i = 0; interchange_name[i]; i++)
@@ -144,21 +184,27 @@ void func_add_interchange()         //TODO: Exit-Option
 
     /* Nummer der ersten Autobahn des Kreuzes */
     printf("Bitte geben Sie die Nummer der ersten Autobahn des Kreuzes ein: ");
-    scanf("%d", &interchange_nr_one);
+    scanf("%s", &interchange_nr_one);
     printf("\n");
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(interchange_nr_one);
 
     /* Kilometer des Kreuzes auf erster Autobahn */
-    printf("Bitte geben Sie den Autobahnkilometer der A%d ein, an dem sich das Kreuz befindet: ", interchange_nr_one);
-    scanf("%d", &interchange_nr_one_km);
+    printf("Bitte geben Sie den Autobahnkilometer der A%s ein, an dem sich das Kreuz befindet: ", interchange_nr_one);
+    scanf("%s", &interchange_nr_one_km);
     printf("\n");
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(interchange_nr_one_km);
 
     /* Überprüfung ob erste Autobahn gleich zweiter Autobahn */
     do
     {
         /* Nummer der zweiten Autobahn des Kreuzes */
         printf("Bitte geben Sie die Nummer der zweiten Autobahn des Kreuzes ein: ");
-        scanf("%d", &interchange_nr_two);
+        scanf("%s", &interchange_nr_two);
         printf("\n");
+        /* Aufruf der Abbruchbedingung */
+        func_cancel(interchange_nr_two);
 
         /* Fehlerausgabe bei Eingabe gleicher Autobahnnummer */
         if(interchange_nr_one == interchange_nr_two)
@@ -169,8 +215,10 @@ void func_add_interchange()         //TODO: Exit-Option
     }while (interchange_nr_two == interchange_nr_one);
 
     /* Kilometer des Kreuzes auf zweiter Autobahn */
-    printf("Bitte geben Sie den Autobahnkilometer der A%d ein, an dem sich das Kreuz befindet: ", interchange_nr_two);
-    scanf("%d", &interchange_nr_two_km);
+    printf("Bitte geben Sie den Autobahnkilometer der A%s ein, an dem sich das Kreuz befindet: ", interchange_nr_two);
+    scanf("%s", &interchange_nr_two_km);
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(interchange_nr_two_km);
 
 
     /* Schreiben der neuen Werte in die Textdatei
@@ -186,13 +234,13 @@ void func_add_interchange()         //TODO: Exit-Option
     */
     fprintf(table, "KREUZ\n"     );
     fprintf(table, "%s\n",       interchange_name);
-    fprintf(table, "%d\n",       interchange_nr_one);
-    fprintf(table, "%d\n\n",     interchange_nr_one_km);
+    fprintf(table, "%s\n",       interchange_nr_one);
+    fprintf(table, "%s\n\n",     interchange_nr_one_km);
 
     fprintf(table, "KREUZ\n"     );
     fprintf(table, "%s\n",       interchange_name);
-    fprintf(table, "%d\n",       interchange_nr_two);
-    fprintf(table, "%d\n\n",     interchange_nr_two_km);
+    fprintf(table, "%s\n",       interchange_nr_two);
+    fprintf(table, "%s\n\n",     interchange_nr_two_km);
 
     fclose(table);
 
@@ -436,5 +484,4 @@ void func_delete()
     remove("autobahn.txt");
     rename("temp.txt", "autobahn.txt");
 
-    main();
 }
