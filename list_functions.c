@@ -28,7 +28,8 @@ Kurs INF14B
 void func_add_interchange();
 void func_add_exit();
 void func_cancel();
-void func_delet();
+void func_delete();
+void func_change();
 
 
 
@@ -151,14 +152,15 @@ void func_add_interchange()         //TODO: Exit-Option
     printf("Bitte geben Sie den Namen des Autobahnkreuzes ein: ");
     scanf("%s", &interchange_name);
     printf("\n");
-    /* Aufruf der Abbruchbedingung */
-    func_cancel(interchange_name);
 
     /* Umwandlung des Autobahnkreuz-Namens in einen String bestehend aus Kleinbuchstaben */
     for(int i = 0; interchange_name[i]; i++)
     {
         interchange_name[i] = tolower(interchange_name[i]);
     }
+
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(interchange_name);
 
     /* Jede Zeile der autobahn.txt auslesen und den Inhalt in compare zwischenspeichern */
     while(fgets(compare, 100, table))
@@ -176,6 +178,8 @@ void func_add_interchange()         //TODO: Exit-Option
             {
                 interchange_name[i] = tolower(interchange_name[i]);
             }
+            /* Aufruf der Abbruchbedingung */
+            func_cancel(interchange_name);
 
             /* Gehe zu Anfang der Datei autobahn.txt */
             rewind(table);
@@ -259,13 +263,15 @@ void func_add_exit()
     printf("\n\n");
 
     /* Variablendeklaration
-    int     waynr   Autobahnnummer
-    int     dist    Autobahnkilometer
     char    city    Stadtname
     char    compare Vergleichsstring aus Datei
+    char    waynr   Autobahnnummer
+    char    dist    Autobahnkilometer
     */
-    int dist;
-    char city[100], compare[100], waynr[10];
+    char    city[100],
+            compare[100],
+            waynr[10],
+            dist[100];
 
 
     /* Öffnen der Datei mit Modus "a" (APPEND+READ) = Neue Einträge werden an der Dateiende angehängt */
@@ -289,6 +295,8 @@ void func_add_exit()
     {
         city[i] = tolower(city[i]);
     }
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(city);
 
     /* Jede Zeile der autobahn.txt auslesen und den Inhalt in compare zwischenspeichern */
     while(fgets(compare, 100, table))
@@ -306,6 +314,8 @@ void func_add_exit()
             {
                 city[i] = tolower(city[i]);
             }
+            /* Aufruf der Abbruchbedingung */
+            func_cancel(city);
 
             /* Gehe zu Anfang der Datei autobahn.txt */
             rewind(table);
@@ -316,6 +326,8 @@ void func_add_exit()
     printf("Bitte geben Sie die Autobahnnummer ein: ");
     scanf("%s", &waynr);
     printf("\n");
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(waynr);
 
     while(strstr(waynr, "0"))
     {
@@ -324,12 +336,16 @@ void func_add_exit()
         printf("Bitte geben Sie die Autobahnnummer ein: ");
         scanf("%s", &waynr);
         printf("\n");
+        /* Aufruf der Abbruchbedingung */
+        func_cancel(waynr);
     }
 
 
     /* Autobahnkilometer */
     printf("Bitte geben Sie den Autobahnkilometer ein: ");
-    scanf("%d", &dist);
+    scanf("%s", &dist);
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(dist);
 
     /* Schreiben der neuen Werte in die Textdatei
         Kennung "Autobahnausfahrt"
@@ -339,8 +355,8 @@ void func_add_exit()
     */
     fprintf(table, "AUSFAHRT\n"     );
     fprintf(table, "%s\n",          city);
-    fprintf(table, "%d\n",          waynr);
-    fprintf(table, "%d\n\n",        dist);
+    fprintf(table, "%s\n",          waynr);
+    fprintf(table, "%s\n\n",        dist);
 
     fclose(table);
 
@@ -419,6 +435,8 @@ void func_delete()
     printf("Welchen Eintrag m%cchten Sie l%cschen?\n", oe, oe);
     scanf("%s", &city_delete);
     printf("\n");
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(city_delete);
 
     /* Umwandeln der Usereingabe in String aus Kleinbuchstaben */
     for(int i = 0; city_delete[i]; i++)
@@ -521,4 +539,17 @@ void func_delete()
             }
         }
     }
+}
+
+
+
+
+
+/* ----------------------------------------
+    FUNKTION EINTRAG ÄNDERN
+---------------------------------------- */
+
+void func_change()
+{
+
 }
