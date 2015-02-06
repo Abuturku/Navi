@@ -28,21 +28,6 @@ frankfurt
 61
 1
 
-AUSFAHRT
-hallo
-2686430
-23
-
-KREUZ
-nein
-1
-2
-
-KREUZ
-nein
-3
-4
-
 KREUZ
 name
 1
@@ -74,12 +59,21 @@ wasistlos
 2
 
 KREUZ
-test
-21
+nameneu
+1
 2
 
 KREUZ
-test
-2
+nameneu
+1
 1
 
+KREUZ
+wasdas
+12
+1
+
+KREUZ
+wasdas
+1
+1

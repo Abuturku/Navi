@@ -2,21 +2,30 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <windows.h>
+#include <ctype.h>
 
 #include "list_functions.c"
 #include "list_sort.c"
 
 
-
+/* Funktionsdeklarationen, sonst später Problem */
+void func_add_interchange();
+void func_add_exit();
+void func_cancel();
+void func_delete();
+void func_change();
+void quicksort(int first, int last);
+void sort_list();
+int main();
 
 
 /*
 *
-*   v_0_2
-*   func_add                    fixed "Loop of Doom"
-*   func_delete()               Listenausgabe mit großem Anfangsbuchstaben
-*   func_add_interchange()      Überprüfung der Gleichheit der Autobahnnummern überarbeitet
-*   func_change()               Listenausgabe hinzugefügt
+*   v_0_2_1
+*   func_list()     Listenausgabe
+*   func_delete()   neue Listenausgabe func_list()
+*   func_change()   neue Listenausgabe func_list()
+*   main()          Überarbeitetes Hauptmenü mit switch-case basierend auf ascii-Werten
 *
 */
 
@@ -44,8 +53,8 @@ int main()
     /*
     char    userentry   Benutzereingabe
     */
-    char userentry[2];
-
+    char userentry;
+    int user_ascii;
 
     /* Begrüßungstext */
     printf("Willkommen bei Ihrem Autobahnnavigator!\n");
@@ -62,41 +71,48 @@ int main()
         /* Eingabe der Auswahl */
         printf("Ihre Auswahl: ");
         scanf("%s", &userentry);
+        printf("\n\n");
 
-        /* Umwandlung in Kleinbuchstabe */
-        for(int i = 0; i < userentry[i]; i++)
-        {
-            userentry[i] = tolower(userentry[i]);
-        }
+        user_ascii = userentry;
 
-        /* Aufruf der entsprechenden Funktion */
-        if(strstr(userentry, "r"))
+        if(user_ascii != 82
+        && user_ascii != 114
+        && user_ascii != 65
+        && user_ascii != 97
+        && user_ascii != 76
+        && user_ascii != 108
+        && user_ascii != 81
+        && user_ascii != 113)
         {
-            printf("Also Else!\n");
-            break;
-        }
-        else if(strstr(userentry, "a"))
-        {
-            func_add();
-            break;
-        }
-        else if(strstr(userentry, "l"))
-        {
-            sort_list();
-            break;
-        }
-        else if(strstr(userentry, "q"))
-        {
-            printf("Programm beendet!\n");
-            return EXIT_SUCCESS;
-        }
-        else
-        {
-            printf("\n\nFalsche Eingabe!\n\n\n");
+            printf("Falsche Eingabe!\n\n");
         }
 
-    }while(userentry != 'r' && userentry != 'a' && userentry != 'q' && userentry != 'l');
+    }while(user_ascii != 82
+        && user_ascii != 114
+        && user_ascii != 65
+        && user_ascii != 97
+        && user_ascii != 76
+        && user_ascii != 108
+        && user_ascii != 81
+        && user_ascii != 113);
 
-    return 0;
+    /* Aufruf der entsprechende Funktion basierend auf Usereingabe */
+    switch (user_ascii)
+    {
+    case 82: case 114:
+        printf("Also Else!");
+        break;
 
+    case 65: case 97:
+        func_add();
+        break;
+
+    case 76: case 108:
+        sort_list();
+        break;
+
+    case 81: case 113:
+        printf("Programm beendet!\n\n");
+        return EXIT_SUCCESS;
+    }
 }

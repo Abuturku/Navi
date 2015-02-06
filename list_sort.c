@@ -1,8 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <windows.h>
+#include <ctype.h>
 
-
-
+/* Funktionsdeklarationen, sonst später Problem */
+void func_add_interchange();
+void func_add_exit();
+void func_cancel();
+void func_delete();
+void func_change();
+void quicksort(int first, int last);
+void sort_list();
+int main();
 
 
 char** fileInList;
