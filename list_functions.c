@@ -16,7 +16,11 @@
 
 /*
 *
-*   v0_1_5
+*   v_0_2
+*   func_add                    fixed "Loop of Doom"
+*   func_delete()               Listenausgabe mit großem Anfangsbuchstaben
+*   func_add_interchange()      Überprüfung der Gleichheit der Autobahnnummern überarbeitet
+*   func_change()               Listenausgabe hinzugefügt
 *
 */
 
@@ -72,9 +76,9 @@ void func_cancel(char cancel_string[256])
 void func_add()
 {
     /* Variablendeklaration
-    int     interchange     Kennung "Autobahnkreuz" (1) oder "Autobahnausfahrt" (2)
+    char    entry       Kennung "Autobahnkreuz" (1) oder "Autobahnausfahrt" (2)
     */
-    int interchange;
+    char entry;
 
     /* Schleife zur Überprüfung auf valide Eingabe */
     do
@@ -90,43 +94,48 @@ void func_add()
         printf("(5) Abbruch\n\n");
 
         printf("Ihre Auswahl: ");
-        scanf("%d", &interchange);
-
+        scanf("%s", &entry);
         printf("\n\n");
 
-    }while(interchange != 1 && interchange != 2 && interchange != 3 && interchange != 4 && interchange != 5);
+        if(entry < 49 || entry > 53)
+        {
+            printf("Falsche Eingabe!\n");
+        }
+
+    }while(entry < 49 || entry > 53);
+
 
     /* Aufruf der entsprechende Funktion basierend auf Usereingabe */
-    switch (interchange)
+    switch (entry)
     {
-    case 1:
+    case 49:
         /* Aufruf der Funktion func_add_interchange da der User ein Autobahnkreuz hinzufügen möchte */
         func_add_interchange();
         break;
 
-    case 2:
+    case 50:
         /* Aufruf der Funktion func_add_exit da der User eine Autobahnausfahrt hinzufügen möchte */
         func_add_exit();
         break;
 
-    case 3:
+    case 51:
         /* Aufruf der Funktion func_delete da der User einen Eintrag löschen möchte */
         func_delete();
         break;
 
-    case 4:
+    case 52:
         /* Aufruf der Funktion func_change da der User einen Eintrag löschen möchte */
         func_change();
         break;
 
-    case 5:
+    case 53:
         /* Abbruch und Rückkehr in Hauptmenü */
         break;
     }
 
     printf("\n\n");
 
-    main();         //TODO: vlt. extern main?
+    main();
 }
 
 
@@ -235,12 +244,13 @@ void func_add_interchange()         //TODO: Exit-Option
         func_cancel(interchange_nr_two);
 
         /* Fehlerausgabe bei Eingabe gleicher Autobahnnummer */
-        if(strstr(interchange_nr_one, interchange_nr_two))
+        if( interchange_nr_one == interchange_nr_two)
         {
-            printf("%cbereinstimmung gefunden, bitte geben Sie eine andere Autobahn ein!\n", UE);
+            printf("%cbereinstimmung gefunden, bitte geben Sie eine andere Autobahn ein!", UE);
+            printf("\n\n");
         }
 
-    }while (strstr(interchange_nr_one, interchange_nr_two));
+    }while(interchange_nr_one == interchange_nr_two);
 
     /* Kilometer des Kreuzes auf zweiter Autobahn */
     printf("Bitte geben Sie den Autobahnkilometer der A%s ein, an dem sich das Kreuz befindet: ", interchange_nr_two);
@@ -360,7 +370,8 @@ void func_add_exit()
     while(strstr(waynr, "0"))
     {
         /* Autobahnnummer */
-        printf("Autobahnnummer 0 nicht zul%cssig!\n", ae);
+        printf("Autobahnnummer 0 nicht zul%cssig!", ae);
+        printf("\n\n");
         printf("Bitte geben Sie die Autobahnnummer ein: ");
         scanf("%s", &waynr);
         printf("\n");
@@ -437,7 +448,7 @@ void func_delete()
     if( fgetc(table) == EOF )
     {
         printf("\n\n");
-        printf("Keie Eintr%cge gefunden!\n", ae);
+        printf("Keie Eintr%cge gefunden!", ae);
         printf("\n\n");
         main();
         exit(0);
@@ -469,13 +480,17 @@ void func_delete()
             }
             line_count = line_count + 5;
         }
+
+        /* großer Anfangsbuchstabe */
+        all_entries[0] = toupper(all_entries[0]);
+
         printf("(%d) %s", n, all_entries);
 
     }
 
     /* Usereingabe des zu löschenden Eintrags */
     printf("\n\n");
-    printf("Welchen Eintrag m%cchten Sie l%cschen?\n", oe, oe);
+    printf("Welchen Eintrag m%cchten Sie l%cschen? ", oe, oe);
     scanf("%s", &city_delete);
     printf("\n");
     /* Aufruf der Abbruchbedingung */
@@ -602,10 +617,49 @@ void func_change()
     FILE *tempdat;
     tempdat = fopen("temp.txt", "w+");
 
+    char    temp[256],
+            all_entries[256];
+
+    int     n,
+            line_count;
+
+    n = 1;
+    line_count = 0;
+
     /* Hinweis auf Möglichkeit zum Abbruch */
     printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n\n", ue, ue, oe);
 
+    /* Erstellen der Liste aller Einträge */
+    while(fgets(temp, 256, table))
+    {
+        n = n+1;
 
+        fgets(all_entries, 256, table);
+
+        /* Überspringen des zweiten Eintrag eines Autobahnkreuzes */
+        if(strstr(temp, "KREUZ"))
+        {
+            for(int i = 0; i < 8; i++)
+            {
+                fgets(temp, 256, table);
+            }
+            line_count = line_count + 10;
+        }
+        else
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                fgets(temp, 256, table);
+            }
+            line_count = line_count + 5;
+        }
+
+        /* großer Anfangsbuchstabe */
+        all_entries[0] = toupper(all_entries[0]);
+
+        printf("(%d) %s", n, all_entries);
+
+    }
 
     /* Löschen der Datei autobahn.txt und umbenennen der Datei temp.txt in autobahn.txt */
     remove("autobahn.txt");

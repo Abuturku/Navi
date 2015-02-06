@@ -12,7 +12,11 @@
 
 /*
 *
-*   v0_1_5
+*   v_0_2
+*   func_add                    fixed "Loop of Doom"
+*   func_delete()               Listenausgabe mit großem Anfangsbuchstaben
+*   func_add_interchange()      Überprüfung der Gleichheit der Autobahnnummern überarbeitet
+*   func_change()               Listenausgabe hinzugefügt
 *
 */
 
@@ -88,7 +92,7 @@ int main()
         }
         else
         {
-            printf("Falsche Eingabe!\n\n\n");
+            printf("\n\nFalsche Eingabe!\n\n\n");
         }
 
     }while(userentry != 'r' && userentry != 'a' && userentry != 'q' && userentry != 'l');
