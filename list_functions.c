@@ -19,11 +19,11 @@
 
 /*
 *
-*   v_0_2_1
-*   func_list()     Listenausgabe
-*   func_delete()   neue Listenausgabe func_list()
-*   func_change()   neue Listenausgabe func_list()
-*   main()          Überarbeitetes Hauptmenü mit switch-case basierend auf ascii-Werten
+*   v_0_2_2
+*   func_add_interchange()          Bugfix ständige Ausgabe eine Übereinstimmung wurde gefunden
+*   func_number(char verify[256])   Überprüfung ob Eingabe Autobahnnummer und Autobahnkilometer gültige Zahlenwerte sind
+*   func_add_interchange()          Überprüfung auf Eingabe der Autobahnnummer "0"
+*   func_add_exit()                 Überprüfung auf Eingabe der Autobahnnummer "0"
 *
 */
 
@@ -52,6 +52,7 @@ void quicksort(int first, int last);
 void sort_list();
 int main();
 int func_list(FILE *table);
+int func_number(char verify[256]);
 
 
 
@@ -70,6 +71,114 @@ void func_cancel(char cancel_string[256])
         main();
         exit(0);
     }
+}
+
+
+
+
+
+/* ----------------------------------------
+    FUNKTION ZAHLENWERT PRÜFEN
+---------------------------------------- */
+
+int func_number(char verify[256])
+{
+    for(int i = 0; verify[i]; i++)
+    {
+        if(verify[i] < 48 || verify[i] > 57)
+        {
+            printf("Bitte geben Sie einen g%cltigen Zahlenwert ein!\n\n", ue);
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+
+
+
+
+/* ----------------------------------------
+    FUNKTION LISTE ERSTELLEN
+---------------------------------------- */
+
+int func_list(FILE *table)
+{
+    /*
+    char    label       Kennung Kreuz oder Ausfahrt
+    char    name        Name des Eintrags
+    char    waynr_one   Autobahnnummer der ersten Autobahn
+    char    waykm_one   Autobahnkilometer der ersten Autobahn
+    char    waynr_two   Autobahnnummer der zweiten Autobahn
+    char    waykm_two   Autobahnkilometer der zweiten Autobahn
+    char    temp        Zwischenspeicher
+    */
+    char    label[256],
+            name[256],
+            waynr_one[256],
+            waykm_one[256],
+            waynr_two[256],
+            waykm_two[256],
+            temp[256];
+
+    /*
+    int     line_count  Zeilenanzahl
+    */
+    int line_count;
+
+    line_count = 1;
+
+    /* Überprüfung ob Einträge vorhanden sind */
+    if(fgetc(table) == EOF)
+    {
+        printf("Keine Eintr%cge gefunden!\n", ae);
+        printf("\n\n");
+        main();
+        exit (0);
+    }
+
+    rewind(table);
+
+    /* Liste aller Einträge */
+    while(fgets(label, 256, table))
+    {
+        /* Ausgabe der Autobahnkreuze */
+        if(strstr(label, "KREUZ"))
+        {
+            fgets(name, 256, table);
+            fgets(waynr_one, 256, table);
+            fgets(waykm_one, 256, table);
+            fgets(temp, 256, table);
+            fgets(temp, 256, table);
+            fgets(name, 256, table);
+            fgets(waynr_two, 256, table);
+            fgets(waykm_two, 256, table);
+
+            name[0] = toupper(name[0]);
+
+            printf("Kreuz    %s", name);
+
+            line_count = line_count + 10;
+        }
+        /* Ausgabe der Autobahnausfahrten */
+        if(strstr(label, "AUSFAHRT"))
+        {
+            fgets(name, 256, table);
+            fgets(waynr_one, 256, table);
+            fgets(waykm_one, 256, table);
+
+            name[0] = toupper(name[0]);
+
+            printf("Ausfahrt %s", name);
+
+            line_count = line_count + 5;
+        }
+    }
+
+    /* Rückgabe von int line_count */
+    return line_count;
+
 }
 
 
@@ -180,7 +289,7 @@ void func_add_interchange()         //TODO: Exit-Option
             compare[256];
 
     /* Hinweis auf Möglichkeit zum Abbruch */
-    printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' ('0' bei Autobahnnummer) m%cglich!\n\n\n", ue, ue, oe);
+    printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n\n", ue, ue, oe);
 
     /* Name des Autobahnkreuzes */
     printf("Bitte geben Sie den Namen des Autobahnkreuzes ein: ");
@@ -222,45 +331,82 @@ void func_add_interchange()         //TODO: Exit-Option
         }
     }
 
-    /* Nummer der ersten Autobahn des Kreuzes */
-    printf("Bitte geben Sie die Nummer der ersten Autobahn des Kreuzes ein: ");
-    scanf("%s", interchange_nr_one);
-    printf("\n");
-    /* Aufruf der Abbruchbedingung */
-    func_cancel(interchange_nr_one);
+    /* Überprüfung auf Eingabe von Autobahnnummer "0" */
+    do
+    {
+        do
+        {
+            /* Autobahnnummer */
+            printf("Bitte geben Sie die Autobahnnummer der ersten Autobahn ein: ");
+            scanf("%s", interchange_nr_one);
+            printf("\n");
+            /* Aufruf der Abbruchbedingung */
+            func_cancel(interchange_nr_one);
+
+        }while(func_number(interchange_nr_one) == 1);
+
+        if(strstr(interchange_nr_one, "0"))
+        {
+            printf("Autobahnnummer 0 nicht zul%cssig!", ae);
+            printf("\n\n");
+        }
+
+    }while(strstr(interchange_nr_one, "0"));
 
     /* Kilometer des Kreuzes auf erster Autobahn */
-    printf("Bitte geben Sie den Autobahnkilometer der A%s ein, an dem sich das Kreuz befindet: ", interchange_nr_one);
-    scanf("%s", interchange_nr_one_km);
-    printf("\n");
-    /* Aufruf der Abbruchbedingung */
-    func_cancel(interchange_nr_one_km);
+    do
+    {
+        printf("Bitte geben Sie den Autobahnkilometer der A%s ein, an dem sich das Kreuz befindet: ", interchange_nr_one);
+        scanf("%s", interchange_nr_one_km);
+        printf("\n");
+        /* Aufruf der Abbruchbedingung */
+        func_cancel(interchange_nr_one_km);
+
+    }while(func_number(interchange_nr_one_km) == 1);
 
     /* Überprüfung ob erste Autobahn gleich zweiter Autobahn */
     do
     {
-        /* Nummer der zweiten Autobahn des Kreuzes */
-        printf("Bitte geben Sie die Nummer der zweiten Autobahn des Kreuzes ein: ");
-        scanf("%s", interchange_nr_two);
-        printf("\n");
-        /* Aufruf der Abbruchbedingung */
-        func_cancel(interchange_nr_two);
-
-        /* Fehlerausgabe bei Eingabe gleicher Autobahnnummer */
-        if(strcmp(interchange_nr_one, interchange_nr_two) == 0);
+        /* Überprüfung auf Eingabe von Autobahnnummer "0" */
+        do
         {
-            printf("%cbereinstimmung gefunden, bitte geben Sie eine andere Autobahn ein!", UE);
-            printf("\n\n");
+            do
+            {
+                /* Autobahnnummer */
+                printf("Bitte geben Sie die Autobahnnummer der zweiten Autobahn ein: ");
+                scanf("%s", interchange_nr_two);
+                printf("\n");
+                /* Aufruf der Abbruchbedingung */
+                func_cancel(interchange_nr_two);
+
+            }while(func_number(interchange_nr_two) == 1);
+
+            if(strstr(interchange_nr_two, "0"))
+            {
+                printf("Autobahnnummer 0 nicht zul%cssig!", ae);
+                printf("\n\n");
+            }
+
+        }while(strstr(interchange_nr_two, "0"));
+
+        if(strcmp(interchange_nr_one, interchange_nr_two) == 0)
+        {
+            printf("Gleiche Autobahnnummer unzul%cssig.", ae);
+            printf("\n\n");;
         }
 
     }while(strcmp(interchange_nr_one, interchange_nr_two) == 0);
 
     /* Kilometer des Kreuzes auf zweiter Autobahn */
-    printf("Bitte geben Sie den Autobahnkilometer der A%s ein, an dem sich das Kreuz befindet: ", interchange_nr_two);
-    scanf("%s", interchange_nr_two_km);
-    /* Aufruf der Abbruchbedingung */
-    func_cancel(interchange_nr_two_km);
+    do
+    {
+        printf("Bitte geben Sie den Autobahnkilometer der A%s ein, an dem sich das Kreuz befindet: ", interchange_nr_two);
+        scanf("%s", interchange_nr_two_km);
+        printf("\n");
+        /* Aufruf der Abbruchbedingung */
+        func_cancel(interchange_nr_two_km);
 
+    }while(func_number(interchange_nr_two_km) == 1);
 
     /* Schreiben der neuen Werte in die Textdatei
         Kennung "Autobahnkreuz"
@@ -363,31 +509,38 @@ void func_add_exit()
         }
     }
 
-    /* Autobahnnummer */
-    printf("Bitte geben Sie die Autobahnnummer ein: ");
-    scanf("%s", waynr);
-    printf("\n");
-    /* Aufruf der Abbruchbedingung */
-    func_cancel(waynr);
-
-    while(strstr(waynr, "0"))
+    /* Überprüfung auf Eingabe von Autobahnnummer "0" */
+    do
     {
-        /* Autobahnnummer */
-        printf("Autobahnnummer 0 nicht zul%cssig!", ae);
-        printf("\n\n");
-        printf("Bitte geben Sie die Autobahnnummer ein: ");
-        scanf("%s", waynr);
-        printf("\n");
-        /* Aufruf der Abbruchbedingung */
-        func_cancel(waynr);
-    }
+        do
+        {
+            /* Autobahnnummer */
+            printf("Bitte geben Sie die Autobahnnummer ein: ");
+            scanf("%s", waynr);
+            printf("\n");
+            /* Aufruf der Abbruchbedingung */
+            func_cancel(waynr);
 
+        }while(func_number(waynr) == 1);
+
+        if(strstr(waynr, "0"))
+        {
+            printf("Autobahnnummer 0 nicht zul%cssig!", ae);
+            printf("\n\n");
+        }
+
+    }while(strstr(waynr, "0"));
 
     /* Autobahnkilometer */
-    printf("Bitte geben Sie den Autobahnkilometer ein: ");
-    scanf("%s", dist);
-    /* Aufruf der Abbruchbedingung */
-    func_cancel(dist);
+    do
+    {
+        printf("Bitte geben Sie den Autobahnkilometer ein: ");
+        scanf("%s", dist);
+        printf("\n");
+        /* Aufruf der Abbruchbedingung */
+        func_cancel(dist);
+
+    }while(func_number(dist) == 1);
 
     /* Schreiben der neuen Werte in die Textdatei
         Kennung "Autobahnausfahrt"
@@ -445,15 +598,6 @@ void func_delete()
 
     /* Hinweis auf Möglichkeit zum Abbruch */
     printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n\n", ue, ue, oe);
-
-    if( fgetc(table) == EOF )
-    {
-        printf("\n\n");
-        printf("Keie Eintr%cge gefunden!", ae);
-        printf("\n\n");
-        main();
-        exit(0);
-    }
 
     /* Aufruf der func_list() zum Erstellen der Liste und Übergabe von int line_count */
     line_count = func_list(table);
@@ -587,75 +731,11 @@ void func_change()
     /* Hinweis auf Möglichkeit zum Abbruch */
     printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n\n", ue, ue, oe);
 
-    if(fgetc(table) == EOF)
-    {
-        printf("Keine Eintr%cge gefunden!\n", ae);
-        printf("\n\n");
-        main();
-        exit (0);
-    }
-
     /* Erstellen einer Liste mit allen Einträgen */
     func_list(table);
 
     printf("\n\n");
 
     fclose(table);
-
-}
-
-
-
-int func_list(FILE *table)
-{
-    char    label[256],
-            name[256],
-            waynr_one[256],
-            waykm_one[256],
-            waynr_two[256],
-            waykm_two[256],
-            temp[256];
-
-    int line_count;
-
-    line_count = 1;
-
-    rewind(table);
-
-    /* Liste aller Einträge */
-    while(fgets(label, 256, table))
-    {
-        if(strstr(label, "KREUZ"))
-        {
-            fgets(name, 256, table);
-            fgets(waynr_one, 256, table);
-            fgets(waykm_one, 256, table);
-            fgets(temp, 256, table);
-            fgets(temp, 256, table);
-            fgets(name, 256, table);
-            fgets(waynr_two, 256, table);
-            fgets(waykm_two, 256, table);
-
-            name[0] = toupper(name[0]);
-
-            printf("Kreuz    %s", name);
-
-            line_count = line_count + 10;
-        }
-        if(strstr(label, "AUSFAHRT"))
-        {
-            fgets(name, 256, table);
-            fgets(waynr_one, 256, table);
-            fgets(waykm_one, 256, table);
-
-            name[0] = toupper(name[0]);
-
-            printf("Ausfahrt %s", name);
-
-            line_count = line_count + 5;
-        }
-    }
-
-    return line_count;
 
 }

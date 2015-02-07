@@ -17,15 +17,17 @@ void func_change();
 void quicksort(int first, int last);
 void sort_list();
 int main();
+int func_list(FILE *table);
+int func_number(char verify[256]);
 
 
 /*
 *
-*   v_0_2_1
-*   func_list()     Listenausgabe
-*   func_delete()   neue Listenausgabe func_list()
-*   func_change()   neue Listenausgabe func_list()
-*   main()          Überarbeitetes Hauptmenü mit switch-case basierend auf ascii-Werten
+*   v_0_2_2
+*   func_add_interchange()          Bugfix ständige Ausgabe eine Übereinstimmung wurde gefunden
+*   func_number(char verify[256])   Überprüfung ob Eingabe Autobahnnummer und Autobahnkilometer gültige Zahlenwerte sind
+*   func_add_interchange()          Überprüfung auf Eingabe der Autobahnnummer "0"
+*   func_add_exit()                 Überprüfung auf Eingabe der Autobahnnummer "0"
 *
 */
 
@@ -40,7 +42,6 @@ Oliver Scholz
 DHBW Mosbach
 Kurs INF14B
 ------------------------------ */
-
 
 
 
@@ -115,4 +116,5 @@ int main()
         printf("Programm beendet!\n\n");
         return EXIT_SUCCESS;
     }
+
 }
