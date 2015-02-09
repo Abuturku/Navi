@@ -23,11 +23,8 @@ int func_number(char verify[256]);
 
 /*
 *
-*   v_0_2_2
-*   func_add_interchange()          Bugfix ständige Ausgabe eine Übereinstimmung wurde gefunden
-*   func_number(char verify[256])   Überprüfung ob Eingabe Autobahnnummer und Autobahnkilometer gültige Zahlenwerte sind
-*   func_add_interchange()          Überprüfung auf Eingabe der Autobahnnummer "0"
-*   func_add_exit()                 Überprüfung auf Eingabe der Autobahnnummer "0"
+*   v0_2_3
+*   func_change()   Implementiert
 *
 */
 

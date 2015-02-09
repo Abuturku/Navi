@@ -19,11 +19,8 @@
 
 /*
 *
-*   v_0_2_2
-*   func_add_interchange()          Bugfix ständige Ausgabe eine Übereinstimmung wurde gefunden
-*   func_number(char verify[256])   Überprüfung ob Eingabe Autobahnnummer und Autobahnkilometer gültige Zahlenwerte sind
-*   func_add_interchange()          Überprüfung auf Eingabe der Autobahnnummer "0"
-*   func_add_exit()                 Überprüfung auf Eingabe der Autobahnnummer "0"
+*   v0_2_3
+*   func_change()   Implementiert
 *
 */
 
@@ -726,16 +723,330 @@ void func_delete()
 void func_change()
 {
     FILE *table;
-    table = fopen("autobahn.txt", "a+");
+    table = fopen("autobahn.txt", "r");
+
+    FILE *tempdat;
+    tempdat = fopen("change.txt", "w+");
+
+    /*
+    int     changed     Wurde Eintrag geändert?
+    */
+    int     changed;
+
+    changed = 0;
+
+    /*
+    char    change_entry[256]   zu änderner Eintrag
+    char    label[256]          Kennung "Kreuz" oder "Ausfahrt"
+    char    name[256]           Name des Eintrags
+    char    waynr_one[256]      Nummer der ersten Autobahn
+    char    dist_one[256]       Kilometer der ersten Autobahn
+    char    waynr_two[256]      Nummer der zweiten Autobahn
+    char    dist_two[256]       Kilometer der zweiten Autobahn
+    char    temp[256]           Zwischenspeicher
+    char    compare[256]        Vergleichsstring für neuen Namen
+    */
+    char    change_entry[256],
+            label[256],
+            name[256],
+            waynr_one[256],
+            dist_one[256],
+            waynr_two[256],
+            dist_two[256],
+            temp[256],
+            compare[256];
 
     /* Hinweis auf Möglichkeit zum Abbruch */
     printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n\n", ue, ue, oe);
 
-    /* Erstellen einer Liste mit allen Einträgen */
+    /* Aufruf einer Liste aller Einträge */
     func_list(table);
 
     printf("\n\n");
 
-    fclose(table);
+    /* Abfrage welcher Eintrag geändert werden soll */
+    printf("Welchen Eintrag m%cchten Sie %cndern? ", oe, ae);
+    scanf("%s", change_entry);
+    printf("\n\n");
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(change_entry);
 
+    /* Umwandeln der Eingabe in String aus Kleinbuchstaben */
+    for(int i = 0; change_entry[i]; i++)
+    {
+        change_entry[i] = tolower(change_entry[i]);
+    }
+
+    /* Gehe zum Anfang der Datei "autobahn.txt" */
+    rewind(table);
+
+    /* Lesen, Schreiben und Überprüfung der Einträge */
+    while(fgets(label, 256, table))
+    {
+        fgets(name, 256, table);
+
+        /* Schreiben der Einträge die nicht verändert werden */
+        if(strstr(name, change_entry) == 0)
+        {
+            if(strstr(label, "KREUZ") != 0)
+            {
+                fgets(waynr_one, 256, table);
+                fgets(dist_one, 256, table);
+                fgets(temp, 256, table);
+                fgets(temp, 256, table);
+                fgets(temp, 256, table);
+                fgets(waynr_two, 256, table);
+                fgets(dist_two, 256, table);
+                fgets(temp, 256, table);
+
+                fprintf(tempdat, "%s", label);
+                fprintf(tempdat, "%s", name);
+                fprintf(tempdat, "%s", waynr_one);
+                fprintf(tempdat, "%s", dist_one);
+                fprintf(tempdat, "%s", temp);
+                fprintf(tempdat, "%s", label);
+                fprintf(tempdat, "%s", name);
+                fprintf(tempdat, "%s", waynr_two);
+                fprintf(tempdat, "%s", dist_two);
+                fprintf(tempdat, "%s", temp);
+            }
+            if(strstr(label, "AUSFAHRT") != 0)
+            {
+                fgets(waynr_one, 256, table);
+                fgets(dist_one, 256, table);
+                fgets(temp, 256, table);
+
+                fprintf(tempdat, "%s", label);
+                fprintf(tempdat, "%s", name);
+                fprintf(tempdat, "%s", waynr_one);
+                fprintf(tempdat, "%s", dist_one);
+                fprintf(tempdat, "%s", temp);
+            }
+        }
+        /* Überprüfung auf zu ändernden Eintrag */
+        else if(strstr(name, change_entry) != 0)
+        {
+            changed = 1;
+
+            /* Eingabe eines neuen Namen */
+            printf("Bitte geben Sie den neuen Namen ein: ");
+            scanf("%s", name);
+            printf("\n");
+
+            /* Aurfruf der Abbruchbedingung */
+            func_cancel(name);
+
+            /* Jede Zeile der autobahn.txt auslesen und den Inhalt in compare zwischenspeichern */
+            while(fgets(compare, 256, table))
+            {
+                /* Sollte der Stadtname bereits vorhanden sein, wird der Inhalt der folgenden Schleife ausgeführt */
+                if(strstr(compare, name))
+                {
+                    printf("Dieser Eintrag ist bereits verzeichnet.");
+                    printf("\n\n");
+                    printf("Bitte geben Sie einen neuen Namen ein: ");
+
+                    /* Stadtnamen erneut einlesen und nochmals in einen String aus Kleinbuchstaben umwandeln */
+                    scanf("%s", name);
+                    printf("\n");
+
+                    for(int i = 0; name[i]; i++)
+                    {
+                        name[i] = tolower(name[i]);
+                    }
+                    /* Aufruf der Abbruchbedingung */
+                    func_cancel(name);
+
+                    /* Gehe zu Anfang der Datei autobahn.txt */
+                    rewind(table);
+                }
+            }
+
+            /* zu ändernder Eintrag ist ein Autobahnkreuz */
+            if(strstr(label, "KREUZ"))
+            {
+                /* Überspringen der alten Werte */
+                fgets(temp, 256, table);
+                fgets(temp, 256, table);
+                fgets(temp, 256, table);
+                fgets(temp, 256, table);
+                fgets(temp, 256, table);
+                fgets(temp, 256, table);
+                fgets(temp, 256, table);
+                fgets(temp, 256, table);
+
+                /* Überprüfung auf Eingabe von Autobahnnummer "0" */
+                do
+                {
+                    do
+                    {
+                        /* Autobahnnummer */
+                        printf("Bitte geben Sie die neue Autobahnnummer der ersten Autobahn ein: ");
+                        scanf("%s", waynr_one);
+                        printf("\n");
+                        /* Aufruf der Abbruchbedingung */
+                        func_cancel(waynr_one);
+
+                    }while(func_number(waynr_one) == 1);
+
+                    if(strstr(waynr_one, "0"))
+                    {
+                        printf("Autobahnnummer 0 nicht zul%cssig!", ae);
+                        printf("\n\n");
+                    }
+
+                }while(strstr(waynr_one, "0"));
+
+                /* Kilometer des Kreuzes auf erster Autobahn */
+                do
+                {
+                    printf("Bitte geben Sie den neuen Autobahnkilometer der A%s ein, an dem sich das Kreuz befindet: ", waynr_one);
+                    scanf("%s", dist_one);
+                    printf("\n");
+                    /* Aufruf der Abbruchbedingung */
+                    func_cancel(dist_one);
+
+                }while(func_number(dist_one) == 1);
+
+                /* Überprüfung ob erste Autobahn gleich zweiter Autobahn */
+                do
+                {
+                    /* Überprüfung auf Eingabe von Autobahnnummer "0" */
+                    do
+                    {
+                        do
+                        {
+                            /* Autobahnnummer */
+                            printf("Bitte geben Sie die neue Autobahnnummer der zweiten Autobahn ein: ");
+                            scanf("%s", waynr_two);
+                            printf("\n");
+                            /* Aufruf der Abbruchbedingung */
+                            func_cancel(waynr_two);
+
+                        }while(func_number(waynr_two) == 1);
+
+                        if(strstr(waynr_two, "0"))
+                        {
+                            printf("Autobahnnummer 0 nicht zul%cssig!", ae);
+                            printf("\n\n");
+                        }
+
+                    }while(strstr(waynr_two, "0"));
+
+                    if(strcmp(waynr_one, waynr_two) == 0)
+                    {
+                        printf("Gleiche Autobahnnummer unzul%cssig.", ae);
+                        printf("\n\n");;
+                    }
+
+                }while(strcmp(waynr_one, waynr_two) == 0);
+
+                /* Kilometer des Kreuzes auf zweiter Autobahn */
+                do
+                {
+                    printf("Bitte geben Sie den neuen Autobahnkilometer der A%s ein, an dem sich das Kreuz befindet: ", waynr_two);
+                    scanf("%s", dist_two);
+                    printf("\n");
+                    /* Aufruf der Abbruchbedingung */
+                    func_cancel(dist_two);
+
+                }while(func_number(dist_two) == 1);
+
+                /* Schreiben des geänderten Eintrags
+                    Kennung "KREUZ"
+                    Name
+                    Autobahnnummer erster Autobahn
+                    Kilometer erster Autobahn
+                    <Leerzeile>
+                    Kennung "KREUZ"
+                    Name
+                    Autobahnnummer zweiter Autobahn
+                    Kilometer zweiter Autobahn
+                    <Leerzeile>
+                */
+                fprintf(tempdat, "%s", label);
+                fprintf(tempdat, "%s\n", name);
+                fprintf(tempdat, "%s\n", waynr_one);
+                fprintf(tempdat, "%s\n", dist_one);
+                fprintf(tempdat, "%s", temp);
+                fprintf(tempdat, "%s", label);
+                fprintf(tempdat, "%s\n", name);
+                fprintf(tempdat, "%s\n", waynr_two);
+                fprintf(tempdat, "%s\n", dist_two);
+                fprintf(tempdat, "%s", temp);
+            }
+            /* zu ändernder Eintrag ist eine Autobahnausfahrt */
+            else if(strstr(label, "AUSFAHRT"))
+            {
+                fgets(temp, 256, table);
+                fgets(temp, 256, table);
+                fgets(temp, 256, table);
+
+                /* Überprüfung auf Eingabe von Autobahnnummer "0" */
+                do
+                {
+                    do
+                    {
+                        /* Autobahnnummer Autobahn */
+                        printf("Bitte geben Sie die neue Nummer der Autobahn ein: ");
+                        scanf("%s", waynr_one);
+                        printf("\n");
+                        /* Aufruf der Abbruchbedingung */
+                        func_cancel(waynr_one);
+
+                    }while(func_number(waynr_one) == 1);
+
+                    if(strstr(waynr_one, "0"))
+                    {
+                        printf("Autobahnnummer 0 nicht zul%cssig!", ae);
+                        printf("\n\n");
+                    }
+
+                }while(strstr(waynr_one, "0"));
+
+
+                /* Autobahnkilometer der Autobahn */
+                do
+                {
+                    printf("Bitte geben Sie den neuen Kilometer der Autobahn ein: ");
+                    scanf("%s", dist_one);
+                    printf("\n");
+                    /* Aufruf der Abbruchbedingung */
+                    func_cancel(dist_one);
+
+                }while(func_number(dist_one) == 1);
+
+                /* Schreiben des geänderten Eintrags
+                    Kennung "AUSFAHRT"
+                    Name
+                    Autobahnnummer
+                    Kilometer
+                    <Leerzeile>
+                */
+                fprintf(tempdat, "%s", label);
+                fprintf(tempdat, "%s\n", name);
+                fprintf(tempdat, "%s\n", waynr_one);
+                fprintf(tempdat, "%s\n", dist_one);
+                fprintf(tempdat, "%s", temp);
+            }
+        }
+    }
+
+    /* Überprüfung ob ein Eintrag geändert wurde */
+    if(changed == 0)
+    {
+        printf("Eintrag nicht gefunden!");
+        printf("\n\n");
+    }
+    else
+    {
+        printf("Eintrag ge%cndert!", ae);
+        printf("\n\n");
+    }
+
+    fclose(table);
+    fclose(tempdat);
+
+    remove("autobahn.txt");
+    rename("change.txt", "autobahn.txt");
 }
