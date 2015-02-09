@@ -38,3 +38,23 @@ hallo
 3
 4
 
+AUSFAHRT
+heilbronn
+6
+123
+
+AUSFAHRT
+stuttgart
+81
+312
+
+AUSFAHRT
+nÅrnberg
+6
+567
+
+AUSFAHRT
+mannheim
+6
+10
+

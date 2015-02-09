@@ -14,8 +14,8 @@ void func_add_exit();
 void func_cancel();
 void func_delete();
 void func_change();
-void quicksort(int first, int last);
-void sort_list();
+//void quicksort(int first, int last);
+//void sort_list();
 int main();
 int func_list(FILE *table);
 int func_number(char verify[256]);
@@ -106,6 +106,7 @@ int main()
         break;
 
     case 76: case 108:
+
         sort_list();
         break;
 
