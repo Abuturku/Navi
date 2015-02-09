@@ -1,0 +1,20 @@
+v0_2
+func_add()		fixed "Loop of DOom"
+func_delete()		Listenausgabe mit großem Anfangsbuchstaben
+func_add_interchange()	Überprüfung der Gleichheit der Autobahnnummern überarbeitet
+func_change		Listenausgabe hinzugefügt
+
+v0_2_1
+func_list()		Listenausgabe
+func_delete()		neue Listenausgabe func_list()
+func_chagen()		neue Listenausgabe func_list()
+main()			überarbeitetes Hauptmenü mit switch-case basierend auf ASCII-Werten
+
+v0_2_2
+func_add_interchange()	Bugfix ständige Ausgabe eine Übereinstimmung wurde gefunden
+func_number()		Überprüfung ob Eingabe Autobahnnummer und Autobahnkilometer gültige Zahlenwerte sind
+func_add_interchange()	Überprüfung auf Eingabe der Autobahnnummer "0"
+func_add_interchagne()	Überprüfung auf Eingabe der Autobahnnummer "0"
+
+v0_2_3
+func_change()		Implementierung
