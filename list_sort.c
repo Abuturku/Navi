@@ -53,15 +53,13 @@ void sort_list()
     //char temp_list[200];
 
 
-    //für jedes Element dieses Arrays (char*) eine Zeichenkette allozieren
+    //für jedes Element dieses Arrays (char*) eine Zeichenkette allozieren.
     for (int i=0;i<500;i++)
     {
         fileInList[i] = (char*)malloc(200*sizeof(char));
-        //kreuzeUAusfahrten[i] = (char*)malloc(8*sizeof(char));
         cities[i] = (char*)malloc(50*sizeof(char));
         waynrs[i] = (char*)malloc(5*sizeof(char));
         dists[i] = (char*)malloc(5*sizeof(char));
-        //temp[i] = (char*)malloc(200*sizeof(char));
         waynrsWithoutDoubles[i] = (char*)malloc(5*sizeof(char));
     }
 
@@ -75,6 +73,10 @@ void sort_list()
         //printf("%s", fileInList[i]);
         linecount++;
     }
+
+    //Array waynrsWithoutDoubles mit Startwerten initialisieren
+    for(int i = 0; i < 100; i++)
+        itoa(15000, waynrsWithoutDoubles[i], 10);
 
     int skips = 0;  //Diese Variable dient lediglich dazu, nur die wirklich beschriebenen Array-Inhalte auszugeben.
 
@@ -122,19 +124,26 @@ void sort_list()
     sortWayNrs(waynrsWithoutDoubles, sizeof(waynrsWithoutDoubles)/sizeof(*waynrsWithoutDoubles));
 
     printf("\n");
+
+    //TODO:
+    //Die Ausgabe will noch nicht so ganz. Im Debug-Modus läufts einwandfrei...
     for(int i = 0; i < 100; i++)
     {
-        if(atoi(waynrsWithoutDoubles[i])<1000&&atoi(waynrsWithoutDoubles[i])>0)
-            printf("%s", waynrsWithoutDoubles[i]);
+        if(atoi(waynrsWithoutDoubles[i])>0 && atoi(waynrsWithoutDoubles[i])<1000)
+            printf("%d\n", atoi(waynrsWithoutDoubles[i]));
     }
 
+
+    printf("\n");
     scanf("%s", waynr);
     strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit in der Funktion quicksort() richtig verglichen werden kann
 
-
-    printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n");
-    scanf("\n%s", sortWith);
-    printf("\n");
+    do
+    {
+        printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n");
+        scanf("\n%s", sortWith);
+        printf("\n");
+    }while(atoi(sortWith) != 1 && atoi(sortWith) != 2);
 
 
     //Liste sortieren
