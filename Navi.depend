@@ -28,10 +28,11 @@
 	<stdio.h>
 	<stdlib.h>
 
-1423518056 c:\users\andy\documents\dhbw\programmieren\navi\list_sort.c
+1423690083 c:\users\andy\documents\dhbw\programmieren\navi\list_sort.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<memory.h>
 
 1423087081 source:c:\users\linda\desktop\programmieren\codeblocks\navi\navi\main.c
 	<stdio.h>

@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <memory.h>
 
 
 void quicksort(char *cities[], unsigned int len, char *waynrs[], char *dists[]);
+void sortWayNrs(char *waynrs[], unsigned int len);
 void swap(char **arg1, char **arg2);
 
 void sort_list()
@@ -32,7 +34,7 @@ void sort_list()
     char *dists[100];
     char temp[100];
     char waynr[256];
-    char sortWith;
+    char sortWith[256];
     char *waynrsWithoutDoubles[100];
 
 
@@ -98,40 +100,54 @@ void sort_list()
 
     }
 
-    //TODO
+
+
+    memcpy(waynrsWithoutDoubles, waynrs, sizeof(waynrs));
+
     //Autobahnnummern nur einzeln vorkommen lassen
-
-
-    printf("Fuer welche Autobahn moechten Sie die Ausfahrten anzeigen?\n");
-    scanf("%s", waynr);
-    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit in der Funktion sort_list() richtig verglichen werden kann.
-
-    printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\(2) Autobahnkilometer");
-    scanf("%c", &sortWith);
-
-    //Ausgabe unsortierte Liste, und nur die, die an der gewünschten Autobahn liegen (waynr)
-    for(int i=0;i<linecount/5-skips;i++)
+    for(int i = 0; i < 10; i++)
     {
-        if(strcmp(waynrs[i], waynr)==0)
+        for(int j = i+1; j < 10; j++)
         {
-            printf("%s", cities[i]);
+            if ((strcmp(waynrsWithoutDoubles[i], waynrsWithoutDoubles[j]) == 0))
+                {
+                    memmove(waynrsWithoutDoubles+i, waynrsWithoutDoubles+i+1, sizeof(waynrs));
+                    //strcpy(waynrsWithoutDoubles[i], waynrs[i]);
+                }
         }
-
     }
+
+    //Benutzer-Aufforderungen ausgeben und die Eingaben abspeichern
+    printf("F%cr welche Autobahn m%cchten Sie die Ausfahrten anzeigen?\n", ue, oe);
+
+    sortWayNrs(waynrsWithoutDoubles, sizeof(waynrsWithoutDoubles)/sizeof(*waynrsWithoutDoubles));
     printf("\n");
+    for(int i = 0; i < 100; i++)
+    {
+        if(atoi(waynrsWithoutDoubles[i])<1000&&atoi(waynrsWithoutDoubles[i])>0)
+            printf("%s", waynrsWithoutDoubles[i]);
+    }
+
+    scanf("%s", waynr);
+    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit in der Funktion quicksort() richtig verglichen werden kann
+
+
+    printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n");
+    scanf("\n%s", sortWith);
+    printf("\n");
+
 
     //Liste sortieren
     quicksort(cities, sizeof(cities)/sizeof(*cities), waynrs, dists);
 
 
     //Sortierte Liste ausgeben
-    for(int i=100-skips;i<100;i++)
+    for(int i=0;i<100;i++)
     {
         if(strcmp(waynrs[i], waynr)==0)
         {
-            printf("%s", cities[i]);
+            printf("%s\t%s", strtok(cities[i], "\n"), dists[i]);    //Damit die Autobahnkilometer in der selben Zeile wie die der Stadt stehen wird hier strtok() benutzt
         }
-
     }
     printf("\n");
 
@@ -177,4 +193,30 @@ void quicksort(char *cities[], unsigned int len, char *waynrs[], char *dists[])
     // und so auf den Teillisten weiter verfahren. (Ohne Pivot-Slot)
     quicksort(cities, pivot++, waynrs, dists);
     quicksort(cities+pivot, len - pivot, waynrs+pivot, dists+pivot);
+}
+
+void sortWayNrs(char *waynrs[], unsigned int len)
+{
+    unsigned int i, pivot=0;
+
+    if (len <= 1)
+        return;
+
+    unsigned int rnd = (unsigned int)rand();
+    swap(waynrs+(rnd % len), waynrs+len-1);
+
+
+    for (i=0;i<len-1;++i)
+    {
+        if (strcmp(waynrs[i], waynrs[len-1]) < 0)
+        {
+            swap(waynrs+i, waynrs+pivot);
+            pivot++;
+        }
+    }
+
+    swap(waynrs+pivot, waynrs+len-1);
+
+    sortWayNrs(waynrs, pivot++);
+    sortWayNrs(waynrs+pivot, len - pivot);
 }
