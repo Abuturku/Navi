@@ -101,7 +101,6 @@ void sort_list()
     }
 
 
-
     memcpy(waynrsWithoutDoubles, waynrs, sizeof(waynrs));
 
     //Autobahnnummern nur einzeln vorkommen lassen
@@ -112,7 +111,6 @@ void sort_list()
             if ((strcmp(waynrsWithoutDoubles[i], waynrsWithoutDoubles[j]) == 0))
                 {
                     memmove(waynrsWithoutDoubles+i, waynrsWithoutDoubles+i+1, sizeof(waynrs));
-                    //strcpy(waynrsWithoutDoubles[i], waynrs[i]);
                 }
         }
     }
@@ -120,7 +118,9 @@ void sort_list()
     //Benutzer-Aufforderungen ausgeben und die Eingaben abspeichern
     printf("F%cr welche Autobahn m%cchten Sie die Ausfahrten anzeigen?\n", ue, oe);
 
+    //Autobahnnummern (ohne Duplikate) sortieren
     sortWayNrs(waynrsWithoutDoubles, sizeof(waynrsWithoutDoubles)/sizeof(*waynrsWithoutDoubles));
+
     printf("\n");
     for(int i = 0; i < 100; i++)
     {
