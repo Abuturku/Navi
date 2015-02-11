@@ -66,11 +66,7 @@ void sort_list()
     //Inhalte aus autobahn.txt werden in das Array kopiert
     for(int i = 0; fgets(temp,200,table); i++)
     {
-
-        //if(i%5==0) k++;
         strcpy(fileInList[i],temp);
-        //printf("%s", list[i]);
-        //printf("%s", fileInList[i]);
         linecount++;
     }
 
@@ -102,7 +98,7 @@ void sort_list()
 
     }
 
-
+    //Inhalt von waynrs in waynrsWithoutDoubles kopieren
     memcpy(waynrsWithoutDoubles, waynrs, sizeof(waynrs));
 
     //Autobahnnummern nur einzeln vorkommen lassen
@@ -110,14 +106,15 @@ void sort_list()
     {
         for(int j = i+1; j < 10; j++)
         {
+            //Wurde eine Nummer nochmal gefunden...
             if ((strcmp(waynrsWithoutDoubles[i], waynrsWithoutDoubles[j]) == 0))
                 {
+                    //...wird diese Array gelöscht
                     memmove(waynrsWithoutDoubles+i, waynrsWithoutDoubles+i+1, sizeof(waynrs));
                 }
         }
     }
 
-    //Benutzer-Aufforderungen ausgeben und die Eingaben abspeichern
     printf("F%cr welche Autobahn m%cchten Sie die Ausfahrten anzeigen?\n", ue, oe);
 
     //Autobahnnummern (ohne Duplikate) sortieren
@@ -133,10 +130,9 @@ void sort_list()
             printf("%d\n", atoi(waynrsWithoutDoubles[i]));
     }
 
-
     printf("\n");
     scanf("%s", waynr);
-    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit in der Funktion quicksort() richtig verglichen werden kann
+    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann (Zeile 152)
 
     do
     {
