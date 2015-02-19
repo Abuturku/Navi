@@ -51,35 +51,6 @@ void func_add(int backup_empty);
 void func_cancel();
 void func_delete();
 void func_change();
-<<<<<<< HEAD
-//void quicksort(int first, int last);
-//void sort_list();
-int main();
-int func_list(FILE *table);
-int func_number(char verify[256]);
-
-
-/*
-*
-*   v0_2_4
-*   main()  Überprüfung ob autobahn.txt leer
-*   main()	Übernahme aus testautobahn.txt (Backup-Daten) wenn autobahn.txt leer
-*   main()	Aufruf spezieller func_add (nur func_add_exit und func_add_interchange) wenn Backup leer oder nicht gefunden
-*
-*/
-
-
-
-
-
-/* ------------------------------
-Hinzufügen neuer Einträge in Datei
----------------------------------
-Oliver Scholz
-DHBW Mosbach
-Kurs INF14B
------------------------------- */
-=======
 int func_list(FILE *table);
 int func_number(char verify[256]);
 
@@ -88,7 +59,6 @@ void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[
 void sort_list();
 void sortWayNrs(char *waynrs[], int left, int right);
 void swap(char **arg1, char **arg2);
->>>>>>> origin/master
 
 
 /* ---------------------------------------------------------------------------------------------------------------------------------------------------

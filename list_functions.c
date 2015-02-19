@@ -40,48 +40,13 @@ func_add()      Bugfix, Autobahnnummern konnten "0" nicht enthalten
 /* ----- main.c --------------- */
 int main();
 
-<<<<<<< HEAD
-
-/*
-*
-*   v0_2_4
-*   main()	Überprüfung ob autobahn.txt leer
-*   main()	Übernahme aus testautobahn.txt (Backup-Daten) wenn autobahn.txt leer
-*   main()  Aufruf spezieller func_add (nur func_add_exit und func_add_interchange) wenn Backup leer oder nicht gefunden
-*
-*/
-
-
-
-
-
-/* ------------------------------
-Hinzufügen neuer Einträge in Datei
----------------------------------
-Oliver Scholz
-DHBW Mosbach
-Kurs INF14B
------------------------------- */
-
-
-
-
-/* Funktionsdeklarationen, sonst später Problem */
-=======
 /* ----- list_functions.c ----- */
->>>>>>> origin/master
 void func_add_interchange();
 void func_add_exit();
 void func_add(int backup_empty);
 void func_cancel();
 void func_delete();
 void func_change();
-<<<<<<< HEAD
-void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith);
-void sort_list();
-int main();
-=======
->>>>>>> origin/master
 int func_list(FILE *table);
 int func_number(char verify[256]);
 
@@ -254,21 +219,12 @@ void func_add(int backup_empty)
             printf("Ihre Auswahl: ");
             scanf("%s", &entry);
             printf("\n\n");
-<<<<<<< HEAD
 
             if(entry < 49 || entry > 51)
             {
                 printf("Falsche Eingabe!\n\n");
             }
 
-=======
-
-            if(entry < 49 || entry > 51)
-            {
-                printf("Falsche Eingabe!\n\n");
-            }
-
->>>>>>> origin/master
         }while(entry < 49 || entry > 51);
 
 
@@ -631,11 +587,7 @@ void func_add_exit()
             printf("Autobahnnummer 0 nicht zul%cssig!", ae);
             printf("\n\n");
         }
-<<<<<<< HEAD
-    }while(strstr(waynr, "0"));
-=======
     }while(atoi(waynr) == 0);
->>>>>>> origin/master
 
     /* Autobahnkilometer */
     do

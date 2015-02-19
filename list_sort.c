@@ -24,13 +24,6 @@ func_add()      Bugfix, Autobahnnummern konnten "0" nicht enthalten
 #include <ctype.h>
 #include <string.h>
 #include <memory.h>
-<<<<<<< HEAD
-
-void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith);
-void sortWayNrs(char *waynrs[], int left, int right);
-void swap(char **arg1, char **arg2);
-=======
-
 
 #define AE (unsigned char)142
 #define ae (unsigned char)132
@@ -69,7 +62,6 @@ void swap(char **arg1, char **arg2);
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
->>>>>>> origin/master
 
 void sort_list()
 {
@@ -207,8 +199,6 @@ void sort_list()
         if(isWaynrValid==0) printf("\nBitte geben Sie eine g%cltige Autobahnnummer ein\n", ue);
 
     }while(isWaynrValid==0);
-<<<<<<< HEAD
-=======
 
     printf("\n");
     strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann (Zeile 157)
@@ -220,12 +210,10 @@ void sort_list()
         func_cancel(sortWith);
         printf("\n");
     }while(atoi(sortWith) != 1 && atoi(sortWith) != 2);
->>>>>>> origin/master
 
     printf("\n");
     strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann (Zeile 157)
 
-<<<<<<< HEAD
     do
     {
         printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n\n");
@@ -238,13 +226,6 @@ void sort_list()
     //Liste sortieren
     quicksort(cities, 0, entriesCount+skips, waynrs, dists, atoi(sortWith));
 
-
-=======
-    //Liste sortieren
-    quicksort(cities, 0, entriesCount+skips, waynrs, dists, atoi(sortWith));
-
-
->>>>>>> origin/master
     //Sortierte Liste ausgeben
     for(int i=0;i<entriesCount+skips+1;i++)
     {
@@ -270,7 +251,6 @@ void sort_list()
     printf("\n\n");
 
     main();
-<<<<<<< HEAD
 }
 
 void swap(char **arg1, char **arg2)
@@ -280,17 +260,6 @@ void swap(char **arg1, char **arg2)
     *arg2 = tmp;
 }
 
-=======
-}
-
-void swap(char **arg1, char **arg2)
-{
-    char *tmp = *arg1;
-    *arg1 = *arg2;
-    *arg2 = tmp;
-}
-
->>>>>>> origin/master
 void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith)
 {
     int i=left, j = right, pivot=right;
