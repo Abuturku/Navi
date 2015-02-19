@@ -1,10 +1,31 @@
+/* -------------------------------------------------------------------------------------------------
+Elsemann, Andreas       and.elsemann.14@dhbw-mosbach.de         Kurs INF14B Wintersemester 2014/2015
+Latreider, Linda        lin.latreider.14@dhbw-mosbach.de        Kurs INF14B Wintersemester 2014/2015
+Schick, Andreas         and.schick@dhbw-mosbach.de              Kurs INF14B Wintersemester 2014/2015
+Scholz, Oliver          oli.scholz.14@dhbw-mosbach.de           Kurs INF14B Wintersemester 2014/2015
+
+DHBW Mosbach
+Lohrtalweg 10
+74821 Mosbach
+www.dhbw-mosbach.de
+------------------------------------------------------------------------------------------------- */
+
+
+/* -------------------------------------------------------------------------------------------------
+v0_3
+list_sort.c     vollständige Implementierung
+func_add()      Bugfix, Autobahnnummern konnten "0" nicht enthalten
+------------------------------------------------------------------------------------------------- */
+
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <windows.h>
 #include <ctype.h>
+#include <string.h>
+#include <memory.h>
 
-/* Definitionen zur Ausgabe von Umlauten */
+
 #define AE (unsigned char)142
 #define ae (unsigned char)132
 #define OE (unsigned char)153
@@ -14,48 +35,33 @@
 #define ss (unsigned char)225
 
 
+/* Funktionsdeklarationen */
 
+/* ----- main.c --------------- */
+int main();
 
-
-/*
-*
-*   v0_2_4
-*   main()	Überprüfung ob autobahn.txt leer
-*   main()	Übernahme aus testautobahn.txt (Backup-Daten) wenn autobahn.txt leer
-*   main()  Aufruf spezieller func_add (nur func_add_exit und func_add_interchange) wenn Backup leer oder nicht gefunden
-*
-*/
-
-
-
-
-
-/* ------------------------------
-Hinzufügen neuer Einträge in Datei
----------------------------------
-Oliver Scholz
-DHBW Mosbach
-Kurs INF14B
------------------------------- */
-
-
-
-
-/* Funktionsdeklarationen, sonst später Problem */
+/* ----- list_functions.c ----- */
 void func_add_interchange();
 void func_add_exit();
 void func_add(int backup_empty);
 void func_cancel();
 void func_delete();
 void func_change();
-void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith);
-void sort_list();
-int main();
 int func_list(FILE *table);
 int func_number(char verify[256]);
 
+/* ----- list_sort.c ---------- */
+void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith);
+void sort_list();
+void sortWayNrs(char *waynrs[], int left, int right);
+void swap(char **arg1, char **arg2);
 
 
+/* ---------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 
 /* ----------------------------------------
@@ -339,6 +345,7 @@ void func_add_interchange()         //TODO: Exit-Option
             interchange_name[256],
             compare[256];
 
+
     /* Hinweis auf Möglichkeit zum Abbruch */
     printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n\n", ue, ue, oe);
 
@@ -396,13 +403,15 @@ void func_add_interchange()         //TODO: Exit-Option
 
         }while(func_number(interchange_nr_one) == 1);
 
-        if(strstr(interchange_nr_one, "0"))
+
+
+        if(atoi(interchange_nr_one) == 0)
         {
             printf("Autobahnnummer 0 nicht zul%cssig!", ae);
             printf("\n\n");
         }
 
-    }while(strstr(interchange_nr_one, "0"));
+    }while(atoi(interchange_nr_one) == 0);
 
     /* Kilometer des Kreuzes auf erster Autobahn */
     do
@@ -431,13 +440,13 @@ void func_add_interchange()         //TODO: Exit-Option
 
             }while(func_number(interchange_nr_two) == 1);
 
-            if(strstr(interchange_nr_two, "0"))
+            if(atoi(interchange_nr_two) == 0)
             {
                 printf("Autobahnnummer 0 nicht zul%cssig!", ae);
                 printf("\n\n");
             }
 
-        }while(strstr(interchange_nr_two, "0"));
+        }while(atoi(interchange_nr_two) == 0);
 
         if(strcmp(interchange_nr_one, interchange_nr_two) == 0)
         {
@@ -573,12 +582,12 @@ void func_add_exit()
 
         }while(func_number(waynr) == 1);
 
-        if(strstr(waynr, "0"))
+        if(atoi(waynr) == 0)
         {
             printf("Autobahnnummer 0 nicht zul%cssig!", ae);
             printf("\n\n");
         }
-    }while(strstr(waynr, "0"));
+    }while(atoi(waynr) == 0);
 
     /* Autobahnkilometer */
     do
@@ -950,13 +959,13 @@ void func_change()
 
                     }while(func_number(waynr_one) == 1);
 
-                    if(strstr(waynr_one, "0"))
+                    if(atoi(waynr_one) == 0)
                     {
                         printf("Autobahnnummer 0 nicht zul%cssig!", ae);
                         printf("\n\n");
                     }
 
-                }while(strstr(waynr_one, "0"));
+                }while(atoi(waynr_one) == 0);
 
                 /* Kilometer des Kreuzes auf erster Autobahn */
                 do
@@ -986,13 +995,13 @@ void func_change()
 
                         }while(func_number(waynr_two) == 1);
 
-                        if(strstr(waynr_two, "0"))
+                        if(atoi(waynr_two) == 0)
                         {
                             printf("Autobahnnummer 0 nicht zul%cssig!", ae);
                             printf("\n\n");
                         }
 
-                    }while(strstr(waynr_two, "0"));
+                    }while(atoi(waynr_two) == 0);
 
                     if(strcmp(waynr_one, waynr_two) == 0)
                     {
@@ -1057,13 +1066,13 @@ void func_change()
 
                     }while(func_number(waynr_one) == 1);
 
-                    if(strstr(waynr_one, "0"))
+                    if(atoi(waynr_one) == 0)
                     {
                         printf("Autobahnnummer 0 nicht zul%cssig!", ae);
                         printf("\n\n");
                     }
 
-                }while(strstr(waynr_one, "0"));
+                }while(atoi(waynr_one) == 0);
 
 
                 /* Autobahnkilometer der Autobahn */

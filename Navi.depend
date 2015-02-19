@@ -57,23 +57,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-<<<<<<< HEAD
-1423125173 source:c:\users\olli\documents\github\navi\main.c
-=======
-1423092076 source:c:\users\oliver\documents\github\navi\main.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	"list_functions.c"
-	"list_sort.c"
-
-1423092147 c:\users\oliver\documents\github\navi\list_functions.c
-	<stdio.h>
-	<stdlib.h>
-
-1423090245 c:\users\oliver\documents\github\navi\list_sort.c
-	<stdio.h>
-	<stdlib.h>
+1423144250 D
 
 1423095425 source:c:\users\olli\documents\github\navi\main.c
 	<stdio.h>
@@ -82,11 +66,41 @@
 	"list_functions.c"
 	"list_sort.c"
 
-1423099646 c:\users\olli\documents\github\navi\list_functions.c
+1424384128 source:c:\users\oliver\documents\github\navi\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	<memory.h>
+	"list_functions.c"
+	"list_sort.c"
+
+1424384128 c:\users\oliver\documents\github\navi\list_functions.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	<memory.h>
+
+1424384128 c:\users\oliver\documents\github\navi\list_sort.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	<memory.h>
+
+1423125019 c:\users\olli\documents\github\navi\list_functions.c
+	<stdio.h>
+	<stdlib.h>
 	<stdio.h>
 	<stdlib.h>
 
-1423092588 c:\users\olli\documents\github\navi\list_sort.c
+1423125394 c:\users\olli\documents\github\navi\list_sort.c
+	<stdio.h>
+	<stdlib.h>
 	<stdio.h>
 	<stdlib.h>
 
@@ -110,24 +124,21 @@
 	<stdlib.h>
 
 1423129862 source:c:\users\olli\documents\codeblocks projects\pruefungsleistung\v0_1_4\main.c
->>>>>>> origin/Olli
+
+1423145441 gin/Olli
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"list_functions.c"
+	"list_sort.c"
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	"list_functions.c"
 	"list_sort.c"
 
-<<<<<<< HEAD
-1423125019 c:\users\olli\documents\github\navi\list_functions.c
-	<stdio.h>
-	<stdlib.h>
-
-1423125394 c:\users\olli\documents\github\navi\list_sort.c
-	<stdio.h>
-	<stdlib.h>
-
 1423141260 source:c:\users\aschick\documents\codeblocks\navi\main.c
-=======
+
 1423143936 c:\users\olli\documents\codeblocks projects\pruefungsleistung\v0_1_4\list_functions.c
 	<stdio.h>
 	<stdlib.h>
@@ -137,14 +148,7 @@
 	<stdlib.h>
 
 1423144250 source:c:\users\olli\documents\codeblocks projects\pruefungsleistung\v0_2\main.c
->>>>>>> origin/Olli
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	"list_functions.c"
-	"list_sort.c"
 
-<<<<<<< HEAD
 1423141260 c:\users\aschick\documents\codeblocks\navi\list_functions.c
 	<stdio.h>
 	<stdlib.h>
@@ -153,7 +157,9 @@
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
-=======
+
+1423141445 
+
 1423146015 c:\users\olli\documents\codeblocks projects\pruefungsleistung\v0_2\list_functions.c
 	<stdio.h>
 	<stdlib.h>
@@ -161,5 +167,30 @@
 1423145441 c:\users\olli\documents\codeblocks projects\pruefungsleistung\v0_2\list_sort.c
 	<stdio.h>
 	<stdlib.h>
->>>>>>> origin/Olli
+
+1424383178 source:c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v3_0\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	<memory.h>
+	"list_functions.c"
+	"list_sort.c"
+
+1424383908 c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v3_0\list_functions.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	<memory.h>
+
+1424383322 c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v3_0\list_sort.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	<memory.h>
 
