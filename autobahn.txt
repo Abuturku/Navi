@@ -90,7 +90,7 @@ schefflenz
 
 AUSFAHRT
 asbach
-6
+655
 2660
 
 AUSFAHRT
@@ -232,24 +232,4 @@ KREUZ
 stuttgart
 6
 447
-
-AUSFAHRT
-heilbronn
-6
-123
-
-AUSFAHRT
-stuttgart
-81
-312
-
-AUSFAHRT
-nÅrnberg
-6
-567
-
-AUSFAHRT
-mannheim
-6
-10
 

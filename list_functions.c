@@ -48,7 +48,7 @@ void func_add(int backup_empty);
 void func_cancel();
 void func_delete();
 void func_change();
-void quicksort(char *cities[], unsigned int len, char *waynrs[], char *dists[]);
+void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith);
 void sort_list();
 int main();
 int func_list(FILE *table);

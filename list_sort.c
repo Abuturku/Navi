@@ -3,8 +3,8 @@
 #include <string.h>
 #include <memory.h>
 
-void quicksort(char *cities[], unsigned int len, char *waynrs[], char *dists[]);
-void sortWayNrs(char *waynrs[], unsigned int len);
+void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith);
+void sortWayNrs(char *waynrs[], int left, int right);
 void swap(char **arg1, char **arg2);
 
 void sort_list()
@@ -49,8 +49,6 @@ void sort_list()
 
     //linecount = Zeilenanzahl der Datei
     int linecount=0;
-    //char temp_list[200];
-
 
     //für jedes Element dieses Arrays (char*) eine Zeichenkette allokieren.
     for (int i=0;i<500;i++)
@@ -69,7 +67,7 @@ void sort_list()
         linecount++;
     }
 
-    int skips = 0;  //Diese Variable dient lediglich dazu, nur die wirklich beschriebenen Array-Inhalte auszugeben.
+    int entriesCount = 0, skips = 0;  //Diese Variablen dienen lediglich dazu, nur die wirklich beschriebenen Array-Inhalte auszugeben.
 
     //Überträgt die Daten aus fileInList in einzelne Arrays (Stadt, Autobahnnummer und Autobahnkilometer werden in je einem Array aus Strings gespeichert)
     for (int i = 0,k = 0; i < linecount; k++)
@@ -79,7 +77,6 @@ void sort_list()
         {
             i=i+10;             //Ein Eintrag hat 5 Zeilen, also wird i um 10 erhöht, da ein Kreuz 2 Einträge beansprucht
             k--;                //k verringern, damit in den Arrays (im else-Block) alles an richtiger Stelle steht
-            skips+=2;
             continue;
         }
         //sonst Inhalte in die entsprechenden Arrays kopieren
@@ -89,68 +86,105 @@ void sort_list()
             strcpy(waynrs[k], fileInList[i+2]);
             strcpy(dists[k], fileInList[i+3]);
             i=i+5;
+            entriesCount++;
         }
-
     }
 
     //Inhalt von waynrs in waynrsWithoutDoubles kopieren
-    memcpy(waynrsWithoutDoubles, waynrs, sizeof(waynrs));
+    for(int i = 0; i < entriesCount; i++)
+        strcpy(waynrsWithoutDoubles[i], waynrs[i]);
 
+
+    entriesCount--;
     //Autobahnnummern nur einzeln vorkommen lassen
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < entriesCount+1; i++)
     {
-        for(int j = i+1; j < 10; j++)
+        for(int j = i+1; j < entriesCount+1;)
         {
             //Wurde eine Nummer nochmal gefunden...
             if ((strcmp(waynrsWithoutDoubles[i], waynrsWithoutDoubles[j]) == 0))
                 {
-                    //...wird diese Array gelöscht
-                    memmove(waynrsWithoutDoubles+i, waynrsWithoutDoubles+i+1, sizeof(waynrs));
+                    //...wird diese aus dem Array gelöscht
+                    for(int k = j; k < entriesCount+1; k++)
+                    {
+                        strcpy(waynrsWithoutDoubles[k], waynrsWithoutDoubles[k+1]);
+                    }
+                    //memmove(waynrsWithoutDoubles+j, waynrsWithoutDoubles+j+1, sizeof(waynrsWithoutDoubles));
+                    skips++;
+                    entriesCount--;
                 }
+            else j++;
         }
     }
-
-    printf("F%cr welche Autobahn m%cchten Sie die Ausfahrten anzeigen?\n", ue, oe);
+    printf("R%cckehr zum Hauptmen%c jederzeit mit der Eingabe von 'cancel' m%cglich!\n\n", ue, ue, oe);
+    printf("F%cr welche Autobahn m%cchten Sie die Ausfahrten anzeigen?\nGeben Sie 0 ein, um alle Autobahnen auszuw%chlen\n\n", ue, oe, ae);
 
     //Autobahnnummern (ohne Duplikate) sortieren
-    sortWayNrs(waynrsWithoutDoubles, sizeof(waynrsWithoutDoubles)/sizeof(*waynrsWithoutDoubles));
-
-    printf("\n");
+    sortWayNrs(waynrsWithoutDoubles, 0, entriesCount);
 
     //TODO:
     //Die Ausgabe will noch nicht so ganz. Im Debug-Modus läufts einwandfrei...
-    for(int i = 0; i < 100; i++)
+    for(int i = 0; i <= entriesCount; i++)
     {
-        if(atoi(waynrsWithoutDoubles[i])>0 && atoi(waynrsWithoutDoubles[i])<1000)
-            printf("%d\n", atoi(waynrsWithoutDoubles[i]));
+            printf("%s", waynrsWithoutDoubles[i]);
     }
 
     printf("\n");
-    scanf("%s", waynr);
-    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann (Zeile 152)
+    int isWaynrValid = 0;
+    do
+    {
+        scanf("%s", waynr);
+        func_cancel(waynr);
+        for(int i = 0; i <= entriesCount; i++)
+        {
+            if(atoi(waynr)==atoi(waynrsWithoutDoubles[i]) || atoi(waynr)==0) isWaynrValid=1;
+        }
+
+        if(isWaynrValid==0) printf("\nBitte geben Sie eine g%cltige Autobahnnummer ein\n", ue);
+
+    }while(isWaynrValid==0);
+
+    printf("\n");
+    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann (Zeile 157)
 
     do
     {
-        printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n");
-        scanf("\n%s", sortWith);
+        printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n\n");
+        scanf("%s", sortWith);
+        func_cancel(sortWith);
         printf("\n");
     }while(atoi(sortWith) != 1 && atoi(sortWith) != 2);
 
 
     //Liste sortieren
-    quicksort(cities, sizeof(cities)/sizeof(*cities), waynrs, dists);
+    quicksort(cities, 0, entriesCount+skips, waynrs, dists, atoi(sortWith));
 
 
     //Sortierte Liste ausgeben
-    for(int i=0;i<100;i++)
+    for(int i=0;i<entriesCount+skips+1;i++)
     {
-        if(strcmp(waynrs[i], waynr)==0)
+        if(atoi(waynr)==0)
         {
-            printf("%s\t%s", strtok(cities[i], "\n"), dists[i]);    //Damit die Autobahnkilometer in der selben Zeile wie die der Stadt stehen wird hier strtok() benutzt
+            cities[i][0]=toupper(cities[i][0]);         //Den ersten Buchstaben der Stadt zu einem Großbuchstaben machen
+            printf("%s", strtok(cities[i], "\n"));      //Damit die Autobahnkilometer in der selben Zeile wie die der Stadt stehen wird hier strtok() benutzt
+            if(strlen(cities[i]) >= 16) printf("\t");
+            else if(strlen(cities[i])>=8) printf("\t\t");
+            else printf("\t\t\t");
+            printf("%s", dists[i]);
+        }
+        else if(strcmp(waynrs[i], waynr)==0)
+        {
+            cities[i][0]=toupper(cities[i][0]);
+            printf("%s", strtok(cities[i], "\n"));
+            if(strlen(cities[i]) >= 16) printf("\t");
+            else if(strlen(cities[i])>=8) printf("\t\t");
+            else printf("\t\t\t");
+            printf("%s", dists[i]);
         }
     }
-    printf("\n");
+    printf("\n\n");
 
+    main();
 }
 
 void swap(char **arg1, char **arg2)
@@ -160,63 +194,67 @@ void swap(char **arg1, char **arg2)
     *arg2 = tmp;
 }
 
-void quicksort(char *cities[], unsigned int len, char *waynrs[], char *dists[])
+void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith)
 {
-    unsigned int i, pivot=0;
+    int i=left, j = right, pivot=right;
 
-    if (len <= 1)
-        return;
 
-    //Einen zufälligen Wert mit dem letzten Element tauschen. % len, damit der Index nicht die Grenzen übersteigt.
-    unsigned int rnd = (unsigned int)rand();
-    swap(cities+(rnd % len), cities+len-1);
-    swap(waynrs+(rnd % len), waynrs+len-1);
-    swap(dists+(rnd % len), dists+len-1);
-
-    // den Pivot-Index auf 0 setzen und die Liste durchlaufen
-    for (i=0;i<len-1;++i)
+    //Sortieren nach Ausfahrtnahmen
+    if (sortWith == 1)
     {
-        if (strcmp(cities[i], cities[len-1]) < 0)
+        do
         {
-            swap(cities+i, cities+pivot);
-            swap(waynrs+i, waynrs+pivot);
-            swap(dists+i, dists+pivot);
-            pivot++;
-        }
+            while(strcmp(cities[i], cities[pivot])<0) i++;
+            while(strcmp(cities[j], cities[pivot])>0) j--;
+            if(i<=j)
+            {
+                swap(cities+i, cities+j);
+                swap(waynrs+i, waynrs+j);
+                swap(dists+i, dists+j);
+                i++;
+                j--;
+            }
+        }while (i<=j);
+
+        if(left<j) quicksort(cities, left, j, waynrs, dists, sortWith);
+        if(i<right) quicksort(cities, i, right, waynrs, dists, sortWith);
     }
+    else if (sortWith == 2)
+    {
+        do
+        {
+            while(atoi(dists[i])<atoi(dists[pivot])) i++;
+            while(atoi(dists[j])>atoi(dists[pivot])) j--;
+            if(i<=j)
+            {
+                swap(cities+i, cities+j);
+                swap(waynrs+i, waynrs+j);
+                swap(dists+i, dists+j);
+                i++;
+                j--;
+            }
+        }while (i<=j);
 
-    // den Pivot-Wert auf seinen Platz tauschen
-    swap(cities+pivot, cities+len-1);
-    swap(waynrs+pivot, waynrs+len-1);
-    swap(dists+pivot, dists+len-1);
-
-    // und so auf den Teillisten weiter verfahren. (Ohne Pivot-Slot)
-    quicksort(cities, pivot++, waynrs, dists);
-    quicksort(cities+pivot, len - pivot, waynrs+pivot, dists+pivot);
+        if(left<j) quicksort(cities, left, j, waynrs, dists, sortWith);
+        if(i<right) quicksort(cities, i, right, waynrs, dists, sortWith);
+    }
 }
 
-void sortWayNrs(char *waynrs[], unsigned int len)
+void sortWayNrs(char *waynrs[], int left, int right)
 {
-    unsigned int i, pivot=0;
-
-    if (len <= 1)
-        return;
-
-    unsigned int rnd = (unsigned int)rand();
-    swap(waynrs+(rnd % len), waynrs+len-1);
-
-
-    for (i=0;i<len-1;++i)
+    int i=left, j = right, pivot=(left+right)/2;
+    do
     {
-        if (strcmp(waynrs[i], waynrs[len-1]) < 0)
+        while(atoi(waynrs[i])<atoi(waynrs[pivot])) i++;
+        while(atoi(waynrs[j])>atoi(waynrs[pivot])) j--;
+        if(i<=j)
         {
-            swap(waynrs+i, waynrs+pivot);
-            pivot++;
+            swap(waynrs+i, waynrs+j);
+            i++;
+            j--;
         }
-    }
+    }while (i<=j);
 
-    swap(waynrs+pivot, waynrs+len-1);
-
-    sortWayNrs(waynrs, pivot++);
-    sortWayNrs(waynrs+pivot, len - pivot);
+    if(left<j) sortWayNrs(waynrs, left, j);
+    if(i<right) sortWayNrs(waynrs, i, right);
 }
