@@ -11,20 +11,12 @@
 /* Funktionsdeklarationen, sonst später Problem */
 void func_add_interchange();
 void func_add_exit();
-<<<<<<< HEAD
-void func_cancel();
-void func_delete();
-void func_change();
-//void quicksort(int first, int last);
-//void sort_list();
-=======
 void func_add(int backup_empty);
 void func_cancel();
 void func_delete();
 void func_change();
 void quicksort(int first, int last);
 void sort_list();
->>>>>>> origin/Olli
 int main();
 int func_list(FILE *table);
 int func_number(char verify[256]);
@@ -32,15 +24,10 @@ int func_number(char verify[256]);
 
 /*
 *
-<<<<<<< HEAD
-*   v0_2_3
-*   func_change()   Implementiert
-=======
 *   v0_2_4
 *   main()  Überprüfung ob autobahn.txt leer
 *   main()	Übernahme aus testautobahn.txt (Backup-Daten) wenn autobahn.txt leer
 *   main()	Aufruf spezieller func_add (nur func_add_exit und func_add_interchange) wenn Backup leer oder nicht gefunden
->>>>>>> origin/Olli
 *
 */
 
@@ -61,10 +48,7 @@ Kurs INF14B
 
 int main()
 {
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/Olli
     /* Konsolenname festlegen */
     SetConsoleTitle("Autobahnnavigator 2015");
 
@@ -72,10 +56,6 @@ int main()
     int     backup_empty    1: Backup wurde nicht gefunden 0: Backup wurde gefunden
     int     user_ascii      ASCII-Wert des char userentry
     */
-<<<<<<< HEAD
-    char userentry;
-    int user_ascii;
-=======
     int     backup_empty,
             user_ascii;
 
@@ -83,7 +63,6 @@ int main()
     char    userentry   Benutzereingabe
     */
     char userentry;
->>>>>>> origin/Olli
 
     /* Begrüßungstext */
     printf("Willkommen bei Ihrem Autobahnnavigator!\n");
@@ -180,18 +159,10 @@ int main()
         break;
 
     case 65: case 97:
-<<<<<<< HEAD
-        func_add();
-        break;
-
-    case 76: case 108:
-
-=======
         func_add(backup_empty);
         break;
 
     case 76: case 108:
->>>>>>> origin/Olli
         sort_list();
         break;
 
