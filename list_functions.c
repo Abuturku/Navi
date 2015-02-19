@@ -50,8 +50,6 @@ void func_delete();
 void func_change();
 //void quicksort(int first, int last);
 //void sort_list();
-void quicksort(int first, int last);
-void sort_list();
 int main();
 int func_list(FILE *table);
 int func_number(char verify[256]);
