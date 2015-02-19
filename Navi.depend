@@ -133,7 +133,7 @@
 	"list_functions.c"
 	"list_sort.c"
 
-1424348423 source:c:\users\aschick\documents\codeblocks\navi\main.c
+1424355940 source:c:\users\aschick\documents\codeblocks\navi\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -152,14 +152,14 @@
 
 1423144250 source:c:\users\olli\documents\codeblocks projects\pruefungsleistung\v0_2\main.c
 
-1424348423 c:\users\aschick\documents\codeblocks\navi\list_functions.c
+1424358089 c:\users\aschick\documents\codeblocks\navi\list_functions.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<windows.h>
 	<ctype.h>
 
-1424354672 c:\users\aschick\documents\codeblocks\navi\list_sort.c
+1424356608 c:\users\aschick\documents\codeblocks\navi\list_sort.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
