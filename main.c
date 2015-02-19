@@ -1,49 +1,71 @@
+/* -------------------------------------------------------------------------------------------------
+Elsemann, Andreas       and.elsemann.14@dhbw-mosbach.de         Kurs INF14B Wintersemester 2014/2015
+Latreider, Linda        lin.latreider.14@dhbw-mosbach.de        Kurs INF14B Wintersemester 2014/2015
+Schick, Andreas         and.schick@dhbw-mosbach.de              Kurs INF14B Wintersemester 2014/2015
+Scholz, Oliver          oli.scholz.14@dhbw-mosbach.de           Kurs INF14B Wintersemester 2014/2015
+
+DHBW Mosbach
+Lohrtalweg 10
+74821 Mosbach
+www.dhbw-mosbach.de
+------------------------------------------------------------------------------------------------- */
+
+
+/* -------------------------------------------------------------------------------------------------
+v0_3
+list_sort.c     vollständige Implementierung
+func_add()		Bugfix, Autobahnnummern konnten keine "0" enthalten
+------------------------------------------------------------------------------------------------- */
+
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <windows.h>
 #include <ctype.h>
+#include <string.h>
+#include <memory.h>
 
 #include "list_functions.c"
 #include "list_sort.c"
 
 
-/* Funktionsdeklarationen, sonst später Problem */
+/* Darstellung von Umlauten */
+#define AE (unsigned char)142
+#define ae (unsigned char)132
+#define OE (unsigned char)153
+#define oe (unsigned char)148
+#define UE (unsigned char)154
+#define ue (unsigned char)129
+#define ss (unsigned char)225
+
+
+/* Funktionsdeklarationen */
+
+/* ----- main.c --------------- */
+int main();
+
+/* ----- list_functions.c ----- */
 void func_add_interchange();
 void func_add_exit();
 void func_add(int backup_empty);
 void func_cancel();
 void func_delete();
 void func_change();
-void quicksort(int first, int last);
-void sort_list();
-int main();
 int func_list(FILE *table);
 int func_number(char verify[256]);
 
-
-/*
-*
-*   v0_2_4
-*   main()  Überprüfung ob autobahn.txt leer
-*   main()	Übernahme aus testautobahn.txt (Backup-Daten) wenn autobahn.txt leer
-*   main()	Aufruf spezieller func_add (nur func_add_exit und func_add_interchange) wenn Backup leer oder nicht gefunden
-*
-*/
+/* ----- list_sort.c ---------- */
+void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith);
+void sort_list();
+void sortWayNrs(char *waynrs[], int left, int right);
+void swap(char **arg1, char **arg2);
 
 
-
-
-
-/* ------------------------------
-Hinzufügen neuer Einträge in Datei
----------------------------------
-Oliver Scholz
-DHBW Mosbach
-Kurs INF14B
------------------------------- */
-
-
+/* ---------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 
 int main()
@@ -120,7 +142,7 @@ int main()
         printf("Dies sind Ihre Eingabeoptionen:\n\n");
         printf("R = Routenberechnung\n");
         printf("A = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\n");
-        printf("L = sortlist\n");
+        printf("L = Ausgabe aller Eintr%cge\n", ae);
         printf("Q = Beenden\n\n");
 
         /* Eingabe der Auswahl */

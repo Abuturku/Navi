@@ -1,12 +1,10 @@
 # depslib dependency file v1.0
-1423095425 source:c:\users\olli\desktop\navi\main.c
+1423063002 source:c:\users\olli\desktop\navi\main.c
 	<stdio.h>
 	<stdlib.h>
-	<stdbool.h>
 	"list_functions.c"
-	"list_sort.c"
 
-1423100850 c:\users\olli\desktop\navi\list_functions.c
+1423062989 c:\users\olli\desktop\navi\list_functions.c
 	<stdio.h>
 	<stdlib.h>
 
@@ -59,20 +57,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1423092076 source:c:\users\oliver\documents\github\navi\main.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	"list_functions.c"
-	"list_sort.c"
-
-1423092147 c:\users\oliver\documents\github\navi\list_functions.c
-	<stdio.h>
-	<stdlib.h>
-
-1423090245 c:\users\oliver\documents\github\navi\list_sort.c
-	<stdio.h>
-	<stdlib.h>
+1423144250 D
 
 1423095425 source:c:\users\olli\documents\github\navi\main.c
 	<stdio.h>
@@ -81,11 +66,41 @@
 	"list_functions.c"
 	"list_sort.c"
 
-1423099646 c:\users\olli\documents\github\navi\list_functions.c
+1424384381 source:c:\users\oliver\documents\github\navi\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	<memory.h>
+	"list_functions.c"
+	"list_sort.c"
+
+1424384381 c:\users\oliver\documents\github\navi\list_functions.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	<memory.h>
+
+1424384381 c:\users\oliver\documents\github\navi\list_sort.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	<memory.h>
+
+1423125019 c:\users\olli\documents\github\navi\list_functions.c
+	<stdio.h>
+	<stdlib.h>
 	<stdio.h>
 	<stdlib.h>
 
-1423092588 c:\users\olli\documents\github\navi\list_sort.c
+1423125394 c:\users\olli\documents\github\navi\list_sort.c
+	<stdio.h>
+	<stdlib.h>
 	<stdio.h>
 	<stdlib.h>
 
@@ -109,11 +124,20 @@
 	<stdlib.h>
 
 1423129862 source:c:\users\olli\documents\codeblocks projects\pruefungsleistung\v0_1_4\main.c
+
+1423145441 gin/Olli
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	"list_functions.c"
 	"list_sort.c"
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"list_functions.c"
+	"list_sort.c"
+
+1423141260 source:c:\users\aschick\documents\codeblocks\navi\main.c
 
 1423143936 c:\users\olli\documents\codeblocks projects\pruefungsleistung\v0_1_4\list_functions.c
 	<stdio.h>
@@ -124,13 +148,19 @@
 	<stdlib.h>
 
 1423144250 source:c:\users\olli\documents\codeblocks projects\pruefungsleistung\v0_2\main.c
+
+1423141260 c:\users\aschick\documents\codeblocks\navi\list_functions.c
 	<stdio.h>
 	<stdlib.h>
-	<stdbool.h>
-	"list_functions.c"
-	"list_sort.c"
 
-1423146943 c:\users\olli\documents\codeblocks projects\pruefungsleistung\v0_2\list_functions.c
+1423141445 c:\users\aschick\documents\codeblocks\navi\list_sort.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1423141445 
+
+1423146015 c:\users\olli\documents\codeblocks projects\pruefungsleistung\v0_2\list_functions.c
 	<stdio.h>
 	<stdlib.h>
 
@@ -138,150 +168,29 @@
 	<stdio.h>
 	<stdlib.h>
 
-1423217660 source:c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2\main.c
+1424383178 source:c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v3_0\main.c
 	<stdio.h>
 	<stdlib.h>
-	<stdbool.h>
 	<windows.h>
+	<ctype.h>
+	<string.h>
+	<memory.h>
 	"list_functions.c"
 	"list_sort.c"
 
-1423217660 c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2\list_functions.c
+1424383908 c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v3_0\list_functions.c
 	<stdio.h>
 	<stdlib.h>
-
-1423166300 c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2\list_sort.c
-	<stdio.h>
-	<stdlib.h>
-
-1423166625 source:c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2\main.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	"list_functions.c"
-	"list_sort.c"
-
-1423166590 c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2\list_functions.c
-	<stdio.h>
-	<stdlib.h>
-
-1423166300 c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2\list_sort.c
-	<stdio.h>
-	<stdlib.h>
-
-1423226387 source:c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_1\main.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
 	<windows.h>
 	<ctype.h>
-	"list_functions.c"
-	"list_sort.c"
+	<string.h>
+	<memory.h>
 
-1423260249 c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_1\list_functions.c
+1424383322 c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v3_0\list_sort.c
 	<stdio.h>
 	<stdlib.h>
-	<stdbool.h>
 	<windows.h>
 	<ctype.h>
-
-1423223926 c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_1\list_sort.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-
-1423320565 source:c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_2\main.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-	"list_functions.c"
-	"list_sort.c"
-
-1423348718 c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_2\list_functions.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-
-1423223926 c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_2\list_sort.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-
-1423474805 source:c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_3\main.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-	"list_functions.c"
-	"list_sort.c"
-
-1423474795 c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_3\list_functions.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-
-1423223926 c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_3\list_sort.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-
-1423474805 source:c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_3\main.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-	"list_functions.c"
-	"list_sort.c"
-
-1423474795 c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_3\list_functions.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-
-1423223926 c:\users\oliver\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_3\list_sort.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-
-1424254776 source:c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_4\main.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-	"list_functions.c"
-	"list_sort.c"
-
-1424254776 c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_4\list_functions.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
-
-1423223926 c:\users\olli\google drive\dhbw mosbach\1. semester ws 2014-2015\programmieren\codeblocks projects\pruefungsleistung\v0_2_4\list_sort.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<windows.h>
-	<ctype.h>
+	<string.h>
+	<memory.h>
 
