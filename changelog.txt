@@ -23,3 +23,7 @@ v0_2_4
 main()			Überprüfung ob autobahn.txt leer
 main()			Übernahme aus testautobahn.txt (Backup-Daten) wenn autobahn.txt leer
 main()			Aufruf spezieller func_add (nur func_add_exit und func_add_interchange) wenn Backup leer oder nicht gefunden
+
+v0_3
+list_sort.c		vollständige Implementierung
+func_add()		Bugfix, Autobahnnummern konnten keine "0" enthalten

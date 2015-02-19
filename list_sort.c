@@ -1,11 +1,75 @@
+/* -------------------------------------------------------------------------------------------------
+Elsemann, Andreas       and.elsemann.14@dhbw-mosbach.de         Kurs INF14B Wintersemester 2014/2015
+Latreider, Linda        lin.latreider.14@dhbw-mosbach.de        Kurs INF14B Wintersemester 2014/2015
+Schick, Andreas         and.schick@dhbw-mosbach.de              Kurs INF14B Wintersemester 2014/2015
+Scholz, Oliver          oli.scholz.14@dhbw-mosbach.de           Kurs INF14B Wintersemester 2014/2015
+
+DHBW Mosbach
+Lohrtalweg 10
+74821 Mosbach
+www.dhbw-mosbach.de
+------------------------------------------------------------------------------------------------- */
+
+
+/* -------------------------------------------------------------------------------------------------
+v0_3
+list_sort.c     vollständige Implementierung
+func_add()      Bugfix, Autobahnnummern konnten "0" nicht enthalten
+------------------------------------------------------------------------------------------------- */
+
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>
+#include <ctype.h>
 #include <string.h>
 #include <memory.h>
+<<<<<<< HEAD
 
 void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith);
 void sortWayNrs(char *waynrs[], int left, int right);
 void swap(char **arg1, char **arg2);
+=======
+
+
+#define AE (unsigned char)142
+#define ae (unsigned char)132
+#define OE (unsigned char)153
+#define oe (unsigned char)148
+#define UE (unsigned char)154
+#define ue (unsigned char)129
+#define ss (unsigned char)225
+
+
+/* Funktionsdeklarationen */
+
+/* ----- main.c --------------- */
+int main();
+
+/* ----- list_functions.c ----- */
+void func_add_interchange();
+void func_add_exit();
+void func_add(int backup_empty);
+void func_cancel();
+void func_delete();
+void func_change();
+int func_list(FILE *table);
+int func_number(char verify[256]);
+
+/* ----- list_sort.c ---------- */
+void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith);
+void sort_list();
+void sortWayNrs(char *waynrs[], int left, int right);
+void swap(char **arg1, char **arg2);
+
+
+/* ---------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+>>>>>>> origin/master
 
 void sort_list()
 {
@@ -143,10 +207,25 @@ void sort_list()
         if(isWaynrValid==0) printf("\nBitte geben Sie eine g%cltige Autobahnnummer ein\n", ue);
 
     }while(isWaynrValid==0);
+<<<<<<< HEAD
+=======
 
     printf("\n");
     strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann (Zeile 157)
 
+    do
+    {
+        printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n\n");
+        scanf("%s", sortWith);
+        func_cancel(sortWith);
+        printf("\n");
+    }while(atoi(sortWith) != 1 && atoi(sortWith) != 2);
+>>>>>>> origin/master
+
+    printf("\n");
+    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann (Zeile 157)
+
+<<<<<<< HEAD
     do
     {
         printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n\n");
@@ -160,6 +239,12 @@ void sort_list()
     quicksort(cities, 0, entriesCount+skips, waynrs, dists, atoi(sortWith));
 
 
+=======
+    //Liste sortieren
+    quicksort(cities, 0, entriesCount+skips, waynrs, dists, atoi(sortWith));
+
+
+>>>>>>> origin/master
     //Sortierte Liste ausgeben
     for(int i=0;i<entriesCount+skips+1;i++)
     {
@@ -185,6 +270,7 @@ void sort_list()
     printf("\n\n");
 
     main();
+<<<<<<< HEAD
 }
 
 void swap(char **arg1, char **arg2)
@@ -194,6 +280,17 @@ void swap(char **arg1, char **arg2)
     *arg2 = tmp;
 }
 
+=======
+}
+
+void swap(char **arg1, char **arg2)
+{
+    char *tmp = *arg1;
+    *arg1 = *arg2;
+    *arg2 = tmp;
+}
+
+>>>>>>> origin/master
 void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith)
 {
     int i=left, j = right, pivot=right;

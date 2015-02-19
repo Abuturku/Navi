@@ -90,7 +90,11 @@ schefflenz
 
 AUSFAHRT
 asbach
+<<<<<<< HEAD
 655
+=======
+6
+>>>>>>> origin/master
 2660
 
 AUSFAHRT
