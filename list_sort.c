@@ -53,7 +53,7 @@ void sort_list()
     //char temp_list[200];
 
 
-    //für jedes Element dieses Arrays (char*) eine Zeichenkette allozieren.
+    //für jedes Element dieses Arrays (char*) eine Zeichenkette allokieren.
     for (int i=0;i<500;i++)
     {
         fileInList[i] = (char*)malloc(200*sizeof(char));
@@ -63,16 +63,12 @@ void sort_list()
         waynrsWithoutDoubles[i] = (char*)malloc(5*sizeof(char));
     }
 
-    //Inhalte aus autobahn.txt werden in das Array kopiert
+    //Inhalte aus autobahn.txt werden in das Array fileInList kopiert
     for(int i = 0; fgets(temp,200,table); i++)
     {
         strcpy(fileInList[i],temp);
         linecount++;
     }
-
-    //Array waynrsWithoutDoubles mit Startwerten initialisieren
-    for(int i = 0; i < 100; i++)
-        itoa(15000, waynrsWithoutDoubles[i], 10);
 
     int skips = 0;  //Diese Variable dient lediglich dazu, nur die wirklich beschriebenen Array-Inhalte auszugeben.
 
