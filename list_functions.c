@@ -19,8 +19,15 @@
 
 /*
 *
+<<<<<<< HEAD
 *   v0_2_3
 *   func_change()   Implementiert
+=======
+*   v0_2_4
+*   main()	Überprüfung ob autobahn.txt leer
+*   main()	Übernahme aus testautobahn.txt (Backup-Daten) wenn autobahn.txt leer
+*   main()  Aufruf spezieller func_add (nur func_add_exit und func_add_interchange) wenn Backup leer oder nicht gefunden
+>>>>>>> origin/Olli
 *
 */
 
@@ -42,11 +49,17 @@ Kurs INF14B
 /* Funktionsdeklarationen, sonst später Problem */
 void func_add_interchange();
 void func_add_exit();
+void func_add(int backup_empty);
 void func_cancel();
 void func_delete();
 void func_change();
+<<<<<<< HEAD
 //void quicksort(int first, int last);
 //void sort_list();
+=======
+void quicksort(int first, int last);
+void sort_list();
+>>>>>>> origin/Olli
 int main();
 int func_list(FILE *table);
 int func_number(char verify[256]);
@@ -65,6 +78,8 @@ void func_cancel(char cancel_string[256])
     {
         printf("Vom Nutzer abgerochen!\n");
         printf("\n\n");
+        remove("temp.txt");
+        remove("change.txt");
         main();
         exit(0);
     }
@@ -186,16 +201,17 @@ int func_list(FILE *table)
     FUNKTION EINTRAG HINZUFÜGEN
 ---------------------------------------- */
 
-void func_add()
+void func_add(int backup_empty)
 {
     /* Variablendeklaration
     char    entry       Kennung "Autobahnkreuz" (1) oder "Autobahnausfahrt" (2)
     */
     char entry;
 
-    /* Schleife zur Überprüfung auf valide Eingabe */
-    do
+    /* Überprüfung ob Backup Datei vorhanden war */
+    if(backup_empty == 1)
     {
+<<<<<<< HEAD
         /* Userabfrage Autobahnkreuz oder Autobahnausfahrt */
         printf("Was m%cchten Sie hinzuf%cgen?\n", oe, ue);
         printf("(1) Autobahnkreuz hinzuf%cgen\n", ue);
@@ -245,6 +261,107 @@ void func_add()
     }
 
     main();
+=======
+                /* Schleife zur Überprüfung auf valide Eingabe */
+        do
+        {
+            /* Userabfrage Autobahnkreuz oder Autobahnausfahrt */
+            printf("Was m%cchten Sie hinzuf%cgen?\n", oe, ue);
+            printf("(1) Autobahnkreuz hinzuf%cgen\n", ue);
+            printf("(2) Autobahnausfahrt hinzuf%cgen\n", ue);
+            printf("(3) Beenden\n\n");
+
+            printf("Ihre Auswahl: ");
+            scanf("%s", &entry);
+            printf("\n\n");
+
+            if(entry < 49 || entry > 51)
+            {
+                printf("Falsche Eingabe!\n\n");
+            }
+
+        }while(entry < 49 || entry > 51);
+
+
+        /* Aufruf der entsprechende Funktion basierend auf Usereingabe */
+        switch (entry)
+        {
+        case 49:
+            /* Aufruf der Funktion func_add_interchange da der User ein Autobahnkreuz hinzufügen möchte */
+            func_add_interchange();
+            break;
+
+        case 50:
+            /* Aufruf der Funktion func_add_exit da der User eine Autobahnausfahrt hinzufügen möchte */
+            func_add_exit();
+            break;
+
+        case 51:
+            /* Beenden des Programms */
+            printf("Programm beendet!\n");
+            exit(0);
+            break;
+        }
+
+    }
+
+    if(backup_empty == 0)
+    {
+        /* Schleife zur Überprüfung auf valide Eingabe */
+        do
+        {
+            /* Userabfrage Autobahnkreuz oder Autobahnausfahrt */
+            printf("Was m%cchten Sie durchf%chren?\n", oe, ue);
+            printf("(1) Autobahnkreuz hinzuf%cgen\n", ue);
+            printf("(2) Autobahnausfahrt hinzuf%cgen\n", ue);
+            printf("(3) Eintrag l%cschen\n", oe);
+            printf("(4) Eintrag %cndern\n", ae);
+            printf("(5) Abbruch\n\n");
+
+            printf("Ihre Auswahl: ");
+            scanf("%s", &entry);
+            printf("\n\n");
+
+            if(entry < 49 || entry > 53)
+            {
+                printf("Falsche Eingabe!\n\n");
+            }
+
+        }while(entry < 49 || entry > 53);
+
+
+        /* Aufruf der entsprechende Funktion basierend auf Usereingabe */
+        switch (entry)
+        {
+        case 49:
+            /* Aufruf der Funktion func_add_interchange da der User ein Autobahnkreuz hinzufügen möchte */
+            func_add_interchange();
+            break;
+
+        case 50:
+            /* Aufruf der Funktion func_add_exit da der User eine Autobahnausfahrt hinzufügen möchte */
+            func_add_exit();
+            break;
+
+        case 51:
+            /* Aufruf der Funktion func_delete da der User einen Eintrag löschen möchte */
+            func_delete();
+            break;
+
+        case 52:
+            /* Aufruf der Funktion func_change da der User einen Eintrag löschen möchte */
+            func_change();
+            break;
+
+        case 53:
+            /* Abbruch und Rückkehr in Hauptmenü */
+            break;
+        }
+
+        main();
+    }
+
+>>>>>>> origin/Olli
 }
 
 
@@ -358,6 +475,7 @@ void func_add_interchange()         //TODO: Exit-Option
         printf("\n");
         /* Aufruf der Abbruchbedingung */
         func_cancel(interchange_nr_one_km);
+<<<<<<< HEAD
 
     }while(func_number(interchange_nr_one_km) == 1);
 
@@ -388,6 +506,38 @@ void func_add_interchange()         //TODO: Exit-Option
 
         if(strcmp(interchange_nr_one, interchange_nr_two) == 0)
         {
+=======
+
+    }while(func_number(interchange_nr_one_km) == 1);
+
+    /* Überprüfung ob erste Autobahn gleich zweiter Autobahn */
+    do
+    {
+        /* Überprüfung auf Eingabe von Autobahnnummer "0" */
+        do
+        {
+            do
+            {
+                /* Autobahnnummer */
+                printf("Bitte geben Sie die Autobahnnummer der zweiten Autobahn ein: ");
+                scanf("%s", interchange_nr_two);
+                printf("\n");
+                /* Aufruf der Abbruchbedingung */
+                func_cancel(interchange_nr_two);
+
+            }while(func_number(interchange_nr_two) == 1);
+
+            if(strstr(interchange_nr_two, "0"))
+            {
+                printf("Autobahnnummer 0 nicht zul%cssig!", ae);
+                printf("\n\n");
+            }
+
+        }while(strstr(interchange_nr_two, "0"));
+
+        if(strcmp(interchange_nr_one, interchange_nr_two) == 0)
+        {
+>>>>>>> origin/Olli
             printf("Gleiche Autobahnnummer unzul%cssig.", ae);
             printf("\n\n");;
         }
@@ -525,9 +675,15 @@ void func_add_exit()
             printf("Autobahnnummer 0 nicht zul%cssig!", ae);
             printf("\n\n");
         }
+<<<<<<< HEAD
 
     }while(strstr(waynr, "0"));
 
+=======
+
+    }while(strstr(waynr, "0"));
+
+>>>>>>> origin/Olli
     /* Autobahnkilometer */
     do
     {
@@ -604,14 +760,15 @@ void func_delete()
     printf("Welchen Eintrag m%cchten Sie l%cschen? ", oe, oe);
     scanf("%s", city_delete);
     printf("\n");
-    /* Aufruf der Abbruchbedingung */
-    func_cancel(city_delete);
 
     /* Umwandeln der Usereingabe in String aus Kleinbuchstaben */
     for(int i = 0; city_delete[i]; i++)
     {
         city_delete[i] = tolower(city_delete[i]);
     }
+
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(city_delete);
 
     /* Gehe zu Anfang der Datei autobahn.txt */
     rewind(table);
@@ -768,8 +925,11 @@ void func_change()
     printf("Welchen Eintrag m%cchten Sie %cndern? ", oe, ae);
     scanf("%s", change_entry);
     printf("\n\n");
+<<<<<<< HEAD
     /* Aufruf der Abbruchbedingung */
     func_cancel(change_entry);
+=======
+>>>>>>> origin/Olli
 
     /* Umwandeln der Eingabe in String aus Kleinbuchstaben */
     for(int i = 0; change_entry[i]; i++)
@@ -777,6 +937,12 @@ void func_change()
         change_entry[i] = tolower(change_entry[i]);
     }
 
+<<<<<<< HEAD
+=======
+    /* Aufruf der Abbruchbedingung */
+    func_cancel(change_entry);
+
+>>>>>>> origin/Olli
     /* Gehe zum Anfang der Datei "autobahn.txt" */
     rewind(table);
 
@@ -833,6 +999,15 @@ void func_change()
             scanf("%s", name);
             printf("\n");
 
+<<<<<<< HEAD
+=======
+            /* Umwandeln der Eingabe in String aus Kleinbuchstaben */
+            for(int i = 0; name[i]; i++)
+            {
+                name[i] = tolower(name[i]);
+            }
+
+>>>>>>> origin/Olli
             /* Aurfruf der Abbruchbedingung */
             func_cancel(name);
 
