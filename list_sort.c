@@ -212,7 +212,7 @@ void sort_list()
             func_cancel(sortWith);
             if(atoi(sortWith)==2)
             {
-                *sortWith=itoa(3);
+                itoa(3, sortWith, 10);
             }
         }
         else
@@ -222,7 +222,7 @@ void sort_list()
             func_cancel(sortWith);
         }
         printf("\n");
-    }while(atoi(sortWith) != 1 && atoi(sortWith) != 2 && (atoi(waynr)==0 && atoi(sortWith)==3));
+    }while(atoi(sortWith) != 1 && atoi(sortWith) != 2 && !(atoi(waynr)==0 && atoi(sortWith)==3));
 
     //Liste sortieren
     quicksort(cities, 0, entriesCount+skips, waynrs, dists, atoi(sortWith));
