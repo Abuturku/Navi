@@ -54,7 +54,7 @@ int func_number(char verify[256]);
 /* ----- list_sort.c ---------- */
 void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith);
 void sort_list();
-//void sortWayNrs(char *waynrs[], int left, int right);
+void sortWayNrs(char *waynrs[], int left, int right);
 void swap(char **arg1, char **arg2);
 
 
