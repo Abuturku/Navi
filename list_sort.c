@@ -1,7 +1,7 @@
 /* -------------------------------------------------------------------------------------------------
 Elsemann, Andreas       and.elsemann.14@dhbw-mosbach.de         Kurs INF14B Wintersemester 2014/2015
 Latreider, Linda        lin.latreider.14@dhbw-mosbach.de        Kurs INF14B Wintersemester 2014/2015
-Schick, Andreas         and.schick.14@dhbw-mosbach.de              Kurs INF14B Wintersemester 2014/2015
+Schick, Andreas         and.schick@dhbw-mosbach.de              Kurs INF14B Wintersemester 2014/2015
 Scholz, Oliver          oli.scholz.14@dhbw-mosbach.de           Kurs INF14B Wintersemester 2014/2015
 
 DHBW Mosbach
@@ -89,7 +89,7 @@ void sort_list()
     char *dists[100];
     char temp[100];
     char waynr[256];
-    int sortWith;
+    char sortWith[256];
     char *waynrsWithoutDoubles[100];
 
 
@@ -201,28 +201,30 @@ void sort_list()
     }while(isWaynrValid==0);
 
     printf("\n");
-    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann
+    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann (Zeile 157)
 
     do
     {
-        if(atoi(waynr==0))
-        {
-            printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnnummer\n\n");
-            scanf("%d", sortWith);
-            func_cancel(sortWith);
-            if(sortWith==2) sortWith=3;
-        }
-        else
-        {
-            printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n\n");
-            scanf("%d", sortWith);
-            func_cancel(sortWith);
-        }
+        printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n\n");
+        scanf("%s", sortWith);
+        func_cancel(sortWith);
         printf("\n");
-    }while(sortWith != 1 && sortWith != 2);
+    }while(atoi(sortWith) != 1 && atoi(sortWith) != 2);
+
+    printf("\n");
+    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann (Zeile 157)
+
+    do
+    {
+        printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n\n");
+        scanf("%s", sortWith);
+        func_cancel(sortWith);
+        printf("\n");
+    }while(atoi(sortWith) != 1 && atoi(sortWith) != 2);
+
 
     //Liste sortieren
-    quicksort(cities, 0, entriesCount+skips, waynrs, dists, sortWith);
+    quicksort(cities, 0, entriesCount+skips, waynrs, dists, atoi(sortWith));
 
     //Sortierte Liste ausgeben
     for(int i=0;i<entriesCount+skips+1;i++)
@@ -234,8 +236,7 @@ void sort_list()
             if(strlen(cities[i]) >= 16) printf("\t");
             else if(strlen(cities[i])>=8) printf("\t\t");
             else printf("\t\t\t");
-            printf("A%s", strtok(waynrs[i],"\n"));
-            printf("\t%s", dists[i]);
+            printf("%s", dists[i]);
         }
         else if(strcmp(waynrs[i], waynr)==0)
         {
@@ -284,7 +285,6 @@ void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[
         if(left<j) quicksort(cities, left, j, waynrs, dists, sortWith);
         if(i<right) quicksort(cities, i, right, waynrs, dists, sortWith);
     }
-    //Sortieren nach Autobahnkilometern
     else if (sortWith == 2)
     {
         do
@@ -304,25 +304,6 @@ void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[
         if(left<j) quicksort(cities, left, j, waynrs, dists, sortWith);
         if(i<right) quicksort(cities, i, right, waynrs, dists, sortWith);
     }
-    //Sortieren nach Autobahnnummern
-    else if (sortWith == 3)
-    {
-        do
-        {
-            while(atoi(waynrs[i])<atoi(waynrs[pivot])) i++;
-            while(atoi(waynrs[j])>atoi(waynrs[pivot])) j--;
-            if(i<=j)
-            {
-                swap(cities+i, cities+j);
-                swap(waynrs+i, waynrs+j);
-                swap(dists+i, dists+j);
-                i++;
-                j--;
-            }
-        }while (i<=j);
-
-        if(left<j) quicksort(cities, left, j, waynrs, dists, sortWith);
-        if(i<right) quicksort(cities, i, right, waynrs, dists, sortWith);
 }
 
 void sortWayNrs(char *waynrs[], int left, int right)
