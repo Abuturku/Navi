@@ -1,7 +1,7 @@
 /* -------------------------------------------------------------------------------------------------
 Elsemann, Andreas       and.elsemann.14@dhbw-mosbach.de         Kurs INF14B Wintersemester 2014/2015
 Latreider, Linda        lin.latreider.14@dhbw-mosbach.de        Kurs INF14B Wintersemester 2014/2015
-Schick, Andreas         and.schick@dhbw-mosbach.de              Kurs INF14B Wintersemester 2014/2015
+Schick, Andreas         and.schick.14@dhbw-mosbach.de              Kurs INF14B Wintersemester 2014/2015
 Scholz, Oliver          oli.scholz.14@dhbw-mosbach.de           Kurs INF14B Wintersemester 2014/2015
 
 DHBW Mosbach
@@ -24,7 +24,6 @@ func_add()      Bugfix, Autobahnnummern konnten "0" nicht enthalten
 #include <ctype.h>
 #include <string.h>
 #include <memory.h>
-
 
 #define AE (unsigned char)142
 #define ae (unsigned char)132
@@ -202,20 +201,31 @@ void sort_list()
     }while(isWaynrValid==0);
 
     printf("\n");
-    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann (Zeile 157)
+    strcat(waynr, "\n");        //Ein New-Line-Zeichen anhängen, damit später richtig verglichen werden kann
 
     do
     {
-        printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n\n");
-        scanf("%s", sortWith);
-        func_cancel(sortWith);
+        if(atoi(waynr)==0)
+        {
+            printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnnummer\n\n");
+            scanf("%s", sortWith);
+            func_cancel(sortWith);
+            if(atoi(sortWith)==2)
+            {
+                *sortWith=itoa(3);
+            }
+        }
+        else
+        {
+            printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n\n");
+            scanf("%s", sortWith);
+            func_cancel(sortWith);
+        }
         printf("\n");
-    }while(atoi(sortWith) != 1 && atoi(sortWith) != 2);
-
+    }while(atoi(sortWith) != 1 && atoi(sortWith) != 2 && (atoi(waynr)==0 && atoi(sortWith)==3));
 
     //Liste sortieren
     quicksort(cities, 0, entriesCount+skips, waynrs, dists, atoi(sortWith));
-
 
     //Sortierte Liste ausgeben
     for(int i=0;i<entriesCount+skips+1;i++)
@@ -227,7 +237,8 @@ void sort_list()
             if(strlen(cities[i]) >= 16) printf("\t");
             else if(strlen(cities[i])>=8) printf("\t\t");
             else printf("\t\t\t");
-            printf("%s", dists[i]);
+            printf("A%s", strtok(waynrs[i],"\n"));
+            printf("\t%s", dists[i]);
         }
         else if(strcmp(waynrs[i], waynr)==0)
         {
@@ -276,12 +287,33 @@ void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[
         if(left<j) quicksort(cities, left, j, waynrs, dists, sortWith);
         if(i<right) quicksort(cities, i, right, waynrs, dists, sortWith);
     }
+    //Sortieren nach Autobahnkilometern
     else if (sortWith == 2)
     {
         do
         {
             while(atoi(dists[i])<atoi(dists[pivot])) i++;
             while(atoi(dists[j])>atoi(dists[pivot])) j--;
+            if(i<=j)
+            {
+                swap(cities+i, cities+j);
+                swap(waynrs+i, waynrs+j);
+                swap(dists+i, dists+j);
+                i++;
+                j--;
+            }
+        }while (i<=j);
+
+        if(left<j) quicksort(cities, left, j, waynrs, dists, sortWith);
+        if(i<right) quicksort(cities, i, right, waynrs, dists, sortWith);
+    }
+    //Sortieren nach Autobahnnummern
+    else if (sortWith == 3)
+    {
+        do
+        {
+            while(atoi(waynrs[i])<atoi(waynrs[pivot])) i++;
+            while(atoi(waynrs[j])>atoi(waynrs[pivot])) j--;
             if(i<=j)
             {
                 swap(cities+i, cities+j);

@@ -1,7 +1,7 @@
 /* -------------------------------------------------------------------------------------------------
 Elsemann, Andreas       and.elsemann.14@dhbw-mosbach.de         Kurs INF14B Wintersemester 2014/2015
 Latreider, Linda        lin.latreider.14@dhbw-mosbach.de        Kurs INF14B Wintersemester 2014/2015
-Schick, Andreas         and.schick@dhbw-mosbach.de              Kurs INF14B Wintersemester 2014/2015
+Schick, Andreas         and.schick.14@dhbw-mosbach.de              Kurs INF14B Wintersemester 2014/2015
 Scholz, Oliver          oli.scholz.14@dhbw-mosbach.de           Kurs INF14B Wintersemester 2014/2015
 
 DHBW Mosbach
@@ -40,9 +40,6 @@ func_add()      Bugfix, Autobahnnummern konnten "0" nicht enthalten
 
 
 /* Funktionsdeklarationen */
-
-/* ----- main.c --------------- */
-int main();
 
 /* ----- list_functions.c ----- */
 void func_add_interchange();
@@ -192,5 +189,4 @@ int main()
         printf("Programm beendet!\n\n");
         return EXIT_SUCCESS;
     }
-
 }
