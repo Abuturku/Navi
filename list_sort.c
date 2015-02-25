@@ -1,7 +1,7 @@
 /* -------------------------------------------------------------------------------------------------
 Elsemann, Andreas       and.elsemann.14@dhbw-mosbach.de         Kurs INF14B Wintersemester 2014/2015
 Latreider, Linda        lin.latreider.14@dhbw-mosbach.de        Kurs INF14B Wintersemester 2014/2015
-Schick, Andreas         and.schick.14@dhbw-mosbach.de              Kurs INF14B Wintersemester 2014/2015
+Schick, Andreas         and.schick.14@dhbw-mosbach.de           Kurs INF14B Wintersemester 2014/2015
 Scholz, Oliver          oli.scholz.14@dhbw-mosbach.de           Kurs INF14B Wintersemester 2014/2015
 
 DHBW Mosbach
@@ -12,9 +12,11 @@ www.dhbw-mosbach.de
 
 
 /* -------------------------------------------------------------------------------------------------
-v0_3
-list_sort.c     vollständige Implementierung
-func_add()      Bugfix, Autobahnnummern konnten "0" nicht enthalten
+v0_3_1
+func_change()       Logikfehler behoben, Eintrag kann nun geändert werden ohne den Namen zu ändern
+func_cancel()       Löschen der temporären Dateien gefixed
+main.c              grafische Überarbeitung
+list_functions.c    grafische Überarbeitung
 ------------------------------------------------------------------------------------------------- */
 
 
@@ -24,6 +26,7 @@ func_add()      Bugfix, Autobahnnummern konnten "0" nicht enthalten
 #include <ctype.h>
 #include <string.h>
 #include <memory.h>
+
 
 #define AE (unsigned char)142
 #define ae (unsigned char)132
@@ -43,7 +46,7 @@ int main();
 void func_add_interchange();
 void func_add_exit();
 void func_add(int backup_empty);
-void func_cancel();
+void func_cancel(char cancel_string[256], FILE* tempdat);
 void func_delete();
 void func_change();
 int func_list(FILE *table);
@@ -190,7 +193,7 @@ void sort_list()
     do
     {
         scanf("%s", waynr);
-        func_cancel(waynr);
+        func_cancel(waynr, NULL);
         for(int i = 0; i <= entriesCount; i++)
         {
             if(atoi(waynr)==atoi(waynrsWithoutDoubles[i]) || atoi(waynr)==0) isWaynrValid=1;
@@ -209,7 +212,7 @@ void sort_list()
         {
             printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnnummer\n\n");
             scanf("%s", sortWith);
-            func_cancel(sortWith);
+            func_cancel(sortWith, NULL);
             if(atoi(sortWith)==2)
             {
                 itoa(3, sortWith, 10);
@@ -219,7 +222,7 @@ void sort_list()
         {
             printf("Wonach soll sortiert werden?\n(1) Ausfahrtname\n(2) Autobahnkilometer\n\n");
             scanf("%s", sortWith);
-            func_cancel(sortWith);
+            func_cancel(sortWith, NULL);
         }
         printf("\n");
     }while(atoi(sortWith) != 1 && atoi(sortWith) != 2 && !(atoi(waynr)==0 && atoi(sortWith)==3));
