@@ -138,8 +138,8 @@ int main()
         /* Erläuterung der Optionen */
         printf("Dies sind Ihre Eingabeoptionen:\n\n");
         printf("R = Routenberechnung\n");
-        printf("A = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\n");
-        printf("L = Ausgabe aller Eintr%cge\n", ae);
+        printf("L = Ausgabe der Ausfahrten\n");
+        printf("A = Bearbeitung der Ausfahrten und Autobahnkreuze\n");
         printf("Q = Beenden\n\n");
 
         /* Eingabe der Auswahl */
