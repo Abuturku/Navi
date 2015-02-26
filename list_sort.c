@@ -12,11 +12,10 @@ www.dhbw-mosbach.de
 
 
 /* -------------------------------------------------------------------------------------------------
-v0_3_1
-func_change()       Logikfehler behoben, Eintrag kann nun geändert werden ohne den Namen zu ändern
-func_cancel()       Löschen der temporären Dateien gefixed
-main.c              grafische Überarbeitung
-list_functions.c    grafische Überarbeitung
+v0_3_2
+func_change()           Überprüfung auf vorhandenen Eintrag verbessert
+func_add_interchange()  Überprüfung auf vorhandenen Eintrag verbessert
+func_add_exit()         Überprüfung auf vorhandenen Eintrag verbessert
 ------------------------------------------------------------------------------------------------- */
 
 
@@ -27,6 +26,7 @@ list_functions.c    grafische Überarbeitung
 #include <string.h>
 #include <memory.h>
 #include <conio.h>
+
 
 #define AE (unsigned char)142
 #define ae (unsigned char)132
@@ -64,6 +64,7 @@ void swap(char **arg1, char **arg2);
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
 
 //Gibt das Menü zum Auswählen der Autobahn und des Sortier-Kriteriums aus und gibt eine sortierte Liste aus
 void sort_list()

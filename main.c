@@ -12,11 +12,11 @@ www.dhbw-mosbach.de
 
 
 /* -------------------------------------------------------------------------------------------------
-v0_3_1
-func_change()       Logikfehler behoben, Eintrag kann nun geändert werden ohne den Namen zu ändern
-func_cancel()       Löschen der temporären Dateien gefixed
-main.c              grafische Überarbeitung
-list_functions.c    grafische Überarbeitung
+v0_3_2
+func_change()           Überprüfung auf vorhandenen Eintrag verbessert
+func_add_interchange()  Überprüfung auf vorhandenen Eintrag verbessert
+func_add_exit()         Überprüfung auf vorhandenen Eintrag verbessert
+main()                  Begrüßungstext nur bei Programmstart
 ------------------------------------------------------------------------------------------------- */
 
 
@@ -26,6 +26,7 @@ list_functions.c    grafische Überarbeitung
 #include <ctype.h>
 #include <string.h>
 #include <memory.h>
+#include <conio.h>
 
 #include "list_functions.c"
 #include "list_sort.c"
@@ -44,7 +45,7 @@ list_functions.c    grafische Überarbeitung
 /* Funktionsdeklarationen */
 
 /* ----- main.c --------------- */
-int main();
+int main(int firstCall, char *argv[]);
 
 /* ----- list_functions.c ----- */
 void func_add_interchange();
@@ -89,15 +90,15 @@ int main(int firstCall, char *argv[])
     char userentry;
 
     //Dieser Text soll nur beim Programmstart erscheinen
-    if (firstCall==1)
+    if (firstCall == 1)
     {
         /* Begrüßungstext */
         printf("---------------------------------------\n");
         printf("Willkommen bei Ihrem Autobahnnavigator!\n");
-        printf("---------------------------------------\n");
-        printf("\n\n");
     }
 
+    printf("---------------------------------------\n");
+    printf("\n\n");
 
 
     FILE *table;
