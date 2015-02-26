@@ -193,14 +193,21 @@ void sort_list()
     int isWaynrValid = 0;
     do
     {
-        scanf("%s", waynr);
-        func_cancel(waynr, NULL);
+        do
+        {
+            scanf("%s", waynr);
+            printf("\n");
+            func_cancel(waynr, NULL);
+        }while(func_number(waynr)==1);
+
         for(int i = 0; i <= entriesCount; i++)
         {
             if(atoi(waynr)==atoi(waynrsWithoutDoubles[i]) || atoi(waynr)==0) isWaynrValid=1;
         }
 
-        if(isWaynrValid==0) printf("\nBitte geben Sie eine g%cltige Autobahnnummer ein\n", ue);
+        if(isWaynrValid==0) printf("Bitte geben Sie eine g%cltige Autobahnnummer ein\n", ue);
+
+        //if(func_number(waynr) == 1) isWaynrValid=0;
 
     }while(isWaynrValid==0);
 
