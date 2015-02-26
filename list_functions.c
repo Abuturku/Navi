@@ -12,11 +12,10 @@ www.dhbw-mosbach.de
 
 
 /* -------------------------------------------------------------------------------------------------
-v0_3_1
-func_change()       Logikfehler behoben, Eintrag kann nun geändert werden ohne den Namen zu ändern
-func_cancel()       Löschen der temporären Dateien gefixed
-main.c              grafische Überarbeitung
-list_functions.c    grafische Überarbeitung
+v0_3_2
+func_change()           Überprüfung auf vorhandenen Eintrag verbessert
+func_add_interchange()  Überprüfung auf vorhandenen Eintrag verbessert
+func_add_exit()         Überprüfung auf vorhandenen Eintrag verbessert
 ------------------------------------------------------------------------------------------------- */
 
 
@@ -390,11 +389,16 @@ void func_add_interchange()         //TODO: Exit-Option
     /* Aufruf der Abbruchbedingung */
     func_cancel(interchange_name, NULL);
 
+    char interchange_name_cmp[256];
+
+    strcpy(interchange_name_cmp, interchange_name);
+    strcat(interchange_name_cmp, "\n");
+
     /* Jede Zeile der autobahn.txt auslesen und den Inhalt in compare zwischenspeichern */
     while(fgets(compare, 256, table))
     {
         /* Sollte der Stadtname bereits vorhanden sein, wird der Inhalt der folgenden Schleife ausgeführt */
-        if(strstr(compare, interchange_name) != 0)
+        if(strcmp(interchange_name_cmp, compare) == 0)
         {
             printf("Dieses Kreuz ist bereits verzeichnet.");
             printf("\n\n");
@@ -410,6 +414,9 @@ void func_add_interchange()         //TODO: Exit-Option
             }
             /* Aufruf der Abbruchbedingung */
             func_cancel(interchange_name, NULL);
+
+            strcpy(interchange_name_cmp, interchange_name);
+            strcat(interchange_name_cmp, "\n");
 
             /* Gehe zu Anfang der Datei autobahn.txt */
             rewind(table);
@@ -569,11 +576,16 @@ void func_add_exit()
     /* Aufruf der Abbruchbedingung */
     func_cancel(city, NULL);
 
+    char city_cmp[256];
+
+    strcpy(city_cmp, city);
+    strcat(city_cmp, "\n");
+
     /* Jede Zeile der autobahn.txt auslesen und den Inhalt in compare zwischenspeichern */
     while(fgets(compare, 256, table))
     {
         /* Sollte der Stadtname bereits vorhanden sein, wird der Inhalt der folgenden Schleife ausgeführt */
-        if(strstr(compare,city))
+        if(strcmp(compare, city_cmp) == 0)
         {
             printf("Dieser Ort ist bereits verzeichnet.");
             printf("\n\n");
@@ -589,6 +601,9 @@ void func_add_exit()
             }
             /* Aufruf der Abbruchbedingung */
             func_cancel(city, NULL);
+
+            strcpy(city_cmp, city);
+            strcat(city_cmp, "\n");
 
             /* Gehe zu Anfang der Datei autobahn.txt */
             rewind(table);
@@ -935,12 +950,22 @@ void func_change()
             /* Aurfruf der Abbruchbedingung */
             func_cancel(name, tempdat);
 
+            char name_cmp[256];
 
-                /* Jede Zeile der autobahn.txt auslesen und den Inhalt in compare zwischenspeichern */
-                while(fgets(compare, 256, table))
+            strcpy(name_cmp, name);
+            strcat(name_cmp, "\n");
+
+
+
+
+
+            /* Jede Zeile der autobahn.txt auslesen und den Inhalt in compare zwischenspeichern */
+            while(fgets(compare, 256, table))
+            {
+                if(  strcmp(change_entry, name) != 0)
                 {
                     /* Sollte der Stadtname bereits vorhanden sein, wird der Inhalt der folgenden Schleife ausgeführt */
-                    if(strstr(compare, name) != 0 && strcmp(name, change_entry) != 0)
+                    if(strcmp(compare, name_cmp) == 0)
                     {
                         printf("Dieser Eintrag ist bereits verzeichnet.");
                         printf("\n\n");
@@ -957,11 +982,14 @@ void func_change()
                         /* Aufruf der Abbruchbedingung */
                         func_cancel(name, tempdat);
 
+                        strcpy(name_cmp, name);
+                        strcat(name_cmp, "\n");
+
                         /* Gehe zu Anfang der Datei autobahn.txt */
                         rewind(table);
                     }
                 }
-
+            }
 
             /* zu ändernder Eintrag ist ein Autobahnkreuz */
             if(strstr(label, "KREUZ"))

@@ -12,11 +12,10 @@ www.dhbw-mosbach.de
 
 
 /* -------------------------------------------------------------------------------------------------
-v0_3_1
-func_change()       Logikfehler behoben, Eintrag kann nun geändert werden ohne den Namen zu ändern
-func_cancel()       Löschen der temporären Dateien gefixed
-main.c              grafische Überarbeitung
-list_functions.c    grafische Überarbeitung
+v0_3_2
+func_change()           Überprüfung auf vorhandenen Eintrag verbessert
+func_add_interchange()  Überprüfung auf vorhandenen Eintrag verbessert
+func_add_exit()         Überprüfung auf vorhandenen Eintrag verbessert
 ------------------------------------------------------------------------------------------------- */
 
 
