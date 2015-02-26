@@ -62,7 +62,7 @@ void swap(char **arg1, char **arg2);
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-
+//Gibt das Menü zum Auswählen der Autobahn und des Sortier-Kriteriums aus und gibt eine sortierte Liste aus
 void sort_list()
 {
 
@@ -255,6 +255,7 @@ void sort_list()
     main();
 }
 
+//Tauscht zwei Strings
 void swap(char **arg1, char **arg2)
 {
     char *tmp = *arg1;
@@ -262,6 +263,8 @@ void swap(char **arg1, char **arg2)
     *arg2 = tmp;
 }
 
+//Sortiert (je nach Wert der Variablen sortWith) die Ausfahrtnamen/Autobahnnummern/Autobahnkilometer und analog dazu
+//auch die anderen Arrays (um die Einträge nicht zu vermischen), die übergeben werden, mithilfe des Quicksort-Algorithmus
 void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith)
 {
     int i=left, j = right, pivot=right;
@@ -329,6 +332,7 @@ void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[
     }
 }
 
+//Sortiert NUR die Autobahnnnummern
 void sortWayNrs(char *waynrs[], int left, int right)
 {
     int i=left, j = right, pivot=(left+right)/2;
