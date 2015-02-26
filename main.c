@@ -1,7 +1,7 @@
 /* -------------------------------------------------------------------------------------------------
 Elsemann, Andreas       and.elsemann.14@dhbw-mosbach.de         Kurs INF14B Wintersemester 2014/2015
 Latreider, Linda        lin.latreider.14@dhbw-mosbach.de        Kurs INF14B Wintersemester 2014/2015
-Schick, Andreas         and.schick@dhbw-mosbach.de              Kurs INF14B Wintersemester 2014/2015
+Schick, Andreas         and.schick.14@dhbw-mosbach.de           Kurs INF14B Wintersemester 2014/2015
 Scholz, Oliver          oli.scholz.14@dhbw-mosbach.de           Kurs INF14B Wintersemester 2014/2015
 
 DHBW Mosbach
@@ -12,9 +12,11 @@ www.dhbw-mosbach.de
 
 
 /* -------------------------------------------------------------------------------------------------
-v0_3
-list_sort.c     vollständige Implementierung
-func_add()		Bugfix, Autobahnnummern konnten keine "0" enthalten
+v0_3_1
+func_change()       Logikfehler behoben, Eintrag kann nun geändert werden ohne den Namen zu ändern
+func_cancel()       Löschen der temporären Dateien gefixed
+main.c              grafische Überarbeitung
+list_functions.c    grafische Überarbeitung
 ------------------------------------------------------------------------------------------------- */
 
 
@@ -48,7 +50,7 @@ int main();
 void func_add_interchange();
 void func_add_exit();
 void func_add(int backup_empty);
-void func_cancel();
+void func_cancel(char cancel_string[256], FILE* tempdat);
 void func_delete();
 void func_change();
 int func_list(FILE *table);
@@ -87,7 +89,11 @@ int main()
     char userentry;
 
     /* Begrüßungstext */
+    printf("---------------------------------------\n");
     printf("Willkommen bei Ihrem Autobahnnavigator!\n");
+    printf("---------------------------------------\n");
+    printf("\n\n");
+
 
     FILE *table;
     table = fopen("autobahn.txt", "a+");
@@ -99,8 +105,12 @@ int main()
     {
         rewind(table);
 
-        printf("\nDatei war beim %cffnen leer, die Daten wurden aus der Backup-Datei %cbernommen.", OE, ue);
-        printf("\n\n");
+        printf("---------------------------------------\n");
+        printf("\n");
+        printf("Datei war beim %cffnen leer, die Daten wurden aus der Backup-Datei %cbernommen.\n", OE, ue);
+        printf("\n");
+        printf("---------------------------------------\n");
+        printf("\n");
 
         /*
         char    temp[256]   Zwischenspeicher
@@ -113,8 +123,10 @@ int main()
         /* Überprüfung ob Backup vorhanden und Einträge vorhanden */
         if((backup == NULL) || (fgetc(backup) == EOF))
         {
-            printf("Backup Datei nicht gefunden oder leer!");
-            printf("\n\n");
+            printf("Backup Datei nicht gefunden oder leer!\n");
+            printf("\n");
+            printf("---------------------------------------\n");
+            printf("\n");
             /* Backup nicht vorhanden oder leer, Aufruf von func_add(backup_empty) zur Eingabe eines Wertes */
             backup_empty = 1;
             func_add(backup_empty);
@@ -141,14 +153,16 @@ int main()
         /* Erläuterung der Optionen */
         printf("Dies sind Ihre Eingabeoptionen:\n\n");
         printf("R = Routenberechnung\n");
-        printf("A = Anzeige und Bearbeitung der Ausfahrten und Autobahnkreuze\n");
-        printf("L = Ausgabe aller Eintr%cge\n", ae);
+        printf("L = Ausgabe der Ausfahrten\n");
+        printf("A = Bearbeitung der Ausfahrten und Autobahnkreuze\n");
         printf("Q = Beenden\n\n");
 
         /* Eingabe der Auswahl */
         printf("Ihre Auswahl: ");
         scanf("%s", &userentry);
-        printf("\n\n");
+        printf("\n");
+        printf("---------------------------------------\n");
+        printf("\n");
 
         user_ascii = userentry;
 
@@ -161,7 +175,10 @@ int main()
         && user_ascii != 81
         && user_ascii != 113)
         {
-            printf("Falsche Eingabe!\n\n");
+            printf("Falsche Eingabe!\n");
+            printf("\n");
+            printf("---------------------------------------\n");
+            printf("\n");
         }
 
     }while(user_ascii != 82
@@ -189,7 +206,10 @@ int main()
         break;
 
     case 81: case 113:
-        printf("Programm beendet!\n\n");
+        printf("Programm beendet!\n");
+        printf("\n");
+        printf("---------------------------------------\n");
+        printf("\n");
         return EXIT_SUCCESS;
     }
 
