@@ -70,7 +70,7 @@ void swap(char **arg1, char **arg2);
 --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 
-int main()
+int main(int firstCall, char *argv[])
 {
 
     /* Konsolenname festlegen */
@@ -88,11 +88,16 @@ int main()
     */
     char userentry;
 
-    /* Begrüßungstext */
-    printf("---------------------------------------\n");
-    printf("Willkommen bei Ihrem Autobahnnavigator!\n");
-    printf("---------------------------------------\n");
-    printf("\n\n");
+    //Dieser Text soll nur beim Programmstart erscheinen
+    if (firstCall==1)
+    {
+        /* Begrüßungstext */
+        printf("---------------------------------------\n");
+        printf("Willkommen bei Ihrem Autobahnnavigator!\n");
+        printf("---------------------------------------\n");
+        printf("\n\n");
+    }
+
 
 
     FILE *table;

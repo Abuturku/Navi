@@ -39,8 +39,8 @@ list_functions.c    grafische Überarbeitung
 
 /* Funktionsdeklarationen */
 
-/* ----- main.c --------------- */
-int main();
+/* ----- .c --------------- */
+int main(int firstCall, char *argv[]);
 
 /* ----- list_functions.c ----- */
 void func_add_interchange();
@@ -79,7 +79,7 @@ void func_cancel(char cancel_string[256], FILE* tempdat)
         fclose(tempdat);
         remove("temp.txt");
         remove("change.txt");
-        main();
+        main(0, NULL);
         exit(0);
     }
 }
@@ -145,7 +145,7 @@ int func_list(FILE *table)
     {
         printf("Keine Eintr%cge gefunden!\n", ae);
         printf("\n\n");
-        main();
+        main(0, NULL);
         exit (0);
     }
 
@@ -330,7 +330,7 @@ void func_add(int backup_empty)
             break;
         }
 
-        main();
+        main(0, NULL);
     }
 }
 

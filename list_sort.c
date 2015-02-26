@@ -26,7 +26,7 @@ list_functions.c    grafische Überarbeitung
 #include <ctype.h>
 #include <string.h>
 #include <memory.h>
-
+#include <conio.h>
 
 #define AE (unsigned char)142
 #define ae (unsigned char)132
@@ -40,7 +40,7 @@ list_functions.c    grafische Überarbeitung
 /* Funktionsdeklarationen */
 
 /* ----- main.c --------------- */
-int main();
+int main(int firstCall, char *argv[]);
 
 /* ----- list_functions.c ----- */
 void func_add_interchange();
@@ -253,9 +253,13 @@ void sort_list()
             printf("%s", dists[i]);
         }
     }
-    printf("\n\n");
+    printf("\n\nDr%ccken Sie eine beliebige Taste um fortzufahren\n",ue);
 
-    main();
+
+    getch();
+    printf("\n");
+
+    main(0, NULL);
 }
 
 //Tauscht zwei Strings
