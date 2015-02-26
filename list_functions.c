@@ -258,9 +258,7 @@ void func_add(int backup_empty)
         case 51:
             /* Beenden des Programms */
             printf("---------------------------------------\n");
-            printf("\n");
             printf("Programm beendet!\n");
-            printf("\n");
             printf("---------------------------------------\n");
             printf("\n");
             exit(0);

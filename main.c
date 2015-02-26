@@ -168,7 +168,6 @@ int main(int firstCall, char *argv[])
         scanf("%s", &userentry);
         printf("\n");
         printf("---------------------------------------\n");
-        printf("\n");
 
         user_ascii = userentry;
 
@@ -204,16 +203,17 @@ int main(int firstCall, char *argv[])
         break;
 
     case 65: case 97:
+        printf("\n");
         func_add(backup_empty);
         break;
 
     case 76: case 108:
+        printf("\n");
         sort_list();
         break;
 
     case 81: case 113:
         printf("Programm beendet!\n");
-        printf("\n");
         printf("---------------------------------------\n");
         printf("\n");
         return EXIT_SUCCESS;
