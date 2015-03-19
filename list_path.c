@@ -13,28 +13,36 @@
 #define ue (unsigned char)129
 #define ss (unsigned char)225
 
+bool way_found = 0;
+char global_start[255],
+     global_dest[255],
+     stop[255];
+int
+strecke=0;
 
-void find_path(){
+void find_path()
+{
 
     int start_nr = 0;
     int start_km = 0;
     int dest_nr = 0;
     int dest_km = 0;
+    int temp=0;
 
-  char  start[256],
-        destination[256],
-        compare[256];
-    char* temp;
+    char  start[255],
+          destination[255],
+          compare[255];
+
 
     bool first,
-        start_found,
+         start_found,
          dest_found ;
 
-first=1;
-start_found=0;
-dest_found=0;
+    first=1;
+    start_found=0;
+    dest_found=0;
 
- printf("\n\n");
+    printf("\n\n");
 
     /* Öffnen der Datei mit Modus "a+" (APPEND+READ) = Neue Einträge werden an der Dateiende angehängt */
     FILE *table;
@@ -46,197 +54,268 @@ dest_found=0;
         printf("Fehler beim %cffnen der Datei!", oe);
         func_cancel("cancel");
     }
-    do {
-            if (first==1) {
-                printf("Bitte geben Sie den Namen des Startortes ein: ");
-            }
-            else {
-                     printf("Stadt nicht gefunden. Bitte geben Sie einen anderen Namen ein: ");
-
-            }
-            first = 0;
-    scanf("%s", start);
-    strcat(start,"\n");
-    printf("\n");
-    func_cancel(start);
-    /* Umwandlung des Namens in einen String bestehend aus Kleinbuchstaben */
-    for(int i = 0; start[i]; i++)
+    do
     {
-        start[i] = tolower(start[i]);
-    }
-
-    while(fgets(compare, 256, table))
-    {
-
-        /* Sollte der Stadtname nicht vorhandensein, wird nach einem neuen Namen gefragt*/
-        if(strcmp(compare,start)==0)
+        if (first==1)
         {
-            start_found = 1;
+            printf("Bitte geben Sie den Namen des Startortes ein: ");
+        }
+        else
+        {
+            printf("Stadt nicht gefunden. Bitte geben Sie einen anderen Namen ein: ");
+
+        }
+        first = 0;
+        scanf("%s", start);
+        strcat(start,"\n");
+        printf("\n");
+        func_cancel(start);
+        /* Umwandlung des Namens in einen String bestehend aus Kleinbuchstaben */
+        for(int i = 0; start[i]; i++)
+        {
+            start[i] = tolower(start[i]);
         }
 
+        while(fgets(compare, 255, table))
+        {
+
+            /* Sollte der Stadtname nicht vorhandensein, wird nach einem neuen Namen gefragt*/
+            if(strcmp(compare,start)==0)
+            {
+                start_found = 1;
+            }
 
 
 
+
+        }
+        rewind(table);
     }
-     rewind(table);
-    }while (start_found == 0);
+    while (start_found == 0);
 
     rewind(table);
     first = 1;
 
-   do {
-            if (first==1){
-     printf("Bitte geben Sie den Namen des Zielortes ein: ");}
-     else {
-                 printf("Stadt nicht gefunden. Bitte geben Sie eine andere Stadt ein: ");}
-     first = 0;
-    scanf("%s", destination);
-    strcat(destination,"\n");
-    printf("\n");
-   func_cancel(destination);
-
-    /* Umwandlung des Namens in einen String bestehend aus Kleinbuchstaben */
-    for(int i = 0; destination[i]; i++)
+    do
     {
-        destination[i] = tolower(destination[i]);
-    }
-
-    while(fgets(compare, 256, table))
-    {
-        if(strcmp(compare,destination)==0)
+        if (first==1)
         {
-        dest_found=1;
+            printf("Bitte geben Sie den Namen des Zielortes ein: ");
+        }
+        else
+        {
+            printf("Stadt nicht gefunden. Bitte geben Sie eine andere Stadt ein: ");
+        }
+        first = 0;
+        scanf("%s", destination);
+        strcat(destination,"\n");
+        printf("\n");
+        func_cancel(destination);
+
+        /* Umwandlung des Namens in einen String bestehend aus Kleinbuchstaben */
+        for(int i = 0; destination[i]; i++)
+        {
+            destination[i] = tolower(destination[i]);
         }
 
+        while(fgets(compare, 255, table))
+        {
+            if(strcmp(compare,destination)==0)
+            {
+                dest_found=1;
+            }
 
 
 
+
+        }
+        rewind(table);
     }
+    while (dest_found == 0);
     rewind(table);
-    }  while (dest_found == 0);
-     rewind(table);
 
-    printf(start);
+    strcpy(global_start, start);    //für den Start der Route später
+    strcpy(global_dest, destination);    //für den Start der Route später
+
+
+
     start_nr = getnumber(start);
-    printf("%d\n",start_nr);
-    start_km = getdistanz(start);
-    printf("%d\n",start_km);
-    printf(destination);
+
+    start_km = getkm(start,start_nr);
     dest_nr = getnumber(destination);
-    printf("%d\n",dest_nr);
-    dest_km = getdistanz(destination);
-    printf("%d\n",dest_km);
+    dest_km = getkm(destination,dest_nr);
 
-    if (start_nr == dest_nr){
-        if (start_km>dest_nr){
-        printf("einfach die Autobahn fuer %d km langfahren. \n", start_km-dest_km);}
-        else {
-           printf("einfach die Autobahn fuer %d km langfahren. \n", dest_km-start_km);
-        }
+    if (start_nr == dest_nr)
+    {
+        way_found=1;
+        printf("einfach die Autobahn fuer %d km langfahren. \n", getDistanz(start_km,dest_km));
     }
-    else {
-        printf("keine Direktverbindung \n");
+    else
+    {
+        find_cross_by_nr(dest_nr,start_nr,start); //Start und Ziel vertauscht, da durch die Rekursion der Weg rückwärts ausgegeben wird
+        temp = (getDistanz(dest_km,(getkm(stop, dest_nr))));
+        if (way_found==1)printf("Zum Schluss fahren Sie noch %dkm auf der A%d zum Ziel %s \n", temp, dest_nr,destination);
     }
 
-    find_cross_by_nr(start_nr,dest_nr," ");
+    if (way_found==0) printf("es gibt keinen Weg von %s zu %s \n", start, destination);
 }
 
 
-void find_cross_by_nr(int start_nr, int dest_nr, char start[256]){
+void find_cross_by_nr(int start_nr, int dest_nr, char start[255])
+{
 
-char compare[256]={},
-     name[256]={};
-
-     FILE *table;
-     table = fopen("autobahn.txt", "a+");
-     rewind(table);
-
-
-        while (fgets(compare, 256, table)){
-            if(strcmp(compare,"KREUZ\n")==0){
-                fgets(compare, 256, table);     //Name des Kreuzes
-                 strcat(name,compare);
-                fgets(compare, 256, table);     //Nummer des Kreuzes
-                if (((atoi(compare))== start_nr)&& (strcmp(name,start)!=0)){
-                    fgets(compare, 256, table);    //KM
-                    fgets(compare, 256, table);    //leer
-                    fgets(compare, 256, table);   //KREUZ
-                     if(strcmp(compare,"KREUZ\n")==0){  // wenn es ne ausfahrt ist nicht weiter machen
-                    fgets(compare, 256, table);  //Name
-                    fgets(compare, 256, table); //NR
-                    if (atoi(compare)==dest_nr){
-                            printf("gefunden");
-                            return;
-                        }
-                        else {
-
-                            find_cross_by_nr(atoi(compare),dest_nr,name);
-
-                        }}
-                    }
-                    //braucht man theoretisch nicht, wenn die start autobahn kein Kreuz hat, muss man gar keinen weg suchen...
-               /* else if ((atoi(compare))== dest_nr){
-                    fgets(compare, 256, table);    //KM
-                    fgets(compare, 256, table);    //leer
-                    fgets(compare, 256, table);   //KREUZ
-                    fgets(compare, 256, table);  //Name
-                    fgets(compare, 256, table); //NR
-                    if (atoi(compare)==start_nr){
-                        printf("gefunden");
-                        return 1;
-                        }
-                    else {
-                        rewind(table);
-                       return find_cross_by_nr(atoi(compare),start_nr);
-
-                        }
-                    } */
-                }
-            }
-
-        return 0 ;
-        }
-
-
-
-int getnumber(char city[]){     //die Autobahn NR zu einer Stadt werden ausgelesen
-
-    char compare[256]={};
+    char 	compare[255]= {},
+                          name[255]= {};
+    int 	cross_nr1=0,
+            cross_nr2=0,
+            distanz=0;
 
     FILE *table;
     table = fopen("autobahn.txt", "a+");
-                rewind(table);
+    rewind(table);
 
-    while (fgets(compare, 256, table)){
 
-        if(strcmp(compare,city)==0){
-            fgets(compare, 256, table);
+    while (fgets(compare, 255, table))
+    {
+
+        for(int i=0; i<sizeof(name); i++)       //leeren des Namens String
+        {
+            name[i] = '\0';
+        }
+        if(strcmp(compare,"KREUZ\n")==0)
+        {
+            fgets(compare, 255, table);     //Name des Kreuzes
+            strcat(name,compare);
+            fgets(compare, 255, table);     //Nummer des Kreuzes
+            cross_nr1 = atoi(compare);
+
+
+
+
+            if ((cross_nr1== start_nr)&& (strcmp(name,start)!=0))
+            {
+                fgets(compare, 255, table);    //KM
+                fgets(compare, 255, table);    //leer
+                fgets(compare, 255, table);   //KREUZ
+                fgets(compare, 255, table);   //Name
+                if(strcmp(compare,name)==0)   	// wenn es nicht den gleichen Namen hat, rufe stattdessen getnumber mit dem namen des Kreuzes auf, so wird die 2te AUtobahnNr bestimmt
+                {
+                    fgets(compare, 255, table); //NR
+                    cross_nr2 = atoi(compare);
+                }
+                else
+                {
+                    cross_nr2=getnumber(name);
+                }
+
+                if (cross_nr2==dest_nr)
+                {
+
+                    way_found = 1;
+                    distanz = getDistanz(getkm(global_start, cross_nr2),getkm(name, cross_nr2));
+                    strcpy(stop,name);
+                    strtok(name, "\n");
+
+                    strtok(global_start,"\n");
+
+                    printf("Starten Sie bei %s und fahren sie die A%d fuer %d km bis zum Kreuz %s. \n",global_start,cross_nr2, distanz, name);
+
+                    return;
+                }
+                else
+                {
+
+                    find_cross_by_nr(cross_nr2,dest_nr,name);
+                }
+                if (way_found==1)
+                {
+
+                    distanz = getDistanz(getkm(stop, cross_nr2),getkm(name, cross_nr2));
+                    strcpy(stop,name);
+                    strtok(name,"\n");
+                    printf("Danach fahren Sie die A%d fuer %dkm zum Kreuz %s. \n",cross_nr2, distanz, name);
+                    return;
+
+
+
+                }
+
+
+
+            }
+
+
+        }
+
+    }
+
+    return  ;
+}
+
+int getDistanz(int a, int b)
+{
+    int start=0,
+        ziel = 0;
+    if (a>b)
+    {
+        start = a;
+        ziel = b;
+    }
+    else
+    {
+        start = b;
+        ziel = a;
+    }
+    return (start-ziel);
+
+}
+
+int getkm(char name[], int nr)
+{
+    char compare[255]= {};
+
+    FILE *table;
+    table = fopen("autobahn.txt", "a+");
+    rewind(table);
+
+    while (fgets(compare, 255, table))
+    {
+
+        if(strcmp(compare,name)==0)
+        {
+            fgets(compare, 255, table);
+            if(nr == atoi(compare))
+            {
+                fgets(compare, 255, table);
+                return atoi(compare);
+            }
+        }
+    }
+    rewind(table);
+    return 0;
+
+}
+
+
+
+int getnumber(char city[])      //die Autobahn NR zu einem Namen werden ausgelesen
+{
+
+    char compare[255]= {};
+
+    FILE *table;
+    table = fopen("autobahn.txt", "a+");
+    rewind(table);
+
+    while (fgets(compare, 255, table))
+    {
+
+        if(strcmp(compare,city)==0)
+        {
+            fgets(compare, 255, table);
             return atoi(compare);
         }
     }
     rewind(table);
     return 0;
-              }
-
-
-
-int getdistanz(char city[]){        //die Autobahn KM zu einer Stadt werden ausgelesen
-    char compare[256]={};
-
-    FILE *table;
-    table = fopen("autobahn.txt", "a+");
-            rewind(table);
-
-    while (fgets(compare, 256, table)){
-
-        if(strcmp(compare,city)==0){
-            fgets(compare, 256, table);
-        fgets(compare, 256, table);
-        return atoi(compare);
-        }
-    }
-    rewind(table);
-    return 0;
-
 }
-
