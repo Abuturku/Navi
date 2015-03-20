@@ -165,7 +165,10 @@ void find_path()
             strtok(start,"\n");
          printf("es gibt keinen Weg von %s zu %s \n", start, destination);
         }
-    }}
+    }
+     
+     main();
+}
 
 
     void find_cross_by_nr(int start_nr, int dest_nr, char start[255])
