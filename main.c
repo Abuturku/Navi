@@ -63,7 +63,6 @@ void sort_list();
 void sortWayNrs(char *waynrs[], int left, int right);
 void swap(char **arg1, char **arg2);
 
-void find_path();
 
 /* ---------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -200,7 +199,7 @@ int main(int firstCall, char *argv[])
     switch (user_ascii)
     {
     case 82: case 114:
-        find_path();
+        printf("Also Else!");
         break;
 
     case 65: case 97:

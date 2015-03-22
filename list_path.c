@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include <windows.h>
 #include <ctype.h>
-#include <conio.h>
 
 /* Definitionen zur Ausgabe von Umlauten */
 #define AE (unsigned char)142
@@ -14,50 +13,30 @@
 #define ue (unsigned char)129
 #define ss (unsigned char)225
 
-/* Funktionsdeklarationen */
-
-/* ----- main.c --------------- */
-int main(int firstCall, char *argv[]);
-
-/* ----- list_functions.c ----- */
-void func_add_interchange();
-void func_add_exit();
-void func_add(int backup_empty);
-void func_cancel(char cancel_string[256], FILE* tempdat);
-void func_delete();
-void func_change();
-int func_list(FILE *table);
-int func_number(char verify[256]);
-
-/* ----- list_sort.c ---------- */
-void quicksort(char *cities[], int left, int right, char *waynrs[], char *dists[], int sortWith);
-void sort_list();
-void sortWayNrs(char *waynrs[], int left, int right);
-void swap(char **arg1, char **arg2);
-
-void find_cross_by_nr(int start_nr, int dest_nr, char start[255]);
-int getDistanz(int a, int b);
-int getkm(char name[], int nr);
-int getnumber(char city[]);
-
-
 bool way_found = 0;
 char global_start[255],
      global_dest[255],
      stop[255];
 int strecke=0;
 
+
 void find_path()
 {
-    strecke=0;
+
     int start_nr = 0;
     int start_km = 0;
     int dest_nr = 0;
     int dest_km = 0;
     int temp=0;
-    char  start[255], destination[255], compare[255];
 
-    bool first, start_found, dest_found ;
+    char  start[255],
+          destination[255],
+          compare[255];
+
+
+    bool first,
+         start_found,
+         dest_found ;
 
     first=1;
     start_found=0;
@@ -73,25 +52,24 @@ void find_path()
     if(table == NULL)
     {
         printf("Fehler beim %cffnen der Datei!", oe);
-        func_cancel("cancel", NULL);
+        func_cancel("cancel");
     }
     do
     {
         if (first==1)
         {
-            printf("Abbruch jederzeit mit Eingabe von cancel m%cglich!\nBitte geben Sie den Namen des Startortes ein: ", oe);
+            printf("Bitte geben Sie den Namen des Startortes ein: ");
         }
         else
         {
             printf("Stadt nicht gefunden. Bitte geben Sie einen anderen Namen ein: ");
-        }
 
+        }
         first = 0;
         scanf("%s", start);
         strcat(start,"\n");
         printf("\n");
-        func_cancel(start, NULL);
-
+        func_cancel(start);
         /* Umwandlung des Namens in einen String bestehend aus Kleinbuchstaben */
         for(int i = 0; start[i]; i++)
         {
@@ -100,15 +78,20 @@ void find_path()
 
         while(fgets(compare, 255, table))
         {
+
             /* Sollte der Stadtname nicht vorhandensein, wird nach einem neuen Namen gefragt*/
             if(strcmp(compare,start)==0)
             {
                 start_found = 1;
-                break;
             }
+
+
+
+
         }
         rewind(table);
-    } while (start_found == 0);
+    }
+    while (start_found == 0);
 
     rewind(table);
     first = 1;
@@ -126,8 +109,8 @@ void find_path()
         first = 0;
         scanf("%s", destination);
         strcat(destination,"\n");
-        printf("\n\n\n");
-        func_cancel(destination, NULL);
+        printf("\n");
+        func_cancel(destination);
 
         /* Umwandlung des Namens in einen String bestehend aus Kleinbuchstaben */
         for(int i = 0; destination[i]; i++)
@@ -140,17 +123,21 @@ void find_path()
             if(strcmp(compare,destination)==0)
             {
                 dest_found=1;
-                break;
             }
+
+
+
 
         }
         rewind(table);
-    } while (dest_found == 0);
-
+    }
+    while (dest_found == 0);
     rewind(table);
 
     strcpy(global_start, start);    //für den Start der Route später
     strcpy(global_dest, destination);    //für den Start der Route später
+
+
 
     start_nr = getnumber(start);
 
@@ -161,7 +148,7 @@ void find_path()
     if (start_nr == dest_nr)
     {
         way_found=1;
-        printf("Die Autobahn f%cr %d km folgen. \n", UE, getDistanz(start_km, dest_km));
+        printf("einfach die Autobahn fuer %d km langfahren. \n", getDistanz(start_km,dest_km));
     }
     else
     {
@@ -171,170 +158,175 @@ void find_path()
         {
             temp = (getDistanz(dest_km,(getkm(stop, dest_nr))));
             strecke=strecke+temp;
-            destination[0] = toupper(destination[0]);
-            printf("Zum Schluss fahren Sie noch %dkm auf der A%d zum Ziel %s\nDie Gesamtstrecke betr%cgt %dkm. \n\n", temp, dest_nr,destination, ae, strecke);
+            printf("Zum Schluss fahren Sie noch %dkm auf der A%d zum Ziel %s \n Die Gesamtstrecke betraegt %dkm. \n\n", temp, dest_nr,destination, strecke);
         }
 
         if (way_found==0){
             strtok(start,"\n");
-            start[0]=toupper(start[0]);
-            destination[0]=toupper(destination[0]);
-            printf("Es gibt keinen Weg von %s zu %s \n", start, destination);
+         printf("es gibt keinen Weg von %s zu %s \n", start, destination);
         }
     }
-
-    printf("\n\nDr%ccken Sie eine beliebige Taste um fortzufahren\n",ue);
-    getch();
-    printf("\n");
-
-    fclose(table);
-
-    main(0, NULL);
+     
+     main();
 }
 
 
-void find_cross_by_nr(int start_nr, int dest_nr, char start[255])
-{
-
-    char 	compare[255], name[255];
-    int 	cross_nr1=0, cross_nr2=0, distanz=0;
-
-    FILE *table;
-    table = fopen("autobahn.txt", "a+");
-    rewind(table);
-
-    while (fgets(compare, 255, table))
+    void find_cross_by_nr(int start_nr, int dest_nr, char start[255])
     {
-        for(int i=0; i<sizeof(name); i++)       //leeren des Namens String
+
+        char 	compare[255]= {},
+                              name[255]= {};
+        int 	cross_nr1=0,
+                cross_nr2=0,
+                distanz=0;
+
+        FILE *table;
+        table = fopen("autobahn.txt", "a+");
+        rewind(table);
+
+
+        while (fgets(compare, 255, table))
         {
-            name[i] = '\0';
+
+            for(int i=0; i<sizeof(name); i++)       //leeren des Namens String
+            {
+                name[i] = '\0';
+            }
+            if(strcmp(compare,"KREUZ\n")==0)
+            {
+                fgets(compare, 255, table);     //Name des Kreuzes
+                strcat(name,compare);
+                fgets(compare, 255, table);     //Nummer des Kreuzes
+                cross_nr1 = atoi(compare);
+
+
+
+
+                if ((cross_nr1== start_nr)&& (strcmp(name,start)!=0))
+                {
+                    fgets(compare, 255, table);    //KM
+                    fgets(compare, 255, table);    //leer
+                    fgets(compare, 255, table);   //KREUZ
+                    fgets(compare, 255, table);   //Name
+                    if(strcmp(compare,name)==0)   	// wenn es nicht den gleichen Namen hat, rufe stattdessen getnumber mit dem namen des Kreuzes auf, so wird die 2te AUtobahnNr bestimmt
+                    {
+                        fgets(compare, 255, table); //NR
+                        cross_nr2 = atoi(compare);
+                    }
+                    else
+                    {
+                        cross_nr2=getnumber(name);
+                    }
+
+                    if (cross_nr2==dest_nr)
+                    {
+
+                        way_found = 1;
+                        distanz = getDistanz(getkm(global_start, cross_nr2),getkm(name, cross_nr2));
+                        strcpy(stop,name);
+                        strtok(name, "\n");
+
+                        strtok(global_start,"\n");
+                        strecke = strecke+distanz;
+                        printf("Starten Sie bei %s und fahren sie die A%d fuer %d km bis zum Kreuz %s. \n\n",global_start,cross_nr2, distanz, name);
+
+                        return;
+                    }
+                    else
+                    {
+
+                        find_cross_by_nr(cross_nr2,dest_nr,name);
+                    }
+                    if (way_found==1)
+                    {
+
+                        distanz = getDistanz(getkm(stop, cross_nr2),getkm(name, cross_nr2));
+                        strecke = strecke + distanz;
+                        strcpy(stop,name);
+                        strtok(name,"\n");
+                        printf("Danach fahren Sie die A%d fuer %dkm zum Kreuz %s. \n\n",cross_nr2, distanz, name);
+                        return;
+
+
+
+                    }
+
+
+
+                }
+
+
+            }
+
         }
 
-        if(strcmp(compare,"KREUZ\n")==0)
+        return  ;
+    }
+
+    int getDistanz(int a, int b)
+    {
+        int start=0,
+            ziel = 0;
+        if (a>b)
         {
-            fgets(compare, 255, table);     //Name des Kreuzes
-            strcat(name,compare);
-            fgets(compare, 255, table);     //Nummer des Kreuzes
-            cross_nr1 = atoi(compare);
+            start = a;
+            ziel = b;
+        }
+        else
+        {
+            start = b;
+            ziel = a;
+        }
+        return (start-ziel);
+    }
 
-            if ((cross_nr1== start_nr)&& (strcmp(name,start)!=0))
+    int getkm(char name[], int nr)
+    {
+        char compare[255]= {};
+
+        FILE *table;
+        table = fopen("autobahn.txt", "a+");
+        rewind(table);
+
+        while (fgets(compare, 255, table))
+        {
+
+            if(strcmp(compare,name)==0)
             {
-                fgets(compare, 255, table);    //KM
-                fgets(compare, 255, table);    //leer
-                fgets(compare, 255, table);   //KREUZ
-                fgets(compare, 255, table);   //Name
-                if(strcmp(compare,name)==0)   	// wenn es nicht den gleichen Namen hat, rufe stattdessen getnumber mit dem namen des Kreuzes auf, so wird die zweite AutobahnNr bestimmt
+                fgets(compare, 255, table);
+                if(nr == atoi(compare))
                 {
-                    fgets(compare, 255, table); //NR
-                    cross_nr2 = atoi(compare);
-                }
-                else
-                {
-                    cross_nr2=getnumber(name);
-                }
-
-                if (cross_nr2==dest_nr)
-                {
-
-                    way_found = 1;
-                    distanz = getDistanz(getkm(global_start, cross_nr2),getkm(name, cross_nr2));
-                    strcpy(stop,name);
-                    strtok(name, "\n");
-                    name[0]=toupper(name[0]);                       //Ersten Buchstaben zu einem Großbuchstaben machen
-                    global_start[0] = toupper(global_start[0]);     //Ersten Buchstaben zu einem Großbuchstaben machen
-                    strtok(global_start,"\n");
-                    strecke = strecke+distanz;
-                    printf("Starten Sie bei %s und folgen Sie der A%d f%cr %d km bis zum Kreuz %s. \n",global_start,cross_nr2, ue, distanz, name);
-                    return;
-                }
-                else
-                {
-                    find_cross_by_nr(cross_nr2,dest_nr,name);
-                }
-
-                if (way_found==1)
-                {
-
-                    distanz = getDistanz(getkm(stop, cross_nr2),getkm(name, cross_nr2));
-                    strecke = strecke + distanz;
-                    strcpy(stop,name);
-                    name[0]=toupper(name[0]);                   //Ersten Buchstaben zu einem Großbuchstaben machen
-                    strtok(name,"\n");
-                    printf("\nDanach folgen Sie der A%d f%cr %dkm zum Kreuz %s. \n\n",cross_nr2, ue, distanz, name);
-                    return;
+                    fgets(compare, 255, table);
+                    return atoi(compare);
                 }
             }
         }
+        rewind(table);
+        return 0;
+
     }
 
-    return;
-}
 
-int getDistanz(int a, int b)
-{
-    int start=0, ziel=0;
 
-    if (a>b)
+    int getnumber(char city[])      //die Autobahn NR zu einem Namen werden ausgelesen
     {
-        start = a;
-        ziel = b;
-    }
-    else
-    {
-        start = b;
-        ziel = a;
-    }
 
-    return (start-ziel);
-}
+        char compare[255]= {};
 
+        FILE *table;
+        table = fopen("autobahn.txt", "a+");
+        rewind(table);
 
-int getkm(char name[], int nr)
-{
-    char compare[255]= {};
-    FILE *table;
-    table = fopen("autobahn.txt", "a+");
-    rewind(table);
-
-    name[0] = tolower(name[0]);
-
-    while (fgets(compare, 255, table))
-    {
-        if(strcmp(compare,name)==0)
+        while (fgets(compare, 255, table))
         {
-            fgets(compare, 255, table);
-            if(nr == atoi(compare))
+
+            if(strcmp(compare,city)==0)
             {
                 fgets(compare, 255, table);
                 return atoi(compare);
             }
         }
+        rewind(table);
+        return 0;
     }
-
-    rewind(table);
-    return 0;
-}
-
-
-
-int getnumber(char city[])      //die Autobahn NR zu einem Namen werden ausgelesen
-{
-    char compare[255]= {};
-
-    FILE *table;
-    table = fopen("autobahn.txt", "a+");
-    rewind(table);
-
-    while (fgets(compare, 255, table))
-    {
-        if(strcmp(compare,city)==0)
-        {
-            fgets(compare, 255, table);
-            return atoi(compare);
-        }
-    }
-
-    rewind(table);
-    return 0;
-}
 
