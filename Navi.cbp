@@ -12,7 +12,9 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-std=c99" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -34,6 +36,9 @@
 		<Unit filename="list_functions.c">
 			<Option compilerVar="CC" />
 			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="list_path.c">
+			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="list_sort.c">
 			<Option compilerVar="CC" />
