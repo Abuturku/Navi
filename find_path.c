@@ -368,8 +368,8 @@ void findPathByInterchange(struct exit start, struct exit destination, struct in
             }
 
             strcpy(temp, nearestInterchange.name);
-            //if(nearestInterchange.waykm1==-1) dijkstraArray[positionInDijkstraArray].distanceToStart=DISTANCE(nearestInterchange.waykm2, );
-            //else if (nearestInterchange.waykm1==-1) dijkstraArray[positionInDijkstraArray].distanceToStart=DISTANCE(nearestInterchange.waykm1, );
+            if(nearestInterchange.waykm1==-1) dijkstraArray[positionInDijkstraArray].distanceToStart=DISTANCE(nearestInterchange.waykm2, );
+            else if (nearestInterchange.waykm1==-1) dijkstraArray[positionInDijkstraArray].distanceToStart=DISTANCE(nearestInterchange.waykm1, );
             nearestInterchange.waykm1=-1;
             nearestInterchange.waykm2=-1;
             nearestInterchange = getNearestInterchangeToInterchange(nearestInterchange, interchanges, interchangeCount);
