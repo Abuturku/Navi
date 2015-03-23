@@ -62,9 +62,18 @@ struct exit
     //char previous[50];
 };
 
+struct dijkstra
+{
+    char name[50];
+    int distanceToStart;
+    int previousWaynr;
+    char previous[50];
+};
+
 struct interchange getNearestInterchangeToExit(struct exit exit, struct interchange interchanges[], int interchangeCount);
 struct interchange getNearestInterchangeToInterchange(struct interchange exit, struct interchange interchanges[], int interchangeCount);
 void findPathByInterchange(struct exit start, struct exit destination, struct interchange interchanges[], int interchangeCount, struct exit exits[], int exitCount);
+void printpath (struct dijkstra array[], int length);
 
 bool way_found = 0;
 char global_start[255], global_dest[255], stop[255];
@@ -300,84 +309,186 @@ void findPathByInterchange(struct exit start, struct exit destination, struct in
 {
     char temp[50];
     strcpy(temp, start.name);
+    int previousWaynr = start.waynr;
 
     //Algorithmus nach https://www.youtube.com/watch?v=S8y-Sk7u1So
-    struct dijkstra
-    {
-        char name[50];
-        int distanceToStart;
-        char previous[50];
-    };
 
     struct dijkstra dijkstraArray[interchangeCount+2];
 
     //Vorarbeit Dijkstra-Algorithmus: Ersten Eintrag im Array initialisieren (mit Werten aus start)
     strcpy(dijkstraArray[0].name, start.name);
     dijkstraArray[0].distanceToStart = 0;
+    dijkstraArray[0].previousWaynr=previousWaynr;
     strcpy(dijkstraArray[0].previous, start.name);
 
     strcpy(dijkstraArray[interchangeCount+1].name, destination.name);
     dijkstraArray[interchangeCount+1].distanceToStart = INT_MAX;
     strcpy(dijkstraArray[interchangeCount+1].previous, destination.name);
 
-    for (int i = 1; i < interchangeCount; i++)
+    for (int i = 1; i <= interchangeCount; i++)
     {
         strcpy(dijkstraArray[i].name, interchanges[i].name);
         dijkstraArray[i].distanceToStart = INT_MAX;
         strcpy(dijkstraArray[i].previous, interchanges[i].name);
     }
-
     struct interchange nearestInterchange = getNearestInterchangeToExit(start, interchanges, interchangeCount);
 
-    for (int i = 0; i < interchangeCount; i++)
+    for (int i = 0; i <= interchangeCount; i++)
     {
-        if (nearestInterchange.waynr1 == destination.waynr)
+        if (nearestInterchange.waynr1 == destination.waynr && way_found==false)
         {
-            //TODO: printf("Starten Sie in %s und folgen Sie der A%d für %d km.\n", start.name, start.waynr, );
-            strcpy(dijkstraArray[i+1].name, nearestInterchange.name);
-            dijkstraArray[i+1].distanceToStart = DISTANCE(nearestInterchange.waykm1, dijkstraArray[i].distanceToStart);
-            strcpy(dijkstraArray[i+1].previous, nearestInterchange.name);
-            way_found=1;
-            break;
+            //strcpy(dijkstraArray[interchangeCount+1].name, nearestInterchange.name);
+            strcpy(dijkstraArray[interchangeCount+1].previous, nearestInterchange.name);
+
+            int previousDistance = 0;
+
+            for (int j = 0; j < interchangeCount+2; j++)
+            {
+                if (strcmp(dijkstraArray[j].name, dijkstraArray[interchangeCount+1].previous)==0)
+                {
+                    previousDistance=dijkstraArray[j].distanceToStart;
+                    previousWaynr = dijkstraArray[j].previousWaynr;
+                    dijkstraArray[interchangeCount+1].previousWaynr = previousWaynr;
+                }
+            }
+
+            dijkstraArray[interchangeCount+1].distanceToStart = previousDistance + DISTANCE(nearestInterchange.waykm1, getkm(dijkstraArray[interchangeCount+1].previous, dijkstraArray[interchangeCount+1].previousWaynr));
+            way_found=true;
         }
-        else if (nearestInterchange.waynr2 == destination.waynr)
+        else if (nearestInterchange.waynr2 == destination.waynr && way_found == false)
         {
-            strcpy(dijkstraArray[i+1].name, nearestInterchange.name);
-            dijkstraArray[i+1].distanceToStart = DISTANCE(nearestInterchange.waykm2, dijkstraArray[i].distanceToStart);
-            strcpy(dijkstraArray[i+1].previous, nearestInterchange.name);
-            way_found=1;
-            break;
+
+            //strcpy(dijkstraArray[interchangeCount+1].name, nearestInterchange.name);
+            strcpy(dijkstraArray[interchangeCount+1].previous, nearestInterchange.name);
+
+            int previousDistance = 0;
+
+            for (int j = 0; j < interchangeCount+2; j++)
+            {
+                if (strcmp(dijkstraArray[j].name, dijkstraArray[interchangeCount+1].previous)==0)
+                {
+                    previousDistance=dijkstraArray[j].distanceToStart;
+                    previousWaynr = dijkstraArray[j].previousWaynr;
+                    dijkstraArray[interchangeCount+1].previousWaynr = previousWaynr;
+                }
+            }
+
+            dijkstraArray[interchangeCount+1].distanceToStart = previousDistance + DISTANCE(nearestInterchange.waykm2, getkm(dijkstraArray[interchangeCount+1].previous, dijkstraArray[interchangeCount+1].previousWaynr));
+            way_found=true;
         }
         else
         {
             int positionInDijkstraArray;
             nearestInterchange.visited=true;
 
-            for(int i = 0; i < interchangeCount+2; i++)
+            for(int j = 1; j <= interchangeCount+2; j++)
             {
-                if (strcmp(dijkstraArray[i].name,nearestInterchange.name)==0) positionInDijkstraArray=i;
-                if (strcmp(nearestInterchange.name, interchanges[i].name)==0) interchanges[i].visited=true;
+                if (strcmp(dijkstraArray[j].name,nearestInterchange.name)==0)
+                {
+                    positionInDijkstraArray=j;
+                }
+                if (strcmp(nearestInterchange.name, interchanges[j-1].name)==0)
+                {
+                    interchanges[j-1].visited=true;
+                }
             }
 
             strcpy(dijkstraArray[positionInDijkstraArray].previous, temp);
             int previousDistance = 0;
 
-            for (int i = 0; i < interchangeCount+2; i++)
+            for (int j = 0; j < interchangeCount+2; j++)
             {
-                if (strcmp(dijkstraArray[i].name, dijkstraArray[positionInDijkstraArray].previous)==0) previousDistance=dijkstraArray[i].distanceToStart;
+                if (strcmp(dijkstraArray[j].name, dijkstraArray[positionInDijkstraArray].previous)==0)
+                {
+                    previousDistance=dijkstraArray[j].distanceToStart;
+                    previousWaynr = dijkstraArray[j].previousWaynr;
+                    dijkstraArray[positionInDijkstraArray].previousWaynr = previousWaynr;
+                }
             }
 
+
+            if (previousDistance + DISTANCE(nearestInterchange.waykm1, previousDistance)-start.waykm < dijkstraArray[positionInDijkstraArray].distanceToStart)
+            {
+                if(nearestInterchange.waynr1==previousWaynr)
+                {
+                    dijkstraArray[positionInDijkstraArray].distanceToStart=previousDistance + DISTANCE(nearestInterchange.waykm1, getkm(dijkstraArray[positionInDijkstraArray].previous, dijkstraArray[positionInDijkstraArray].previousWaynr));
+                }
+                else if (nearestInterchange.waynr2==previousWaynr)
+                {
+                    dijkstraArray[positionInDijkstraArray].distanceToStart=previousDistance + DISTANCE(nearestInterchange.waykm2, getkm(dijkstraArray[positionInDijkstraArray].previous, dijkstraArray[positionInDijkstraArray].previousWaynr));
+                }
+                else
+                {
+                    for (int k = 0; k < interchangeCount; k++)
+                    {
+                        if (strcmp(interchanges[k].name, dijkstraArray[positionInDijkstraArray].previous)==0)
+                        {
+                            if (nearestInterchange.waynr1==interchanges[k].waynr1)
+                            {
+                                dijkstraArray[positionInDijkstraArray].distanceToStart=previousDistance + DISTANCE(nearestInterchange.waynr1, getkm(interchanges[k].name, interchanges[k].waynr1));
+                            }
+                            else if (nearestInterchange.waynr2==interchanges[k].waynr2)
+                            {
+                                dijkstraArray[positionInDijkstraArray].distanceToStart=previousDistance + DISTANCE(nearestInterchange.waynr2, getkm(interchanges[k].name, interchanges[k].waynr2));
+                            }
+                            else if (nearestInterchange.waynr2==interchanges[k].waynr1)
+                            {
+                                dijkstraArray[positionInDijkstraArray].distanceToStart=previousDistance + DISTANCE(nearestInterchange.waynr2, getkm(interchanges[k].name, interchanges[k].waynr1));
+                            }
+                            else if (nearestInterchange.waynr1==interchanges[k].waynr2)
+                            {
+                                dijkstraArray[positionInDijkstraArray].distanceToStart=previousDistance + DISTANCE(nearestInterchange.waynr1, getkm(interchanges[k].name, interchanges[k].waynr2));
+                            }
+                        }
+                    }
+                }
+                strcpy(dijkstraArray[positionInDijkstraArray].previous, temp);
+            }
             strcpy(temp, nearestInterchange.name);
-            if(nearestInterchange.waykm1==-1) dijkstraArray[positionInDijkstraArray].distanceToStart=DISTANCE(nearestInterchange.waykm2, );
-            else if (nearestInterchange.waykm1==-1) dijkstraArray[positionInDijkstraArray].distanceToStart=DISTANCE(nearestInterchange.waykm1, );
-            nearestInterchange.waykm1=-1;
-            nearestInterchange.waykm2=-1;
             nearestInterchange = getNearestInterchangeToInterchange(nearestInterchange, interchanges, interchangeCount);
         }
 
     }
 
+    for (int i = 0; i < interchangeCount; i++)
+    {
+        if (strcmp(dijkstraArray[interchangeCount+1].previous, dijkstraArray[i].name)==0)
+        {
+            int destDistance = getkm(dijkstraArray[interchangeCount+1].name, getnumber(dijkstraArray[interchangeCount+1].name));
+            dijkstraArray[interchangeCount+1].distanceToStart = destDistance+dijkstraArray[i].distanceToStart-getkm(dijkstraArray[interchangeCount+1].previous, getnumber(dijkstraArray[interchangeCount+1].previous));
+        }
+    }
+    if (strcmp(dijkstraArray[interchangeCount+1].previous, dijkstraArray[interchangeCount+1].name)==0) way_found=false;
+    //if (way_found==true) printpath(dijkstraArray, interchangeCount+1);
 }
+
+//void printpath (struct dijkstra array[], int length)
+//{
+//    char *steps[30];
+//    char next[50];
+//
+//    for (int i = length; i >= 0; i--)
+//    {
+//        for (int j = 0; j < length; j++)
+//        {
+//            if (strcmp(array[j].name, array[i].prev)==0)
+//            {
+//                strcpy(next, array[j]);
+//            }
+//        }
+//        steps[i]= (char*) malloc(255*sizeof(char));
+//        if (i==length)
+//        {
+//            printf("Zum Schluss folgen Sie der A%d für %d km bis zu Ihrem Ziel %s\n", getnumber(array[i].name), (array[i].distanceToStart - array[i-1].distanceToStart), array[i].name);
+//        }
+//        else if (strcmp(array[i].name, array[i].previous)==0)
+//        {
+//            printf("\n\nStarten Sie bei %s und folgen Sie der A%d für %km bis zum Kreuz %s\n", array[i].name, getnumber(array[i].name), )
+//        }
+//
+//    }
+//
+//}
 
 struct interchange getNearestInterchangeToInterchange(struct interchange exit, struct interchange interchanges[], int interchangeCount)
 {

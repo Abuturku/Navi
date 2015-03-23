@@ -33,12 +33,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="find_path.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="list_functions.c">
 			<Option compilerVar="CC" />
 			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="list_path.c">
-			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="list_sort.c">
 			<Option compilerVar="CC" />
